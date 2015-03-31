@@ -1,5 +1,5 @@
-# Parse source files fo PubTator
-path<-paste(RCHIVE_HOME, 'literature/public/pubtator', sep='/'); # home directory of data
+# Parse source files from PubTator
+path<-paste(RCHIVE_HOME, 'data/literature/public/pubtator', sep='/'); # home directory of data
 
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));

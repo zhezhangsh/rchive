@@ -1,5 +1,5 @@
 # Parse the NCBI Entrez genes of multiple species
-path<-paste(RCHIVE_HOME, 'gene/public/entrez', sep='/');
+path<-paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/');
 
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
