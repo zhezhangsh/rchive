@@ -1,5 +1,5 @@
 #############################################################
-download.new<-TRUE; # whether to re-download source files###
+download.new<-FALSE; # whether to re-download source files###
 #############################################################
 
 # Parse source files from dbSNP
@@ -25,7 +25,7 @@ if (!file.exists(db.fn)) db<-src_sqlite(db.fn, create=TRUE);
 log0<-sapply(names(vcfs), function(nm) {
   # Download from source
   fn<-paste(path, '/src/', nm, '_All.vcf.gz', sep='');
-  if (download.new) {
+  if (download.new | !file.exists(fn)) {
     cat('Downloading ', nm, '...\n');
     download.file(vcfs[nm], fn);
     download.file(paste(vcfs[nm], '.tbi', sep=''), paste(fn, '.tbi', sep=''));
@@ -40,7 +40,7 @@ log0<-sapply(names(vcfs), function(nm) {
   gr<-dbsnp[[1]]$rowData;
   fn.pos<-paste(path, '/r/position_', nm, '.rds', sep='');
   if (file.exists(fn.pos)) id.old<-names(readRDS(fn.pos)) else id.old<-c();
-  log<-list(N=length(gr), Added=setdiff(names(gr), id.old), Removed=setdiff(id.old, names(gr))); # Get update info.
+  log<-list(N=length(gr), Source=vcfs[nm], Added=setdiff(names(gr), id.old), Removed=setdiff(id.old, names(gr))); # Get update info.
   saveRDS(gr, file=fn.pos);
   
   # create database table
