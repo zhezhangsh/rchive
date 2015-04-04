@@ -2,7 +2,7 @@
 
 ########################################################################################################################
 ## clean up HTML tags in a line
-cleanHtmlTags<-function(l) {
+CleanHtmlTags<-function(l) {
   l<-gsub("<.*?>", " ", l); # remove open tags
   l<-gsub("</.*?>", " ", l); # remove close tags
   l<-gsub(" +", " ", l); # replace multiple spaces with one
