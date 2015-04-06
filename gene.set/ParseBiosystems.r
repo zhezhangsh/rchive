@@ -1,5 +1,6 @@
 ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov/pub/biosystems/CURRENT", download.new=FALSE, 
-                          path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/')) {
+                          path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/'),
+                          map2gene=TRUE) {
   # species         Named character vector of NCBI taxanomy ID; the name will be used as prefix of output file
   # ver             The version of BioSystems to download
   # download.new    Whether to re-download source files###
@@ -79,6 +80,35 @@ ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov
     names(log)[length(log)]<-as.character(Sys.Date());
     saveRDS(log, file=paste(path, 'log.rds', sep='/'));
   }
+
+  ###########################################################################################
+  # BioSystems to gene mapping
+  if(map2gene) {
+    bs2gn<-read.table(paste(path, 'src', 'biosystems_gene_all.gz', sep='/'), sep='\t');
+    names(bs2gn)<-c('BioSystem_ID', 'Gene_ID', 'Score');
+    bs2gn[[1]]<-as.character(bs2gn[[1]]);
+    bs2gn[[2]]<-as.character(bs2gn[[2]]);
+    saveRDS(bs2gn, file=paste(path, 'r', 'biosystem-gene_all.rds', sep='/'));
+    
+    # BioSystems to gene as list
+    b2g<-split(bs2gn[,2], bs2gn[,1]);
+    saveRDS(b2g, file=paste(path, 'r', 'biosystem2gene_all.rds', sep='/'));
+    
+    # Split list by source
+    id<-intersect(names(b2g), rownames(bsid));
+    b2g<-b2g[id];
+    bsid1<-bsid[id, ];
+    cls.gn<-split(b2g, bsid1$Source);
+    sapply(names(cls.gn), function(nm) saveRDS(cls.gn[[nm]], file=paste(path, '/r/biosystem2gene_', gsub(' ', '-', nm), '.rds', sep='')));
+    
+    # Save sub-list of source-species of selected species (human, mouse, rat, ...)
+    sapply(1:nrow(tbl), function(i) sapply(1:ncol(tbl), function(j) {
+      fn<-paste(path, '/r/biosystem2gene_', sp[colnames(tbl)[j]], '_', gsub(' ', '-', rownames(tbl)[i]), '.rds', sep='');
+      tb<-bsid1[bsid1$Source == rownames(tbl)[i] & bsid1$Taxonomy == colnames(tbl)[j], -c(1, 6), drop=FALSE];
+      #file.remove(fn);
+      if (nrow(tb) > 0) saveRDS(b2g[rownames(tb)], file=fn);
+    }))->nll;
+  }
 }
 
 #############################################################
@@ -105,29 +135,3 @@ sp<-c(
 
 
 
-###########################################################################################
-# BioSystems to gene mapping
-bs2gn<-read.table(paste(path, 'src', 'biosystems_gene_all.gz', sep='/'), sep='\t');
-names(bs2gn)<-c('BioSystem_ID', 'Gene_ID', 'Score');
-bs2gn[[1]]<-as.character(bs2gn[[1]]);
-bs2gn[[2]]<-as.character(bs2gn[[2]]);
-saveRDS(bs2gn, file=paste(path, 'r', 'biosystem-gene_all.rds', sep='/'));
-
-# BioSystems to gene as list
-b2g<-split(bs2gn[,2], bs2gn[,1]);
-saveRDS(b2g, file=paste(path, 'r', 'biosystem2gene_all.rds', sep='/'));
-
-# Split list by source
-id<-intersect(names(b2g), rownames(bsid));
-b2g<-b2g[id];
-bsid1<-bsid[id, ];
-cls.gn<-split(b2g, bsid1$Source);
-sapply(names(cls.gn), function(nm) saveRDS(cls.gn[[nm]], file=paste(path, '/r/biosystem2gene_', gsub(' ', '-', nm), '.rds', sep='')));
-
-# Save sub-list of source-species of selected species (human, mouse, rat, ...)
-sapply(1:nrow(tbl), function(i) sapply(1:ncol(tbl), function(j) {
-  fn<-paste(path, '/r/biosystem2gene_', sp[colnames(tbl)[j]], '_', gsub(' ', '-', rownames(tbl)[i]), '.rds', sep='');
-  tb<-bsid1[bsid1$Source == rownames(tbl)[i] & bsid1$Taxonomy == colnames(tbl)[j], -c(1, 6), drop=FALSE];
-  #file.remove(fn);
-  if (nrow(tb) > 0) saveRDS(b2g[rownames(tb)], file=fn);
-}))->nll;
