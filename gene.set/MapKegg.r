@@ -15,6 +15,7 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
   if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
   
   ids<-lapply(names(species), function(nm) {
+    cat(nm, '\n');
     sp<-species[nm];
     
     # Pathway full names
