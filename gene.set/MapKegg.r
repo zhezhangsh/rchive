@@ -9,12 +9,12 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
   # species   Named character vector of species codes; the name will be used as prefix of output file
   # path.out  Path to output files
   
-  if (!file.exists(path.out)) dir.create(path.out);
+  if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
   
   nm<-names(species);
   if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
   
-  mapped<-lapply(names(species), function(nm) {
+  ids<-lapply(names(species), function(nm) {
     sp<-species[nm];
     
     # Pathway full names
@@ -35,7 +35,11 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
     
     fn<-paste(path.out, '/', nm, '_pathway2gene.rds', sep='');
     saveRDS(list(Organism=sp, Pathway=desc, Pathway2Gene=mp), file=fn);
+    
+    id;
   })
+  
+  ids;
 }
 
 ######################################################################################################
