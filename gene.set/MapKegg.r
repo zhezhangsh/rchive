@@ -27,7 +27,8 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
     # Mapping
     mapped<-LinkEntryKeggApi(sp, 'pathway');
     pth<-sub('^path:', '', mapped[[1]]);
-    gn<-sub(paste(nm, ':', sep=''), '', mapped[[2]]);
+    gn<-sapply(strsplit(mapped[[2]], ':'), function(x) x[2]);
+    
     mp<-split(gn, pth);
     mp<-mp[names(desc)];
     names(mp)<-names(desc);
@@ -36,7 +37,7 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
     mp<-lapply(mp, function(x) x[order(as.numeric(x))]);
     
     fn<-paste(path.out, '/', nm, '_pathway2gene.rds', sep='');
-    saveRDS(list(Organism=sp, Pathway=desc, Pathway2Gene=mp), file=fn);
+    saveRDS(list(Organism=species[nm], Pathway=desc, Pathway2Gene=mp), file=fn);
     
     id;
   })
