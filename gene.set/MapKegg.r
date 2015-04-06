@@ -1,54 +1,96 @@
-##################################
-# Mapping between KEGG databases #
-##################################
+##############################################
+# Mapping between KEGG databases and entries #
+##############################################
 
 ######################################################################################################
 ######################################################################################################
-# Use the KEGG dbget engine to map a ID to IDs of specified KEGG database
-# Download and parse from an HTML page to get the mapping results
-# The URL of the HTML page will be built as:
-#     http://www.genome.jp/dbget-bin/get_linkdb?-t+<DB>+<Abbr>:<ID>
-#         - <DB> is the name of the database to be mapped to
-#         - <Abbr> is the abbrevation of the database defining the query ID
-#         - <ID> is the query ID
-# For example, "http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:hsa01100" maps pathway hsa01100 to genes
-# Refer to this page for available databases, database names, name abbreviations: http://www.genome.jp/dbget/
-MapKeggOne2One<-function(id, type, to, verbose=FALSE) {
-  # id    A unique KEGG ID, gene, compound, drug, etc.
-  # type  Type of the ID, use database abbreviation such as 'gn', 'path', and 'cpd', see http://www.genome.jp/dbget
-  # to    The database that the id will be mapped to, use database name, such as 'genes', 'pathway', and 'compound'
+# Map all KEGG pathways to Entrez genes of one or more species
+MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME, 'data/gene.set/public/kegg/r', sep='/')) {
+  # species   Named character vector of species codes; the name will be used as prefix of output file
+  # path.out  Path to output files
   
-  library(devtools);
-  source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/htmlUtilities.r"); # functions that remove HTML tags from a string
+  if (!file.exists(path.out)) dir.create(path.out);
   
-  # URL prefix
-  url<-paste("http://www.genome.jp/dbget-bin/get_linkdb?-t+", to, '+', type, ':', id, sep='');
+  nm<-names(species);
+  if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
   
-  download.file(url, 'tmp.html');
-  html<-scan('tmp.html', sep='\n', what='', flush=TRUE);
-  file.remove('tmp.html');
-  
-  if (verbose) {
-    cat(url, '\n');
-    cat(length(html), 'lines\n');
-  }
+  mapped<-lapply(names(species), function(nm) {
+    sp<-species[nm];
+    
+    # Pathway full names
+    anno<-ListEntryKeggApi('pathway', sp);
+    id<-sub('^path:', '', rownames(anno));
+    desc<-sapply(strsplit(anno[[1]], ' - '), function(x) x[1]);
+    names(desc)<-id;
+    
+    # Mapping
+    mapped<-LinkEntryKeggApi(sp, 'pathway');
+    pth<-sub('^path:', '', mapped[[1]]);
+    gn<-sub(paste(nm, ':', sep=''), '', mapped[[2]]);
+    mp<-split(gn, pth);
+    mp<-mp[names(desc)];
+    names(mp)<-names(desc);
+    mp<-lapply(mp, unique);
+    mp<-lapply(mp, function(x) x[order(as.numeric(x))]);
+    
+    fn<-paste(path.out, '/', nm, '_pathway2gene.rds', sep='');
+    saveRDS(list(Organism=sp, Pathway=desc, Pathway2Gene=mp), file=fn);
+  })
+}
 
-  # Parsing HTML file
-  ln<-html[(grep('^---', html)+1):(grep('integrated database retrieval system', html)-1)];
-  ln<-gsub('</a> ', '\t</a>', ln);
-  ln<-CleanHtmlTags(ln);
-  ln<-gsub('\t +', '\t', ln);
-  ln<-gsub('\t$', '\t ', ln);
+######################################################################################################
+######################################################################################################
+# Use the KEGG "Entry list" API to get annotation of a database
+# URL form: http://rest.kegg.jp/list/<database>
+#     <database> = pathway | brite | module | ko | genome | <org> | compound | glycan | reaction | rpair | rclass | enzyme | disease | drug | dgroup | environ | organism
+#     <org> = KEGG organism code or T number
+# Or: http://rest.kegg.jp/list/<database>/<org>
+#     <database> = pathway | module
+#     <org> = KEGG organism code
+ListEntryKeggApi<-function(db, org='') {
+  # db    Database name; see "http://www.kegg.jp/kegg/rest/keggapi.html" for full list
+  # org   Organism code, such as 'hsa', for the alternative query form as above
+  db<-tolower(db[1]);
+  org<-tolower(org[1]);
   
-  # Turn to named vectors
-  x<-do.call('rbind', strsplit(ln, '\t'));
-  mp<-x[,2];
-  names(mp)<-x[,1];
-  mp[mp==' ' | is.na(mp)]<-'';
+  # Build URL
+  url<-paste("http://rest.kegg.jp/list", db, org, sep='/');
+  cat(url, '\n');
+  
+  download.file(url, 'tmp.csv');
+  anno<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
+  rownames(anno)<-anno[[1]];
+  anno<-anno[, -1, drop=FALSE];
+  file.remove('tmp.csv');
+  
+  anno;
+}
+
+######################################################################################################
+######################################################################################################
+# Use the KEGG "Linked Entry" API to map IDs of 2 databases
+# URL form, full databases: http://rest.kegg.jp/link/<target_db>/<source_db>[/<option>]
+#     <target_db> = <database>
+#     <source_db> = <database>
+#     <database> = pathway | brite | module | ko | genome | <org> | compound | glycan | reaction | rpair | rclass | enzyme | disease | drug | dgroup | environ
+#     <option> = turtle | n-triple
+# URL form, specify entries: http://rest.kegg.jp/link/<target_db>/<dbentries>[/<option>]
+#     <dbentries> = KEGG database entries involving the following <database>
+#     <database> = pathway | brite | module | ko | genome | <org> | compound | glycan | reaction | rpair | rclass | enzyme | disease | drug | dgroup | environ | genes
+#     <option> = turtle | n-triple
+LinkEntryKeggApi<-function(to, from, option='') {
+  # to      Target database, target_db
+  # from    Source database name, or a vector of source database entries
+  # option  turtle | n-triple
+  
+  url<-paste("http://rest.kegg.jp/link", to, paste(from, collapse='+'), option, sep='/');
+  
+  download.file(url, 'tmp.csv');
+  mp<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
+  colnames(mp)<-c('From', 'To');
   
   mp;
 }
-  
 ######################################################################################################
 ######################################################################################################
 # Use the KEGG dbget engine to map a ID to IDs of all KEGG database
@@ -131,4 +173,52 @@ MapKeggOne2All<-function(id, type, verbose=FALSE) {
   
     mp;
   }
+}
+
+
+######################################################################################################
+######################################################################################################
+# Use the KEGG dbget engine to map a ID to IDs of specified KEGG database
+# Download and parse from an HTML page to get the mapping results
+# The URL of the HTML page will be built as:
+#     http://www.genome.jp/dbget-bin/get_linkdb?-t+<DB>+<Abbr>:<ID>
+#         - <DB> is the name of the database to be mapped to
+#         - <Abbr> is the abbrevation of the database defining the query ID
+#         - <ID> is the query ID
+# For example, "http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:hsa01100" maps pathway hsa01100 to genes
+# Refer to this page for available databases, database names, name abbreviations: http://www.genome.jp/dbget/
+MapKeggOne2One<-function(id, type, to, verbose=FALSE) {
+  # id    A unique KEGG ID, gene, compound, drug, etc.
+  # type  Type of the ID, use database abbreviation such as 'gn', 'path', and 'cpd', see http://www.genome.jp/dbget
+  # to    The database that the id will be mapped to, use database name, such as 'genes', 'pathway', and 'compound'
+  
+  library(devtools);
+  source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/htmlUtilities.r"); # functions that remove HTML tags from a string
+  
+  # URL prefix
+  url<-paste("http://www.genome.jp/dbget-bin/get_linkdb?-t+", to, '+', type, ':', id, sep='');
+  
+  download.file(url, 'tmp.html');
+  html<-scan('tmp.html', sep='\n', what='', flush=TRUE);
+  file.remove('tmp.html');
+  
+  if (verbose) {
+    cat(url, '\n');
+    cat(length(html), 'lines\n');
+  }
+  
+  # Parsing HTML file
+  ln<-html[(grep('^---', html)+1):(grep('integrated database retrieval system', html)-1)];
+  ln<-gsub('</a> ', '\t</a>', ln);
+  ln<-CleanHtmlTags(ln);
+  ln<-gsub('\t +', '\t', ln);
+  ln<-gsub('\t$', '\t ', ln);
+  
+  # Turn to named vectors
+  x<-do.call('rbind', strsplit(ln, '\t'));
+  mp<-x[,2];
+  names(mp)<-x[,1];
+  mp[mp==' ' | is.na(mp)]<-'';
+  
+  mp;
 }
