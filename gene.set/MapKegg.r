@@ -5,11 +5,12 @@
 ######################################################################################################
 ######################################################################################################
 # Map all KEGG pathways to Entrez genes of one or more species
-MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME, 'data/gene.set/public/kegg/r', sep='/')) {
+MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(RCHIVE_HOME, 'data/gene.set/public/kegg', sep='/')) {
   # species   Named character vector of species codes; the name will be used as prefix of output file
-  # path.out  Path to output files
+  # path      Path to output files
   
-  if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
+  if (!file.exists(path)) dir.create(path, recursive=TRUE);
+  if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   
   nm<-names(species);
   if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
@@ -27,19 +28,26 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
     # Mapping
     mapped<-LinkEntryKeggApi(sp, 'pathway');
     pth<-sub('^path:', '', mapped[[1]]);
-    gn<-sapply(strsplit(mapped[[2]], ':'), function(x) x[2]);
-    
+    gn<-sapply(strsplit(mapped[[2]], ':'), function(x) x[2]);   
     mp<-split(gn, pth);
     mp<-mp[names(desc)];
     names(mp)<-names(desc);
     mp<-lapply(mp, unique);
     mp<-lapply(mp, function(x) x[!is.na(x)]);
     
-    fn<-paste(path.out, '/', nm, '_pathway2gene.rds', sep='');
+    # Save results
+    fn<-paste(path, '/r/', nm, '_pathway2gene.rds', sep='');
     saveRDS(list(Organism=species[nm], Pathway=desc, Pathway2Gene=mp), file=fn);
     
     id;
   })
+  
+  # save log, all pathway IDs
+  log.fn<-paste(RCHIVE_HOME, 'data/gene.set/public/kegg/log.rds', sep='/');
+  if (file.exists(log.fn)) log<-readRDS(log.fn) else log<-list();
+  tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+  log[[tm]]<-ids;
+  saveRDS(log, file=paste((paste(RCHIVE_HOME, 'data/gene.set/public/kegg/log.rds', sep='/'))));
   
   ids;
 }
