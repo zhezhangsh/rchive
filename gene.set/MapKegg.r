@@ -94,6 +94,7 @@ LinkEntryKeggApi<-function(to, from, option='') {
   download.file(url, 'tmp.csv');
   mp<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
   colnames(mp)<-c('From', 'To');
+  file.remove('tmp.csv');
   
   mp;
 }
