@@ -32,6 +32,7 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path.out=paste(RCHIVE_HOME,
     mp<-mp[names(desc)];
     names(mp)<-names(desc);
     mp<-lapply(mp, unique);
+    mp<-lapply(mp, function(x) x[!is.na(x)]);
     mp<-lapply(mp, function(x) x[order(as.numeric(x))]);
     
     fn<-paste(path.out, '/', nm, '_pathway2gene.rds', sep='');
