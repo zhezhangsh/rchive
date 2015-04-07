@@ -1,9 +1,11 @@
-ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov/pub/biosystems/CURRENT", download.new=FALSE, 
-                          path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/'),
-                          map2gene=TRUE) {
+### Functions that process BioSystems annotation info and map BioSystems IDs to other IDs
+
+# Download and parse general Biosystems annotation information
+ParseBiosystemsGeneral<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov/pub/biosystems/CURRENT", download.new=FALSE, 
+                          path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/')) {
   # species         Named character vector of NCBI taxanomy ID; the name will be used as prefix of output file
   # ver             The version of BioSystems to download
-  # download.new    Whether to re-download source files###
+  # download.new    Whether to re-download source files
   # path            Path to output files
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
@@ -27,9 +29,13 @@ ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov
   fn1<-paste(path, 'src', fn, sep='/'); # local files
   dnld<-lapply(1:length(fn), function(i) if (download.new | !file.exists(fn1[i])) download.file(fn0[i], fn1[i]));
  
-  ####################################################################################################################
+  #####################
+  ### Start parsing ###
+  #####################
+  
+  ###########################################################################################
   # Meta table of bio-systems, row names are the unique BioSystems IDs
-  lines<-scan(fn1[grep('bsid2info.gz$', fn1)], what='', sep='\n', flush=TRUE);
+  lines<-scan(fn1[grep('bsid2info.gz$', fn1)][1], what='', sep='\n', flush=TRUE);
   split<-strsplit(lines, '\t', useBytes=TRUE);
   bsid<-t(sapply(split, function(s) s[1:8]));
   rownames(bsid)<-bsid[,1];
@@ -54,7 +60,21 @@ ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov
     if (nrow(tb) > 0) saveRDS(tb, file=fn);
   }))->nll;
   
-  ##################################################################################
+  # map organism specific biosystems to corresponding conserved biosystems
+  cons2spec<-read.table(fn1[grep("biosystems_biosystems_conserved.gz$", fn1)][1], sep='\t', stringsAsFactors=FALSE);
+  saveRDS(split(as.character(cons2spec[,1]), cons2spec[,2]), file=paste(path, 'r', 'biosystem_conserved2specific.rds', sep='/'));
+  saveRDS(split(as.character(cons2spec[,2]), cons2spec[,1]), file=paste(path, 'r', 'biosystem_specific2conserved.rds', sep='/'));
+  
+  spec2taxo<-read.table(fn1[grep("biosystems_taxonomy.gz$", fn1)][1], sep='\t', stringsAsFactors=FALSE);
+  id<-as.character(spec2taxo[[1]]);  
+  cons<-as.character(cons2spec[[2]]);
+  names(cons)<-cons2spec[[1]];
+  spec<-data.frame(Organism=as.character(spec2taxo[[2]]), Conserved=cons[id], Score=sc, row.names=id, stringsAsFactors=FALSE);
+  spec[is.na(spec)]<-'';
+  saveRDS(spec, file=paste(path, 'r', 'biosystem_organism_specific.rds', sep='/'));
+  
+  
+  ###########################################################################################
   # Save Log
   # existing full taxonomy table 
   if (download.new) {
@@ -81,9 +101,20 @@ ParseBiosystems<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov
     saveRDS(log, file=paste(path, 'log.rds', sep='/'));
   }
 
+  tp<-c('gene_all', 'protein', 'pubmed', 'pccompound', 'pcsubstance');
+  mp.fn<-sapply(tp, function(tp) fn1[grep(tp, fn1)][1]);
+  bs2oth<-lapply(mp.fn, function(fn) read.table(fn, sep='\t', stringsAsFactors=FALSE));
+  cnm<-c('Gene', 'Protein', 'PubMed', ',Compound', 'Substance');
+  for (i in 1:length(bs2oth)) {
+    colnames(bs2oth[[i]])<-c('BioSystem_ID', paste(cnm[i], 'ID', sep='_'), 'Score');
+    bs2oth[[i]][[1]]<-as.character(bs2oth[[i]][[1]]);
+    bs2oth[[i]][[2]]<-as.character(bs2oth[[i]][[2]]);    
+    saveRDS(bs2oth[[i]], file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_fulltable.rds', sep=''));
+    saveRDS(split(bs2oth[[i]][[2]], bs2oth[[i]][[1]]), file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_list.rds', sep=''));
+  }
   ###########################################################################################
   # BioSystems to gene mapping
-  if(map2gene) {
+  if(false) {
     bs2gn<-read.table(paste(path, 'src', 'biosystems_gene_all.gz', sep='/'), sep='\t');
     names(bs2gn)<-c('BioSystem_ID', 'Gene_ID', 'Score');
     bs2gn[[1]]<-as.character(bs2gn[[1]]);
