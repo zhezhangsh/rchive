@@ -33,8 +33,12 @@ Map2Biosystems<-function(bsid, species=c('human'='9606'), to=c('gene', 'protein'
   # Load full mapping data
   frm<-tolower(from)[1];
   ttl<-lapply(to, function(nm) {
-    if (frm=='r' & file.exists(r[nm])) readRDS(r[nm]) else {
+    if (frm=='r' & file.exists(r[nm])) {
+        print(r[nm]);
+        readRDS(r[nm]);
+    } else {
       if (frm!='gz' | !file.exists(gz[nm])) download.file(url[nm], gz[nm]); # Download data from source
+      print(gz[nm]);
       mp<-read.table(gz[nm], sep='\t', stringsAsFactors=FALSE);
       colnames(mp)<-c('BioSystem_ID', paste(cnm[nm], 'ID', sep='_'), 'Score');
       mp[[1]]<-as.character(mp[[1]]);
