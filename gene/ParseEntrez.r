@@ -84,4 +84,5 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
     log<-c(log, list(up));
     names(log)[length(log)]<-as.character(Sys.Date());
     saveRDS(log, paste(path, 'log.rds', sep='/'));
+  }
 }
