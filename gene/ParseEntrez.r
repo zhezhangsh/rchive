@@ -33,7 +33,7 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
     # tax     Taxonomy ID
     # prefix  Species name as file prefix
     # path    Path to output files
-        
+    
     gn<-all[all[[1]]==tax, , drop=FALSE];
     
     if (nrow(gn) > 0) {
@@ -65,6 +65,8 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
         Description = as.vector(gn$description)
       )
       
+      cat('Processed', nrow(gn), prefix, 'genes\n');
+      
       # save outputs
       saveRDS(gn, file=paste(path, '/r/', prefix, '_genes_full.rds', sep=''));
       saveRDS(gn.tbl, file=paste(path, '/r/', prefix, '_genes_datatable.rds', sep=''));
@@ -81,8 +83,9 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
   ids<-lapply(names(species), function(nm) parser(all, species[nm], nm, path));
   if (download.new) {
     log<-readRDS(paste(path, 'log.rds', sep='/'));
-    log<-c(log, list(up));
-    names(log)[length(log)]<-as.character(Sys.Date());
+    log[[as.character(Sys.Date())]]<-ids;
+    #log<-c(log, list(up));
+    #names(log)[length(log)]<-as.character(Sys.Date());
     saveRDS(log, paste(path, 'log.rds', sep='/'));
   }
 }
