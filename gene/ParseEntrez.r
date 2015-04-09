@@ -1,8 +1,8 @@
 # Parse the NCBI Entrez genes of multiple species
 ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/')) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
-  if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
-  if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'));
+  if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
+  if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
  
   fn<-paste(path, 'r', 'all_genes.rds', sep='/');
   
@@ -16,13 +16,13 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
     
     ### Give error: could not allocate memory (2048 Mb) in C function 'R_AllocStringBuffer'
     #all<-read.table(fn, sep='\t', head=FALSE, quote='\"', comment='', skip=1, stringsAsFactors=FALSE);
-    
-    gn<-scan(fn, sep='\n', what='', flush=TRUE, skip=1);
+
+    gn<-scan(gz, sep='\n', what='', flush=TRUE, skip=1);
     gn<-strsplit(gn, '\t');
     all<-do.call('rbind', gn);
     all<-data.frame(all, stringsAsFactors=FALSE);
     names(all)<-hd;
-    
+
     saveRDS(all, file=fn);
   } else all<-readRDS(fn);
   
