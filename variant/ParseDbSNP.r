@@ -28,7 +28,7 @@ ParseDbSNP<-function(nm, vcf, path=paste(RCHIVE_HOME, 'data/variant/public/dbsnp
   saveRDS(dbsnp, file=fn0);
 
   # SNP positions
-  gr<-dbsnp[[1]]$rowData;
+  gr<-dbsnp$rowData;
   library(GenomicRanges);
   if (file.exists(fn.pos))  {
     id.old<-names(readRDS(fn.pos));
