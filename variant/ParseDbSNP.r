@@ -1,11 +1,14 @@
 # Parse source files from dbSNP
 #############################################################
-ParseDbSNP<-function(nm, vcf, path=paste(RCHIVE_HOME, 'data/variant/public/dbsnp', sep='/')) {
+ParseDbSNP<-function(nm, vcf, path=paste(RCHIVE_HOME, 'data/variant', sep='/')) {
   # nm              Name of a specific dbSNP database
   # vcf             Full path to the dbSNP vcf file on NCBI FTP server
   # path            home directory of data
   
+  path.db<-paste(path, 'db', sep='/');
+  path<-paste(path, 'public/dbsnp', sep='/');
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
+  if (!file.exists(path.db)) dir.create(path.db, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'));
   
@@ -46,14 +49,16 @@ ParseDbSNP<-function(nm, vcf, path=paste(RCHIVE_HOME, 'data/variant/public/dbsnp
   
   # create database table
   # create SQLite database or connect to existing one
-  db.fn<-paste(RCHIVE_HOME, '/data/variant/db/variant_position.sqlite', sep='');
+  db.fn<-paste(path.db, 'variant_position.sqlite', sep='/');
   if (!file.exists(db.fn)) db<-src_sqlite(db.fn, create=TRUE) else db<-src_sqlite(db.fn);  
   cat('Creating table', nm, '...\n');
   tbl<-data.frame(id=names(gr), chr=as.vector(seqnames(gr)), pos=start(gr), width=width(gr), stringsAsFactors=FALSE);
   tbl.nm<-paste('dbsnp', nm, sep='_');
   tbls<-src_tbls(db);
   if (tbl.nm %in% tbls) dbRemoveTable(db$con, tbl.nm);
-  t<-copy_to(db, tbl, temporary=FALSE, name=, indexes=list('id', 'chr', 'pos'));
+  rm(gr);
+  rm(dbsnp);
+  t<-copy_to(db, tbl, temporary=FALSE, name=tbl.nm, indexes=list('id', 'chr', 'pos'));
 }
 
 #############################################################
