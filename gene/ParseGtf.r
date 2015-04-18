@@ -1,15 +1,14 @@
 # Load a GTF file to create a GRanges
-ParseGtf<-function(fn.in, fn.out, path.out='.', types=c('exon', 'gene', 'transcript'), Dbxref=TRUE, group=TRUE, separators=c()) {
+ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/r', sep='/'), Dbxref=TRUE, group=TRUE, separators=c()) {
   # fn.in, fn.out		Name of input/output files
-  # path.out			  Path to output file
-  # types				    The types of regions to be saved separately
+  # path    			  Path to output file
   # Dbxref, group		Whether to further parse these attribute fields
-  # separators		The separators to be used to parse Dbxref or group field
+  # separators  		The separators to be used to parse Dbxref or group field
   
   library(GenomicRanges);
   library(rtracklayer);
   
-  if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
+  if (!file.exists(path)) dir.create(path, recursive=TRUE);
   
   cat('Importing GTF file:', fn.in, '\n');
   gr<-rtracklayer::import(fn.in);
@@ -57,11 +56,24 @@ ParseGtf<-function(fn.in, fn.out, path.out='.', types=c('exon', 'gene', 'transcr
   }
   
   elementMetadata(gr)<-meta;
+  saveRDS(gr, file=paste(path, '/', fn.out, '_full.rds', sep=''));
   
-  saveRDS(gr, file=paste(path.out, '/', fn.out, '_full.rds', sep=''));
-  if (length(type)>0 & grepl('type', colnames(meta))) {
-    grs<-split(gr, as.vector(gr$type));
-    cat('Saving', length(grs), 'region types to output folder.\n');
-    fn<-sapply(names(grs), function(nm) saveRDS(grs[[nm]], file=paste(path.out, '/', fn.out, '_', nm, '.rdata', sep='')));
+  # Minimal metadata for slim version
+  cnm<-strsplit("source;type;score;phase;transcript_id;transcript_name;transcript_type;gene_id;gene_name;gene_type", ';')[[1]];
+  colnames(meta)<-tolower(colnames(meta));
+  meta<-meta[, colnames(meta) %in% cnm];
+  cnm<-cnm[cnm %in% colnames(meta)];
+  meta<-meta[, cnm];
+  elementMetadata(gr)<-meta;
+  saveRDS(gr, file=paste(path, '/', fn.out, '_slim.rds', sep=''));
+  
+  # split by type
+  if ('type' %in% colnames(meta)) {
+    tp<-as.vector(meta[['type']]);
+    meta<-meta[, colnames(meta)!='type'];
+    elementMetadata(gr)<-meta;
+    gr0<-split(gr, tp);
+    f<-sapply(names(gr0), function(nm) saveRDS(gr0[[nm]], file=paste(path, '/', fn.out, '_', tolower(nm), '.rds', sep='')));
   }
+  
 }

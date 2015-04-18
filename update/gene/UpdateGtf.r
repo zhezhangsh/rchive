@@ -7,6 +7,8 @@ if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
 if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
 
+library(rtracklayer);
+
 ##############################################################################################################
 # Files to be downloaed directly from sources
 fn<-c(
