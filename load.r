@@ -13,3 +13,5 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene.set/
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene.set/MapBiosystems.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene/ParseEntrez.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/variant/ParseDbSNP.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene/ParseGtf.r");
+
