@@ -59,7 +59,13 @@ names(fn2)<-nm;
 
 fn.gtf<-c(fn0, fn2); # All source gtf files
 
-###################
+##############################################################################################################
+# Create parsed data and save to file
 fn<-sapply(names(fn.gtf), function(nm) {
-  fn<-fn.gtf[]
-})
+  cat(nm, '\n');
+  ParseGtf(fn.gtf[nm], nm);
+});
+
+
+
+

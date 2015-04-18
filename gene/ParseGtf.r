@@ -37,7 +37,7 @@ ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/
   ##############################################################################
   
   # Further parse 'Dbxref' column
-  if (Dbxref) {
+  if (Dbxref & tolower('Dbxref') %in% tolower(colnames(meta))) {
     dbx<-as.vector(meta$Dbxref);
     if (length(separators) !=2) separators<-c('', ':');
     names(dbx)<-names(gr);
