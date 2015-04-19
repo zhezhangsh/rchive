@@ -38,7 +38,7 @@ fn<-c(
   'mouse_GRCm38_NCBI' = "ftp://ftp.ncbi.nlm.nih.gov/genomes/Mus_musculus/GFF/ref_GRCm38.p3_top_level.gff3.gz",
   #'mouse_MGSCv37_NCBI_Scaffold' = "ftp://ftp.ncbi.nlm.nih.gov/genomes/Mus_musculus/ARCHIVE/BUILD.37.2/GFF/ref_MGSCv37_scaffolds.gff3.gz",
   'mouse_MGSCv37_NCBI' = "ftp://ftp.ncbi.nlm.nih.gov/genomes/Mus_musculus/ARCHIVE/BUILD.37.2/GFF/ref_MGSCv37_top_level.gff3.gz",
-  'mouse_MGSCv37_AceView' = "ftp://ftp.ncbi.nih.gov/repository/acedb/ncbi_37_Sep07.mouse.genes/AceView.mm_37.genes_gff.tar.gz",
+  #'mouse_MGSCv37_AceView' = "ftp://ftp.ncbi.nih.gov/repository/acedb/ncbi_37_Sep07.mouse.genes/AceView.mm_37.genes_gff.tar.gz",
   'mouse_GRCm38_Ensembl' = "ftp://ftp.ensembl.org/pub/release-79/gtf//mus_musculus/Mus_musculus.GRCm38.79.gtf.gz",
 
   'worm_WB235_Ensembl' = "ftp://ftp.ensembl.org/pub/release-79/gtf//caenorhabditis_elegans/Caenorhabditis_elegans.WBcel235.79.gtf.gz"

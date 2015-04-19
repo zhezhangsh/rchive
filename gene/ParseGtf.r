@@ -59,8 +59,10 @@ ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/
   saveRDS(gr, file=paste(path, '/', fn.out, '_full.rds', sep=''));
   
   # Minimal metadata for slim version
-  cnm<-strsplit("source;type;score;phase;transcript_id;transcript_name;transcript_type;gene_id;gene_name;gene_type", ';')[[1]];
-  colnames(meta)<-tolower(colnames(meta));
+  cnm<-strsplit("source;type;score;phase;transcript_id;transcript_name;transcript_type;gene_id;gene_name;gene_type;parent", ';')[[1]];
+  cnm0<-tolower(colnames(meta));
+  if(!('gene_id' %in% cnm0)) cnm0[cnm0=='geneid']<-'gene_id';
+  colnames(meta)<-cnm0;
   meta<-meta[, colnames(meta) %in% cnm];
   cnm<-cnm[cnm %in% colnames(meta)];
   meta<-meta[, cnm];
