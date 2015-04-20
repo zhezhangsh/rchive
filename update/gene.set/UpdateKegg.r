@@ -11,7 +11,7 @@ out<-paste(RCHIVE_HOME, 'data/gene.set/public/kegg', sep='/');
 ids<-MapKeggPath2Gene(species, out); 
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(RCHIVE_HOME, 'update/gene.set/KeggP2G.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/update/gene.set/log/', tm, '_KeggP2G.r' , sep='');
+fn0<-paste(RCHIVE_HOME, 'source/update/gene.set/KeggP2G.r', sep='/');
+fn1<-paste(RCHIVE_HOME, '/source/update/gene.set/log/', tm, '_KeggP2G.r' , sep='');
 file.copy(fn0, fn1)
 

@@ -10,15 +10,8 @@ ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   
-  cat('Importing GTF file:', fn.in, '\n');
-  gr<-rtracklayer::import(fn.in);
-  cat('The loaded GTF file includes', length(gr), 'entries.\n');
-  names(gr)<-1:length(gr);
-  
-  meta<-elementMetadata(gr);
-  rownames(meta)<-names(gr);
-  
   ##############################################################################
+  ##############################################################################  
   # Function that performs the splitting
   splitColumn<-function(splt, separator) {
     n<-sapply(splt, length);
@@ -35,31 +28,48 @@ ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/
     df;
   }
   ##############################################################################
+  ##############################################################################
   
-  # Further parse 'Dbxref' column
-  if (Dbxref & tolower('Dbxref') %in% tolower(colnames(meta))) {
-    dbx<-as.vector(meta$Dbxref);
-    if (length(separators) !=2) separators<-c('', ':');
-    names(dbx)<-names(gr);
-    df<-splitColumn(dbx, separators[2]);
-    meta<-cbind(meta[, !(colnames(meta) %in% 'Dbxref')], df);
+  if (file.exists(paste(path, '/', fn.out, '_full.rds', sep=''))) {
+    cat('Loading imported GTF in GRanges\n');
+    gr<-readRDS(paste(path, '/', fn.out, '_full.rds', sep=''));
+    meta<-elementMetadata(gr);
+    rownames(meta)<-names(gr);
+  } else {
+    cat('Importing GTF file:', fn.in, '\n');
+    gr<-rtracklayer::import(fn.in);
+    cat('The loaded GTF file includes', length(gr), 'entries.\n');
+    names(gr)<-1:length(gr);
+    
+    meta<-elementMetadata(gr);
+    rownames(meta)<-names(gr);
+    
+    # Further parse 'Dbxref' column
+    if (Dbxref & tolower('Dbxref') %in% tolower(colnames(meta))) {
+      dbx<-as.vector(meta$Dbxref);
+      if (length(separators) !=2) separators<-c('', ':');
+      names(dbx)<-names(gr);
+      df<-splitColumn(dbx, separators[2]);
+      meta<-cbind(meta[, !(colnames(meta) %in% 'Dbxref')], df);
+    }
+    
+    # Further parse 'group' column  
+    if (group & 'group' %in% colnames(meta)) {
+      grp<-as.vector(meta$group);
+      if (length(separators) !=2) separators<-c('; ', ' ');
+      splt<-strsplit(grp, separators[1]);
+      names(splt)<-names(gr);
+      df<-splitColumn(splt, separators[2]);
+      meta<-cbind(meta[, !(colnames(meta) %in% 'group')], df);
+    }
+    
+    elementMetadata(gr)<-meta;
+    saveRDS(gr, file=paste(path, '/', fn.out, '_full.rds', sep=''));
   }
-  
-  # Further parse 'group' column	
-  if (group & 'group' %in% colnames(meta)) {
-    grp<-as.vector(meta$group);
-    if (length(separators) !=2) separators<-c('; ', ' ');
-    splt<-strsplit(grp, separators[1]);
-    names(splt)<-names(gr);
-    df<-splitColumn(splt, separators[2]);
-    meta<-cbind(meta[, !(colnames(meta) %in% 'group')], df);
-  }
-  
-  elementMetadata(gr)<-meta;
-  saveRDS(gr, file=paste(path, '/', fn.out, '_full.rds', sep=''));
+  ##############################################################################
   
   # Minimal metadata for slim version
-  cnm<-strsplit("source;type;score;phase;transcript_id;transcript_name;transcript_type;gene_id;gene_name;gene_type;parent", ';')[[1]];
+  cnm<-strsplit("source;type;score;phase;id;transcript_id;transcript_name;transcript_type;gene_id;gene_name;gene_type;parent", ';')[[1]];
   cnm0<-tolower(colnames(meta));
   if(!('gene_id' %in% cnm0)) cnm0[cnm0=='geneid']<-'gene_id';
   colnames(meta)<-cnm0;

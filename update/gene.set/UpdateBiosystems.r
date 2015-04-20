@@ -31,7 +31,7 @@ Map2Biosystems(bsid, species, path=paste(RCHIVE_HOME, 'data/gene.set/public/bios
 
 # Save run
 tm<-as.character(Sys.Date());
-fn0<-paste(RCHIVE_HOME, 'update/gene.set/UpdateBiosystems.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/update/gene.set/log/', tm, '_UpdateBiosystems.r' , sep='');
+fn0<-paste(RCHIVE_HOME, 'source/update/gene.set/UpdateBiosystems.r', sep='/');
+fn1<-paste(RCHIVE_HOME, '/source/update/gene.set/log/', tm, '_UpdateBiosystems.r' , sep='');
 file.copy(fn0, fn1)
 

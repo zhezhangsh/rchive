@@ -78,3 +78,11 @@ mp.ind<-do.call('c', mp.ind);
 mp.ind<-split(mp.ind, names(mp.ind));
 mp.ind<-lapply(mp.ind, function(x) sort(unique(unlist(x, use.names=FALSE))));
 saveRDS(mp.ind, file=sub('.rds', '_indexed.rds', fn.map));
+
+
+##############################################################################################################
+tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+fn0<-paste(RCHIVE_HOME, 'source/update/assembly/UpdateHumanChromosome.r', sep='/');
+fn1<-paste(RCHIVE_HOME, '/source/update/assembly/log/', tm, '_UpdateHumanChromosome.r' , sep='');
+file.copy(fn0, fn1)
+

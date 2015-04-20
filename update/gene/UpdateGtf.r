@@ -59,6 +59,8 @@ names(fn2)<-nm;
 
 fn.gtf<-c(fn0, fn2); # All source gtf files
 
+fn.gtf<-fn.gtf[grep('_NCBI', names(fn.gtf))];
+
 ##############################################################################################################
 # Create parsed data and save to file
 fn<-sapply(names(fn.gtf), function(nm) {
@@ -66,6 +68,10 @@ fn<-sapply(names(fn.gtf), function(nm) {
   ParseGtf(fn.gtf[nm], nm);
 });
 
-
+##############################################################################################################
+tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+fn0<-paste(RCHIVE_HOME, 'source/update/gene/UpdateGtf.r', sep='/');
+fn1<-paste(RCHIVE_HOME, '/source/update/gene/log/', tm, '_UpdateGtf.r' , sep='');
+file.copy(fn0, fn1)
 
 

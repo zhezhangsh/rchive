@@ -10,6 +10,6 @@ t<-sapply(names(vcfs), function(nm) ParseDbSNP(nm, vcfs[nm]));
 
 # Save run
 tm<-as.character(Sys.Date());
-fn0<-paste(RCHIVE_HOME, 'update/variant/UpdateDbSNP.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/update/variant/log/', tm, '_UpdateDbSNP.r' , sep='');
+fn0<-paste(RCHIVE_HOME, 'source/update/variant/UpdateDbSNP.r', sep='/');
+fn1<-paste(RCHIVE_HOME, '/source/update/variant/log/', tm, '_UpdateDbSNP.r' , sep='');
 file.copy(fn0, fn1)
