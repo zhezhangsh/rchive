@@ -73,7 +73,7 @@ fn.tx2ex<-sapply(fn, function(fn) {
   gr<-readRDS(fn);
   saveRDS(GtfTranscript2Exon, file=sub('_slim.rds$', '_tx2ex.rds$', fn));
   sub('_slim.rds$', '_tx2ex.rds$', fn);
-}
+})
 
 
 ##############################################################################################################
