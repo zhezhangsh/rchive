@@ -67,16 +67,6 @@ fn<-sapply(names(fn.gtf), function(nm) {
 });
 
 ##############################################################################################################
-# Map exons to transcripts
-fn.tx2ex<-sapply(fn, function(fn) {
-  cat('Mapping exons to transcripts:', fn, '\n'); 
-  gr<-readRDS(fn);
-  saveRDS(GtfTranscript2Exon, file=sub('_slim.rds$', '_tx2ex.rds$', fn));
-  sub('_slim.rds$', '_tx2ex.rds$', fn);
-}
-
-
-##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(RCHIVE_HOME, 'source/update/gene/UpdateGtf.r', sep='/');
 fn1<-paste(RCHIVE_HOME, '/source/update/gene/log/', tm, '_UpdateGtf.r' , sep='');

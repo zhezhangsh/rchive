@@ -88,4 +88,5 @@ ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/
     f<-sapply(names(gr0), function(nm) saveRDS(gr0[[nm]], file=paste(path, '/', fn.out, '_', tolower(nm), '.rds', sep='')));
   }
   
+  paste(path, '/', fn.out, '_slim.rds', sep='');
 }
