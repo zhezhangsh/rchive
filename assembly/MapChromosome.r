@@ -21,7 +21,7 @@ MapChromosome<-function(from, to, map) {
 }
 
 # Rename chromosome names of a GRanges object by mapping
-renameSeqlevels<-function(gr, to, map, len) {
+renameSeqlevels<-function(gr, to, map) {
   # gr      an GRanges object with chromosome names to be mapped
   # to      the names of a set of chromosomes to be mapped to
   # map     a list that maps each chromosome name to its synonyms
