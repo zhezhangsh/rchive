@@ -10,12 +10,15 @@ MapChromosome<-function(from, to, map) {
   has.it<-toupper(from) %in% names(map);
   
   out<-from; # output vector
+  names(out)<-from
   out[has.it]<-sapply(from[has.it], function(fr) {
     nms<-map[toupper(fr)][[1]];
     mtch<-to[toupper(to) %in% toupper(nms)];
     if (length(mtch) == 0) fr else mtch[1];
   });
-  out[duplicated(out)]<-from[duplicated(out)];
+  
+  dup<-out[duplicated(out)];  
+  if (length(dup) > 0) out[out %in% dup]<-from[out %in% dup];
   
   out;
 }
@@ -26,7 +29,13 @@ RenameSeqlevels<-function(gr, to, map) {
   # to      the names of a set of chromosomes to be mapped to
   # map     a list that maps each chromosome name to its synonyms
   
-  seqlevels(gr)<-MapChromosome(seqlevels(gr), to, map); 
+  lvl<-seqlevels(gr);
+  seqlevels(gr)<-lvl[lvl %in% as.vector(seqnames(gr))];
+  
+  c<-MapChromosome(seqlevels(gr), to, map); 
+  chr<-c[as.vector(seqnames(gr))];
+  gr@seqnames<-Rle(chr);
+  gr@seqinfo@seqnames<-unique(chr);
   
   gr;
 }

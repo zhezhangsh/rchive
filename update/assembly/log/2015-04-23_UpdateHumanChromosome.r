@@ -34,7 +34,7 @@ mergeList<-function(mp0, mp1) {
       nm1<-mp1[[i]];
       nm1<-nm1[nm1!='' & !is.na(nm1)];
       ind<-rep(1:length(mp), sapply(mp, length))[unlist(mp) %in% nm1];
-      if (length(ind) == 0) mp0<-append(mp0, list(nm1)) else mp0[[ind[1]]]<-unique(c(mp0[[ind[1]]], setdiff(nm1, unlist(mp0[-ind[1]]))));
+      if (length(ind) == 0) mp0<-append(mp0, list(nm1)) else mp0[[ind[1]]]<-unique(c(mp0[[ind[1]]], setdiff(nm1, unlist(mp0[[-ind[1]]]))));
       #ct<-sapply(mp0, function(nm0) length(nm1[toupper(nm1) %in% toupper(nm0)]));
       #for (i in 1:length(ct)) if (ct[i]==0) mp0<-append(mp0, nm1[[i]]) else mp0[[i]]<-c(mp0[[i]], setdiff(nm1[[i]], unlist(mp0, use.names=FALSE)));
       #if (max(ct) == 0) mp0<-append(mp0, list(nm1)) else mp0[which(ct>0)]<-lapply(mp0[which(ct>0)], function(nm0) c(nm0, nm1));
