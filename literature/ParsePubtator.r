@@ -1,17 +1,9 @@
 # Parse source files from PubTator
-ParsePubtator<-function(path=paste(RCHIVE_HOME, 'data/literature/public/pubtator', sep='/'), download.new=TRUE) {
+ParsePubtator<-function(ftp.files, path=paste(RCHIVE_HOME, 'data/literature/public/pubtator', sep='/'), download.new=TRUE) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'));
   
-  # download source files from PubTator FTP server
-  ftp.files<-c(
-    chemical="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gz",
-    species="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//species2pubtator.gz",
-    disease="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//disease2pubtator.gz",
-    gene="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//gene2pubtator.gz",
-    mutation="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//mutation2pubtator.gz"
-  )
   fn<-paste(path, '/src/', names(ftp.files), '.gz', sep='');
   names(fn)<-names(ftp.files);
   fn.out<-paste(path, '/r/original_pubmed2', names(fn), '.rds', sep='')
