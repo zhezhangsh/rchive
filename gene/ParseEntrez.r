@@ -1,5 +1,5 @@
 # Parse the NCBI Entrez genes of multiple species
-ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/')) {
+ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE, path=paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/')) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
@@ -8,8 +8,10 @@ ParseEntrez<-function(species=c('human'='9606'), download.new=TRUE, path=paste(R
   
   # Re-download and load all gene table
   if (download.new | !file.exists(fn)) {
-    gz<-paste(path, 'src', 'All_Data.gene_info.gz', sep='/');
-    download.file("ftp://ftp.ncbi.nih.gov/gene//DATA/GENE_INFO/All_Data.gene_info.gz", gz);
+    fn.gz<-strsplit(ftp.file, '/')[[1]];
+    fn.gz<-fn.gz[length(fn.gz)];
+    gz<-paste(path, 'src', fn.gz, sep='/');
+    download.file(ftp.file, gz);
     
     hd<-scan(gz, nline=1, what='', sep='\n', flush=TRUE);
     hd<-strsplit(hd, ' ')[[1]][2:16];
