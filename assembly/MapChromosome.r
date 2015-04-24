@@ -34,8 +34,10 @@ RenameSeqlevels<-function(gr, to, map) {
   
   c<-MapChromosome(seqlevels(gr), to, map); 
   chr<-c[as.vector(seqnames(gr))];
-  gr@seqnames<-Rle(chr);
-  gr@seqinfo@seqnames<-unique(chr);
+  chr<-Rle(chr);
+  chr@values<-as.factor(chr@values);
+  gr@seqnames<-chr;
+  gr@seqinfo@seqnames<-levels(chr@values);
   
   gr;
 }

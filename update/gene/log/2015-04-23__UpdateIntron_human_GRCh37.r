@@ -5,22 +5,18 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
 path<-paste(RCHIVE_HOME, 'data/gene/public/gtf/r', sep='/');
 path.chr<-paste(RCHIVE_HOME, 'data/assembly/public/chromosome/r/', sep='/');
 
-
 # Genome and version
-if (exists('genome')) rm(genome);
-#genome.version<-'human_GRCh37';
-#chromosome.version<-'GRCh37.p13';
-#library(BSgenome.Hsapiens.UCSC.hg19);
-genome.version<-'human_GRCh38';
-chromosome.version<-'GRCh38.p2';
-library(BSgenome.Hsapiens.NCBI.GRCh38);
-genome<-Hsapiens;
+genome.version<-'human_GRCh37';
+chromosome.version<-'GRCh37.p13';
 
 # previous processed chromosome to chromosome mapping and chromosome sets of the same assebly
 chr2chr<-readRDS(paste(path.chr, 'human_chromosome_mapping_indexed.rds', sep='/'));
 chr.set<-readRDS(paste(path.chr, 'human_chromosome_sets.rds', sep='/'));
 chr.set<-names(chr.set[[chromosome.version]]);
 
+if (exists('genome')) rm(genome);
+library(BSgenome.Hsapiens.UCSC.hg19);
+genome<-Hsapiens;
 seqnames(genome)<-MapChromosome(seqnames(genome), chr.set, chr2chr);
 ##################################################################################################################################
 
