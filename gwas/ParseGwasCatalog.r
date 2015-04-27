@@ -14,7 +14,7 @@ ParseGwasCatalog<-function(url, path=paste(RCHIVE_HOME, 'data/gwas/public/gwasca
   # download the table 
   ln<-strsplit(getURL(url), '\n')[[1]];
   gw<-do.call('rbind', strsplit(ln, '\t'));
-  colnames(gw)<-tb[1,];
+  colnames(gw)<-gw[1,];
   gw<-gw[-1, ];
   gw<-data.frame(gw, stringsAsFactors=FALSE);
   
