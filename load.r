@@ -6,7 +6,7 @@ library(devtools);
 
 ###
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/HtmlUtilities.r");
-
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/UpdateLog.r");
 
 ###
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/assembly/MapChromosome.r");
@@ -16,6 +16,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene/Pars
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene/CombineIntron.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene.set/MapKegg.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gene.set/MapBiosystems.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/gwas/ParseGwasCatalog.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/variant/ParseDbSNP.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/literature/ParsePubtator.r");
 
