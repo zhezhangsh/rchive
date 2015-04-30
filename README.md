@@ -5,8 +5,8 @@ An comprehensive archive of genomic data structured and stored as R data objects
 #### To install and load rchive library within your R console
 ```
 library(devtools);
-install_github(host="github.research.chop.edu/api/v3",repo="BiG/GtUtility");
-library(GtUtility);
+install_github("zhezhangsh/rchive");
+library(rchive);
 ```
 
 
