@@ -15,7 +15,7 @@ if (length(fn0)) {
 	file.copy(fn0, names(fn0), overwrite=TRUE);
 }
 
-# Export functions
+# Export functions in NAMESPACE file
 fn<-paste('./R/', dir('./R/'), sep='');
 fn<-fn[grep('.r$', fn, ignore.case=TRUE)];
 if (length(fn)>0) {
@@ -30,3 +30,8 @@ if (length(fn)>0) {
   ln<-paste('export("', fnc, '");', sep='');
   writeLines(c('', ln, ''), file('./NAMESPACE'));
 }
+
+# Loading function script
+ln<-c('RCHIVE_HOME<-"/zhangz/rchive";', 'library(devtools);');
+ln<-c(ln, paste('source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/', sub('./', '', fn), '");', sep=''));
+writeLines(c('', ln, ''), file('./load.r'));
