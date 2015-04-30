@@ -1,15 +1,1 @@
 
-export("MapChromosome");
-export("HtmlUtilities");
-export("UpdateLog");
-export("CombineIntron");
-export("MapGtf");
-export("ParseEntrez");
-export("ParseGtf");
-export("MapBiosystems");
-export("MapKegg");
-export("ParseDbGap");
-export("ParseGwasCatalog");
-export("ParsePubtator");
-export("ParseDbSNP");
-

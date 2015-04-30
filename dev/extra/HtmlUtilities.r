@@ -2,6 +2,7 @@
 
 ########################################################################################################################
 ## clean up HTML tags in a line
+#' @export
 CleanHtmlTags<-function(l) {
   l<-gsub("<.*?>", " ", l); # remove open tags
   l<-gsub("</.*?>", " ", l); # remove close tags
