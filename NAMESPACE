@@ -1,23 +1,23 @@
 
-export("CombineIntron");
 export("CleanHtmlTags");
-export("Map2Biosystems");
-export("ParseBiosystemsGeneral");
-export("MapChromosome");
-export("RenameSeqlevels");
-export("GtfTranscript2Exon");
+export("CombineIntron");
+export("DownloadDbGap");
 export("GtfExon2Intron");
-export("MapKeggPath2Gene");
-export("ListEntryKeggApi");
+export("GtfTranscript2Exon");
 export("LinkEntryKeggApi");
+export("ListEntryKeggApi");
+export("Map2Biosystems");
+export("MapChromosome");
 export("MapKeggOne2All");
 export("MapKeggOne2One");
-export("DownloadDbGap");
-export("RetrieveDbGapStat");
+export("MapKeggPath2Gene");
+export("ParseBiosystemsGeneral");
 export("ParseDbSNP");
 export("ParseEntrez");
 export("ParseGtf");
 export("ParseGwasCatalog");
 export("ParsePubtator");
+export("RenameSeqlevels");
+export("RetrieveDbGapStat");
 export("UpdateLog");
 
