@@ -1,5 +1,6 @@
 # These functions map chromosome names from one version to another
 
+###################################################################
 # Map chromosome names
 MapChromosome<-function(from, to, map) {
   # from    the original chromosome names as a vector
