@@ -1,15 +1,15 @@
 
-export("MapChromosome.r");
-export("HtmlUtilities.r");
-export("UpdateLog.r");
-export("CombineIntron.r");
-export("MapGtf.r");
-export("ParseEntrez.r");
-export("ParseGtf.r");
-export("MapBiosystems.r");
-export("MapKegg.r");
-export("ParseDbGap.r");
-export("ParseGwasCatalog.r");
-export("ParsePubtator.r");
-export("ParseDbSNP.r");
+export("MapChromosome");
+export("HtmlUtilities");
+export("UpdateLog");
+export("CombineIntron");
+export("MapGtf");
+export("ParseEntrez");
+export("ParseGtf");
+export("MapBiosystems");
+export("MapKegg");
+export("ParseDbGap");
+export("ParseGwasCatalog");
+export("ParsePubtator");
+export("ParseDbSNP");
 
