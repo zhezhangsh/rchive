@@ -1,3 +1,7 @@
 import(Biobase);
 
+export("MapChromosome.r")
+
+
+
 
