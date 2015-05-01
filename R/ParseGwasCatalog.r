@@ -1,5 +1,5 @@
 # Download and process GWAS results from GWAS catalog
-ParseGwasCatalog<-function(url, path=paste(RCHIVE_HOME, 'data/gwas/public/gwascatalog', sep='/'), update.all.pubmed=FALSE) {
+ParseGwasCatalog<-function(url, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/gwascatalog', sep='/'), update.all.pubmed=FALSE) {
   # url    Source file URL
   # path   Path to output files
   # update.all.pubmed   Re-download all PubMed entries if TRUE

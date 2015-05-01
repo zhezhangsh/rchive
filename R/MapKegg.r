@@ -5,7 +5,7 @@
 ######################################################################################################
 ######################################################################################################
 # Map all KEGG pathways to Entrez genes of one or more species
-MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(RCHIVE_HOME, 'data/gene.set/public/kegg', sep='/')) {
+MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
   # species   Named character vector of species codes; the name will be used as prefix of output file
   # path      Path to output files
   
@@ -43,11 +43,11 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(RCHIVE_HOME, 'da
   })
   
   # save log, all pathway IDs
-  log.fn<-paste(RCHIVE_HOME, 'data/gene.set/public/kegg/log.rds', sep='/');
+  log.fn<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/');
   if (file.exists(log.fn)) log<-readRDS(log.fn) else log<-list();
   tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
   log[[tm]]<-ids;
-  saveRDS(log, file=paste((paste(RCHIVE_HOME, 'data/gene.set/public/kegg/log.rds', sep='/'))));
+  saveRDS(log, file=paste((paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/'))));
   
   ids;
 }

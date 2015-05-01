@@ -1,5 +1,5 @@
 # Parse source files from PubTator
-ParsePubtator<-function(ftp.files, path=paste(RCHIVE_HOME, 'data/literature/public/pubtator', sep='/'), download.new=TRUE) {
+ParsePubtator<-function(ftp.files, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/literature/public/pubtator', sep='/'), download.new=TRUE) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'));

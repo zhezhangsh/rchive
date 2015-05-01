@@ -1,6 +1,6 @@
 # Download and process GWAS results from dbGap
 DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of_Contents.txt", 
-                     path=paste(RCHIVE_HOME, 'data/gwas/public/dbgap', sep='/'), 
+                     path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'), 
                      update.all.analysis=FALSE,
                      update.all.pubmed=FALSE,
                      redundant.studies=c('216', '88', '342')) {
@@ -107,7 +107,7 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
 
 
 RetrieveDbGapStat<-function(stat=c('p value', 'effect size', 'allele frequency'), 
-                            path=paste(RCHIVE_HOME, 'data/gwas/public/dbgap', sep='/'),
+                            path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'),
                             own.table.min=20) {
   # stat                  The type of test statistics to summarize. Integer (1, 2, 3) or name of the statistics
   # path                  Path to output files  

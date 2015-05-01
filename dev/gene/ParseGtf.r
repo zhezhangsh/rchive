@@ -1,5 +1,5 @@
 # Load a GTF file to create a GRanges
-ParseGtf<-function(fn.in, fn.out, path=paste(RCHIVE_HOME, 'data/gene/public/gtf/r', sep='/'), Dbxref=TRUE, group=TRUE, separators=c()) {
+ParseGtf<-function(fn.in, fn.out, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gtf/r', sep='/'), Dbxref=TRUE, group=TRUE, separators=c()) {
   # fn.in, fn.out		Name of input/output files
   # path    			  Path to output file
   # Dbxref, group		Whether to further parse these attribute fields

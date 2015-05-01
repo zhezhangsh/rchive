@@ -3,6 +3,7 @@ RCHIVE_HOME<-"/zhangz/rchive";
 library(devtools);
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineIntron.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/HtmlUtilities.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/load.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapBiosystems.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapChromosome.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapGtf.r");

@@ -4,7 +4,7 @@
 ##########################################################################################################################
 # Map gene, protein, etc. to biosystems
 Map2Biosystems<-function(bsid, species=c('human'='9606'), to=c('gene', 'protein', 'compound', 'substance', 'pubmed'), by.source=TRUE, 
-                         from=c('r', 'gz', 'url'), path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/')) {
+                         from=c('r', 'gz', 'url'), path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/biosystems', sep='/')) {
   #bsid       Full annotation table of Biosystems downloaded from NCBI website
   #species    One or multiple species to do the mapping; the value is the NCBI Taxonomy ID and the name is the prefix of output files
   #to         Type(s) of entities the Biosystems will be mapped to
@@ -72,7 +72,7 @@ Map2Biosystems<-function(bsid, species=c('human'='9606'), to=c('gene', 'protein'
 ##########################################################################################################################
 # Download and parse general Biosystems annotation information
 ParseBiosystemsGeneral<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.nih.gov/pub/biosystems/CURRENT", download.new=FALSE, 
-                          path=paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/')) {
+                          path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/biosystems', sep='/')) {
   # species         Named character vector of NCBI taxanomy ID; the name will be used as prefix of output file
   # ver             The version of BioSystems to download
   # download.new    Whether to re-download source files

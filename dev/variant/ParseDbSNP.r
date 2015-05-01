@@ -1,6 +1,6 @@
 # Parse source files from dbSNP
 #############################################################
-ParseDbSNP<-function(nm, vcf, path=paste(RCHIVE_HOME, 'data/variant', sep='/')) {
+ParseDbSNP<-function(nm, vcf, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/variant', sep='/')) {
   # nm              Name of a specific dbSNP database
   # vcf             Full path to the dbSNP vcf file on NCBI FTP server
   # path            home directory of data

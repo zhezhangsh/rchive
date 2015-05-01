@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Copy all R function files in the dev/ folder to the R/ folder
+setwd("/zhangz/rchive/source");
 fn<-dir('./dev', recursive=TRUE);
 fn<-fn[grep('.r', fn, ignore.case=TRUE)];
 fn0<-paste('./dev/', fn, sep=''); # source file names

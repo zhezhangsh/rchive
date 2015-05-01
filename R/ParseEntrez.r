@@ -1,5 +1,6 @@
 # Parse the NCBI Entrez genes of multiple species
-ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE, path=paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/')) {
+ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE, 
+                      path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/')) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
