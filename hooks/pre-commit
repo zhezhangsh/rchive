@@ -1,6 +1,0 @@
-#!Rscript
-#
-
-cat('hello\n')
-file.copy('DESCRIPTION', 'R/DESCRIPTION');
-
