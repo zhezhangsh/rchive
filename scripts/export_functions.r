@@ -35,4 +35,4 @@ if (length(fn)>0) {
 # Loading function script
 ln<-c('RCHIVE_HOME<-"/zhangz/rchive";', 'library(devtools);');
 ln<-c(ln, paste('source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/', sub('./', '', fn), '");', sep=''));
-writeLines(c('', ln, ''), file('./load.r'));
+writeLines(c('', ln, ''), file('/zhangz/rchive/source/scripts/load.r'));

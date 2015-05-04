@@ -105,10 +105,10 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
 }
 
 # Retrieve a specified test statistics: p value, effect size, or allele frequency from downloaded dbGaP results files
-RetrieveDbGapStat<-function(id.analysis, id.study, stat.name=c('p value', 'effect size', 'allele frequency'), 
+RetrieveDbGapStat<-function(id.ana, id.std, stat.name=c('p value', 'effect size', 'allele frequency'), 
                             path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'),
                             own.table.min=20) {
-  # id.analysis, id.study Matched analysis and study IDs to be retrieved
+  # id.ana, id.std        Matched analysis and study IDs to be retrieved
   # stat.name             The type of test statistics to summarize. Integer (1, 2, 3) or name of the statistics
   # path                  Path to input/output files  
   # own.table.min         Minimum number of analyses to make a study its own table
