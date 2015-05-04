@@ -2,7 +2,6 @@
 DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of_Contents.txt", 
                      path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'), 
                      update.all.analysis=FALSE,
-                     update.all.pubmed=FALSE,
                      redundant.studies=c('216', '88', '342')) {
   # url                   File with analysis metadata and download location
   # path                  Path to output files
@@ -38,7 +37,7 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   gw<-gw[-1, , drop=FALSE];
   gw<-data.frame(gw, stringsAsFactors=FALSE);
   gw<-gw[!(gw[,1] %in% redundant.studies), ];
-  gw<-gw[1:100, ];
+  gw<-gw;
   
   ######################################################################################
   # Download results of individual analyses
@@ -105,26 +104,30 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   meta;
 }
 
-
-RetrieveDbGapStat<-function(stat=c('p value', 'effect size', 'allele frequency'), 
+# Retrieve a specified test statistics: p value, effect size, or allele frequency from downloaded dbGaP results files
+RetrieveDbGapStat<-function(id.analysis, id.study, stat.name=c('p value', 'effect size', 'allele frequency'), 
                             path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'),
                             own.table.min=20) {
-  # stat                  The type of test statistics to summarize. Integer (1, 2, 3) or name of the statistics
-  # path                  Path to output files  
+  # id.analysis, id.study Matched analysis and study IDs to be retrieved
+  # stat.name             The type of test statistics to summarize. Integer (1, 2, 3) or name of the statistics
+  # path                  Path to input/output files  
   # own.table.min         Minimum number of analyses to make a study its own table
   
   own.table.min<-max(3, own.table.min); # At lease 3 analyses to make their own table
   
   # specify the type and name of test statistics to summarize
   stat.types<-c('p value' = 'phred', 'effect size' = 'es', 'allele frequency' = 'maf');
-  stat.type<-stat.types[tolower(stat[1])];
+  stat.type<-stat.types[stat.name[1]];
   if (is.na(stat.type)) stat.type<-c('p value'=1);
   
+  # Column names that fit to the type of test statistics
   cnm<-list(
     'phred' = c('p-value', 'p_value', 'p value', 'pvalue', 'p'),
-    'es' = c('beta', 'gee', 'gee beta', 'gee-beta', 'gee_beta', 'or', 'odds ratio', 'odds-ratio', 'odds_ratio'),
-    'maf' = c('maf', 'af', 'allele frequency', 'allele_frequency', 'allele-frequency')
-  )
+    'es' = c('effect size', 'effect_size', 'effect-size', 'or', 'odds ratio', 'odds-ratio', 'odds_ratio', 'beta', 'gee', 'gee beta', 'gee-beta', 'gee_beta'),
+    'maf' = c('maf', 'af', 'minor allele frequency', 'minor_allele_frequency', 'minor-allele-frequency', 'allele frequency', 'allele_frequency', 'allele-frequency')
+  )[[stat.type]];
+  
+  
 }
 
 
