@@ -1,7 +1,8 @@
 library(devtools);
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+install_github("zhezhangsh/rchive");
+library(rchive);
 
-path=paste(RCHIVE_HOME, 'data/gene/public/gtf', sep='/');
+path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gtf', sep='/');
 
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
