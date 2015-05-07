@@ -1,9 +1,10 @@
 library(devtools);
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+install_github("zhezhangsh/rchive");
+library(rchive);
 
 ##################################################################################################################################
-path<-paste(RCHIVE_HOME, 'data/gene/public/gtf/r', sep='/');
-path.chr<-paste(RCHIVE_HOME, 'data/assembly/public/chromosome/r/', sep='/');
+path<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gtf/r', sep='/');
+path.chr<-paste(Sys.getenv("RCHIVE_HOME"), 'data/assembly/public/chromosome/r/', sep='/');
 
 
 # Genome and version
@@ -53,7 +54,7 @@ saveRDS(introns, file=paste(path, '/', genome.version, '_all_introns.rds', sep='
 
 ##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(RCHIVE_HOME, 'source/update/gene/UpdateIntron.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/source/update/gene/log/', tm, '_', '_UpdateIntron_', genome.version, '.r' , sep='');
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/update/gene/UpdateIntron.r', sep='/');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/update/gene/log/', tm, '_', '_UpdateIntron_', genome.version, '.r' , sep='');
 file.copy(fn0, fn1)
 
