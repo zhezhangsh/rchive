@@ -54,9 +54,11 @@ fn1<-sapply(names(fn), function(nm) if(!file.exists(fn0[nm])) download.file(fn[n
 # GTF files previously downloaded from UCSC using Table Browser
 fn2<-dir(paste(path, 'src', sep='/'));
 fn2<-fn2[grep('UCSC', fn2)];
-nm<-sapply(strsplit(fn2, '\\.'), function(x) x[1]);
-fn2<-paste(path, 'src', fn2, sep='/');
-names(fn2)<-nm;
+if (length(fn2) > 0) {
+	nm<-sapply(strsplit(fn2, '\\.'), function(x) x[1]);
+	fn2<-paste(path, 'src', fn2, sep='/');
+	names(fn2)<-nm;
+} else fn2<-c();
 
 fn.gtf<-c(fn0, fn2); # All source gtf files
 

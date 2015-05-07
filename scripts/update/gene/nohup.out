@@ -1,0 +1,41 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib64/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmpj1tuSy/devtools1aee06ebecc0b/zhezhangsh-rchive-02caa1c'  \
+  --library='/home/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+trying URL 'ftp://ftp.ncbi.nih.gov/gene//DATA/GENE_INFO/All_Data.gene_info.gz'
+ftp data connection made, file length 202852999 bytes
+opened URL
+==================================================
+downloaded 193.5 MB
+
+Read 1 item
+Read 11574368 items
+Processed 56348 human genes
+Processed 73362 mouse genes
+Processed 61620 rat genes
+Processed 35528 chimp genes
+Processed 48703 pig genes
+Processed 26341 chicken genes
+Processed 30541 dog genes
+Processed 54051 cow genes
+Processed 46693 worm genes
+Processed 24620 fly genes
+Processed 37324 zebrafish genes
+Processed 4499 ecoli genes
+Error in gzfile(file, "rb") : cannot open the connection
+Calls: ParseEntrez -> readRDS -> gzfile
+In addition: Warning message:
+In gzfile(file, "rb") :
+  cannot open compressed file '/nas/is1/rchive/data/gene/public/entrez/log.rds', probable reason 'No such file or directory'
+Execution halted
