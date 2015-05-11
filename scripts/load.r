@@ -1,5 +1,5 @@
 
-RCHIVE_HOME<-"/zhangz/rchive";
+RCHIVE_HOME<-Sys.getenv("RCHIVE_HOME");
 library(devtools);
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineIntron.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/HtmlUtilities.r");

@@ -2,6 +2,7 @@
 export("CleanHtmlTags");
 export("CombineIntron");
 export("DownloadDbGap");
+export("GetDbGapStudy");
 export("GtfExon2Intron");
 export("GtfTranscript2Exon");
 export("LinkEntryKeggApi");
@@ -21,5 +22,6 @@ export("ParseGwasCatalog");
 export("ParsePubtator");
 export("RenameSeqlevels");
 export("RetrieveDbGapStat");
+export("SummarizeDbGap");
 export("UpdateLog");
 

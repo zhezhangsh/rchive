@@ -1,0 +1,211 @@
+Error in source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r") : 
+  client error: (404) Not Found
+Calls: source_url -> <Anonymous>
+Execution halted
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib64/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpoJROmr/devtools234d7360063f5/zhezhangsh-rchive-19c694b'  \
+  --library='/home/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Loading required package: methods
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following object is masked from ‘package:stats’:
+
+    xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
+    do.call, duplicated, eval, evalq, Filter, Find, get, intersect,
+    is.unsorted, lapply, Map, mapply, match, mget, order, paste, pmax,
+    pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce, rep.int,
+    rownames, sapply, setdiff, sort, table, tapply, union, unique,
+    unlist, unsplit
+
+Loading required package: GenomeInfoDb
+Loading required package: stats4
+Loading required package: S4Vectors
+Loading required package: IRanges
+Loading required package: GenomicRanges
+Loading required package: Rsamtools
+Loading required package: XVector
+Loading required package: Biostrings
+
+Attaching package: ‘VariantAnnotation’
+
+The following object is masked from ‘package:base’:
+
+    tabulate
+
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:VariantAnnotation’:
+
+    select
+
+The following objects are masked from ‘package:Biostrings’:
+
+    collapse, intersect, setdiff, setequal, union
+
+The following object is masked from ‘package:XVector’:
+
+    slice
+
+The following objects are masked from ‘package:GenomicRanges’:
+
+    intersect, setdiff, union
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following objects are masked from ‘package:IRanges’:
+
+    collapse, desc, intersect, setdiff, slice, union
+
+The following object is masked from ‘package:S4Vectors’:
+
+    rename
+
+The following objects are masked from ‘package:BiocGenerics’:
+
+    combine, intersect, setdiff, union
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Downloading  GRCh37 ...
+trying URL 'ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150217.vcf.gz'
+Error in download.file(vcf, fn) : 
+  cannot open URL 'ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150217.vcf.gz'
+Calls: sapply -> lapply -> FUN -> ParseDbSNP -> download.file
+Execution halted
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib64/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmptnohyN/devtools2350121c5de9a/zhezhangsh-rchive-19c694b'  \
+  --library='/home/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Loading required package: methods
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following object is masked from ‘package:stats’:
+
+    xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
+    do.call, duplicated, eval, evalq, Filter, Find, get, intersect,
+    is.unsorted, lapply, Map, mapply, match, mget, order, paste, pmax,
+    pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce, rep.int,
+    rownames, sapply, setdiff, sort, table, tapply, union, unique,
+    unlist, unsplit
+
+Loading required package: GenomeInfoDb
+Loading required package: stats4
+Loading required package: S4Vectors
+Loading required package: IRanges
+Loading required package: GenomicRanges
+Loading required package: Rsamtools
+Loading required package: XVector
+Loading required package: Biostrings
+
+Attaching package: ‘VariantAnnotation’
+
+The following object is masked from ‘package:base’:
+
+    tabulate
+
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:VariantAnnotation’:
+
+    select
+
+The following objects are masked from ‘package:Biostrings’:
+
+    collapse, intersect, setdiff, setequal, union
+
+The following object is masked from ‘package:XVector’:
+
+    slice
+
+The following objects are masked from ‘package:GenomicRanges’:
+
+    intersect, setdiff, union
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following objects are masked from ‘package:IRanges’:
+
+    collapse, desc, intersect, setdiff, slice, union
+
+The following object is masked from ‘package:S4Vectors’:
+
+    rename
+
+The following objects are masked from ‘package:BiocGenerics’:
+
+    combine, intersect, setdiff, union
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Downloading  GRCh37 ...
+trying URL 'ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150415.vcf.gz'
+ftp data connection made, file length 2570003720 bytes
+opened URL
+==================================
