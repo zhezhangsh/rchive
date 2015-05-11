@@ -46,7 +46,7 @@ ParseGtf<-function(fn.in, fn.out, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/ge
     
     # Further parse 'Dbxref' column
     if (Dbxref & tolower('Dbxref') %in% tolower(colnames(meta))) {
-      dbx<-as.vector(meta$Dbxref);
+      dbx<-BiocGenerics::as.vector(meta$Dbxref);
       if (length(separators) !=2) separators<-c('', ':');
       names(dbx)<-names(gr);
       df<-splitColumn(dbx, separators[2]);

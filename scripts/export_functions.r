@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Copy all R function files in the dev/ folder to the R/ folder
-setwd("/zhangz/rchive/source");
+setwd(paste(Sys.getenv('RCHIVE_HOME'), "source", sep='/'));
 fn<-dir('./dev', recursive=TRUE);
 fn<-fn[grep('.r', fn, ignore.case=TRUE)];
 fn0<-paste('./dev/', fn, sep=''); # source file names
@@ -33,6 +33,6 @@ if (length(fn)>0) {
 }
 
 # Loading function script
-ln<-c('RCHIVE_HOME<-"/zhangz/rchive";', 'library(devtools);');
+ln<-c(paste('RCHIVE_HOME<-Sys.getenv("RCHIVE_HOME");', sep=''), 'library(devtools);');
 ln<-c(ln, paste('source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/', sub('./', '', fn), '");', sep=''));
-writeLines(c('', ln, ''), file('/zhangz/rchive/source/scripts/load.r'));
+writeLines(c('', ln, ''), file(paste(Sys.getenv('RCHIVE_HOME'), 'source/scripts/load.r', sep='/')));
