@@ -1,9 +1,11 @@
 library(devtools);
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+#source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+install_github("zhezhangsh/rchive");
+library(rchive);
 
 vcfs<-c(
-  'GRCh37' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150217.vcf.gz",
-  'GRCh38' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh38/VCF/All_20150218.vcf.gz"
+  'GRCh37' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150415.vcf.gz",
+  'GRCh38' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh38/VCF/All_20150416.vcf.gz"
 )
 
 t<-sapply(names(vcfs), function(nm) ParseDbSNP(nm, vcfs[nm]));
