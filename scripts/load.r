@@ -13,5 +13,6 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEn
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGtf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGwasCatalog.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/TableUtilities.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/UpdateLog.r");
 
