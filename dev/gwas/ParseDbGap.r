@@ -204,4 +204,145 @@ RetrieveDbGapStat<-function(id.ana, id.std, stat.name=c('p value', 'effect size'
   std2ana;
 }
 
+################################################################################
+# get HTML page of the study from dbGAP, and retrieve fields
+GetDbGapStudy<-function(id) {
+  #id     dbGaP study ID
+  
+  # Get the page of the first version of the study
+  url<-paste('http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=', id, '.v1.p1', sep='');
+  download.file(url, id);
+  html<-scan(id, sep='\n', what='', flush=TRUE);
+  if (length(html[html=="The requested study does not exist in the dbGaP system."])>0) { # original version not available
+    url<-paste('http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=', id, '.v1.p2', sep='');
+    download.file(url, id);
+    html<-scan(id, sep='\n', what='', flush=TRUE);
+  }
+  
+  
+  # check if there is newer version
+  l<-html[grep('^<a', html)];
+  l<-l[grep(paste('?study_id=', id, '.v', sep=''), l)];
+  
+  # replace page with newer version if there is one
+  if (length(l)>0) {
+    l<-sort(l)[length(l)];
+    l<-strsplit(l, '[\"=]')[[1]];
+    v<-l[grep(paste('^', id, '.v', sep=''), l)];
+    url<-paste('http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=', v, sep='');
+    download.file(url, id);
+    html<-scan(id, sep='\n', what='', flush=TRUE);
+  }
+  
+  ############### Get Pubmed ID associated to this study
+  #ln<-html[grep('>Pubmed<', html)];
+  #ln<-ln[grep('^<a href=', ln)][1];
+  #if (length(ln) == 0) pmid<-NA else {
+  #    url<-strsplit(ln, '"')[[1]][[2]];
+  
+  #}
+  
+  diseases<-html[grep('DB=mesh', html)+1];
+  diseases<-paste(unique(diseases), collapse='; ');
+  
+  # Get title
+  html<-html[(grep("<span id=\"study-name\" name=\"study-name\">", html)+1):length(html)];
+  title<-html[1];
+  
+  # remove HTML tags etc.
+  desc<-gsub('\t', ' ', html);
+  desc<-gsub("<.*?>", "", desc); # remove html tags
+  desc<-gsub("^ *|(?<= ) | *$", "", desc, perl = TRUE); # remove extra spaces.
+  desc<-gsub('^[ \t|]', '', desc); 
+  desc<-gsub('[ \t|]$', '', desc);
+  desc<-desc[desc!='']; 
+  desc<-desc[!(desc %in% c("Important Links and Information", "Request access via Authorized Access", "Instructions for requestors", "Data Use Certification (DUC) Agreement", "Acknowledgement Statements", "Participant Protection Policy FAQ"))];
+  ty<-desc[(grep('Study Type:', desc)[1]+1)];
+  hs<-desc[(grep('Study History', desc)[1]+1)];
+  pi<-desc[(grep('Principal Investigator', desc)[1]+1)];
+  dsc<-desc[(grep('Study Description', desc)[1]+1)];
+  
+  file.remove(id);
+  out<-list(title=title, url=url, disease=diseases, type=ty, history=hs, pi=pi, description=dsc);
+  as.list(sapply(out, function(out) if (length(out)==0) '' else out));
+}
+################################################################################
 
+
+# Summarize metadata infomration of dbGaP studies
+SummarizeDbGap<-function(std2ana, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'), update.all.study=FALSE) {
+  # std2ana           Study to analysis mapping
+  # path              Path to output folder
+  # update.all.study  If TRUE, re-download information of all studies from source; Just download the new ones if FASLE
+    
+  std2ana<-lapply(std2ana, function(x) sort(unique(x[!is.na(x)])));
+  std2ana<-std2ana[sapply(std2ana, length)>0];
+  if (length(std2ana) == 0) stop("No valid study");
+  
+  # Full study annotation table
+  fn.dbgap<-paste(path, 'r/study_downloaded.rds', sep='/'); # save annotation of studies retrievd from dbGap
+  st.id<-names(std2ana);
+  if (file.exists(fn.dbgap) & !update.all.study) {
+    st<-readRDS(fn.dbgap);
+    new.id<-setdiff(st.id, names(st));
+    if (length(new.id) > 0) {
+      st0<-lapply(new.id, GetDbGapStudy);
+      names(st0)<-new.id;
+      st<-c(st, st0);
+      st<-st[order(names(st))];
+      saveRDS(st0, file=sub('downloaded.rds', 'new.rds',fn.dbgap));
+      saveRDS(st, file=fn.dbgap);
+    }
+  } else {
+    st<-lapply(st.id, function(x) {print(x); GetDbGapStudy(x); }); # get study info from dbGAP web page
+    names(st)<-st.id;
+    st<-st[order(names(st))];
+    saveRDS(st, file=fn.dbgap);
+  }
+  
+  ###############################################
+  # study anotation table
+  nm<-as.vector(sapply(st, function(st) st$title));
+  url<-as.vector(sapply(st, function(st) st$url));
+  desc<-as.vector(sapply(st, function(st) st$description));
+  n.ana<-sapply(std2ana, length);
+  n.ana[is.na(n.ana)]<-0;
+  std<-data.frame(Source=rep('dbGaP', length(st)), Name=nm, Num_Analyses=n.ana, URL=url, Description=desc, row.names=names(st));
+  std<-std[order(rownames(std)),];
+  saveRDS(std, file=paste(path, 'r/study.rds', sep='/'))
+  
+  ###############################################
+  # Basic phred statistics of analysis table 
+  fn.stat<-paste(path, 'r/analysis_stat.rds', sep='/'); # save analysis basic stats
+  if (file.exists(fn.stat)) {
+    stat<-readRDS(fn.stat);
+    if (setequal(rownames(stat), unlist(std2ana, use.names=FALSE))) do.stat<-FALSE else do.stat<-TRUE;
+  } else do.stat<-TRUE;
+  
+  if (do.stat) {
+    f<-dir(paste(path, 'r', sep='/'));
+    f<-f[grep('^phred', f)];
+    f<-f[grep('.rds$', f)];
+    f<-paste(path, 'r', f, sep='/');
+    stat<-lapply(f, function(f) {
+      print(f);
+      mtrx<-readRDS(f);
+      apply(mtrx, 2, function(p) {
+        c(length(p[!is.na(p)]), min(p, na.rm=TRUE), max(p, na.rm=TRUE))
+      })
+    });
+    stat<-t(do.call('cbind', stat));
+    colnames(stat)<-c('N', 'Min', 'Max');
+    saveRDS(stat, file=fn.stat);
+  }
+  # Add summary statistics to analysis table
+  stat<-stat[rownames(stat) %in% unlist(std2ana, use.names=FALSE), ];
+  url0<-as.vector(std$URL); # build the analysis URL
+  names(url0)<-rownames(std);
+  url<-paste(url0[as.vector(an$study)], '&pha=', as.numeric(sub('pha', '', rownames(an))), sep='');
+  url<-sub('study.cgi', 'analysis.cgi', url);
+  ana<-data.frame(Source=rep('dbGaP', nrow(an)), Name=as.vector(an$name), Study_ID=as.vector(an$study), URL=url,
+                  Num_Variants=stat[, 'N'], Min_Phred=stat[, 'Min'], Max_Phred=stat[, 'Max'], Description=an$description, row.names=rownames(an));
+  ana<-ana[order(rownames(ana)), ];
+  
+}
