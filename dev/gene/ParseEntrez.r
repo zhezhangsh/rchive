@@ -84,11 +84,12 @@ ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE,
   ############################################################
 
   ids<-lapply(names(species), function(nm) parser(all, species[nm], nm, path));
-  if (download.new) {
-    log<-readRDS(paste(path, 'log.rds', sep='/'));
-    log[[as.character(Sys.Date())]]<-ids;
-    #log<-c(log, list(up));
-    #names(log)[length(log)]<-as.character(Sys.Date());
-    saveRDS(log, paste(path, 'log.rds', sep='/'));
-  }
+  ids;
+#   if (download.new) { 
+#     log<-readRDS(paste(path, 'log.rds', sep='/'));
+#     log[[as.character(Sys.Date())]]<-ids;
+#     #log<-c(log, list(up));
+#     #names(log)[length(log)]<-as.character(Sys.Date());
+#     saveRDS(log, paste(path, 'log.rds', sep='/'));
+#   }
 }
