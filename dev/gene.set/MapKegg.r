@@ -10,7 +10,7 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(Sys.getenv("RCHI
   # path      Path to output files
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
-  if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
+  if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   
   nm<-names(species);
   if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
