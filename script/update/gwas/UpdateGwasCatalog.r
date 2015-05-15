@@ -1,5 +1,6 @@
 library(devtools);
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+install_github("zhezhangsh/rchive");
+library(rchive);
 
 url<-"https://www.ebi.ac.uk/gwas/api/search/downloads/full";
 
