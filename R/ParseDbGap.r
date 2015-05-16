@@ -21,13 +21,13 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   if (file.exists(fn.meta)) meta<-readRDS(fn.meta) else {
     emp<-character(0);
     meta<-data.frame(name=emp, study=emp, genome=emp, dbsnp=emp, description=emp, method=emp, file=emp, stringsAsFactors=FALSE);
-    saveRDS(meta, file=fn.meta);
+    #saveRDS(meta, file=fn.meta);
   }
   # Original metadata with each ftp file of analysis; as a list
   fn.meta.lst<-paste(path, 'r', 'original_metadata_list.rds', sep='/');
   if (file.exists(fn.meta.lst)) meta.lst<-readRDS(fn.meta.lst) else {
     meta.lst<-list();
-    saveRDS(meta.lst, file=fn.meta.lst);
+    #saveRDS(meta.lst, file=fn.meta.lst);
   }
   
   # Download and parse metadata table
@@ -37,7 +37,6 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   gw<-gw[-1, , drop=FALSE];
   gw<-data.frame(gw, stringsAsFactors=FALSE);
   gw<-gw[!(gw[,1] %in% redundant.studies), ];
-  gw<-gw;
   
   ######################################################################################
   # Download results of individual analyses
@@ -52,7 +51,9 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   
   ####################################################################################
   # load in table and save to local
-  if (update.all.analysis) no.tbl<-file.info else no.tbl<-file.info[!file.exists(file.info[, 'r']), , drop=FALSE];
+  loaded<-sub('.rds', '', sapply(strsplit(fn.r, '/'), function(x) x[length(x)]))
+  no.meta<-!(loaded %in% rownames(meta)) | !(loaded %in% names(meta.lst)); # missing metadata info.
+  if (update.all.analysis) no.tbl<-file.info else no.tbl<-file.info[!file.exists(file.info[, 'r']) | no.meta, , drop=FALSE];
   if (nrow(no.tbl) > 0) {
     hd<-lapply(1:nrow(no.tbl), function(i) {
       x<-no.tbl[i,];
