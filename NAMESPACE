@@ -3,6 +3,8 @@ export("CleanHtmlTags");
 export("CombineIntron");
 export("DownloadDbGap");
 export("GetDbGapStudy");
+export("GetPubMedAbstract");
+export("GetPubMedFields");
 export("GtfExon2Intron");
 export("GtfTranscript2Exon");
 export("LinkEntryKeggApi");

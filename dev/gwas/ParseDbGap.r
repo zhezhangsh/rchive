@@ -26,8 +26,8 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   # Original metadata with each ftp file of analysis; as a list
   fn.meta.lst<-paste(path, 'r', 'original_metadata_list.rds', sep='/');
   if (file.exists(fn.meta.lst)) meta.lst<-readRDS(fn.meta.lst) else {
-    meta.lst<-lst();
-     saveRDS(meta.lst, file=fn.meta.lst);
+    meta.lst<-list();
+    saveRDS(meta.lst, file=fn.meta.lst);
   }
   
   # Download and parse metadata table
@@ -588,7 +588,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
     pm<-readRDS(file=paste(path, 'r/pubmed_downloaded.rds', sep='/'));
     pmid0<-pmid[!(pmid %in% names(pm))];
     if (length(pmid0) > 0) {
-      pm0<-GetPubMedAbstract(pmid0));
+      pm0<-GetPubMedAbstract(pmid0);
       #names(pm0)<-pmid0;
       pm<-append(pm, pm0);
     }
@@ -596,7 +596,10 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
     pm<-GetPubMedAbstract(pmid);
   }
   
-  ###################################################################################################################
-  ###################################################################################################################
+  saveRDS(pm, file=paste(path, 'r/pubmed_downloaded.rds', sep='/'));
+  pubmed<-GetPubMedFields(pm);
+  saveRDS(pubmed, file=paste(path, 'r/pubmed.rds', sep='/'));
   
+  ###################################################################################################################
+  ###################################################################################################################
 }
