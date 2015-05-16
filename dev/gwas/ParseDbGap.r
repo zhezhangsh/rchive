@@ -1,3 +1,4 @@
+################################################################################
 # Download and process GWAS results from dbGap
 DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of_Contents.txt", 
                      path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'), 
@@ -105,6 +106,7 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   meta;
 }
 
+################################################################################
 # Retrieve a specified test statistics: p value, effect size, or allele frequency from downloaded dbGaP results files
 RetrieveDbGapStat<-function(id.ana, id.std, stat.name=c('p value', 'effect size', 'allele frequency'), 
                             path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'),
@@ -265,9 +267,9 @@ GetDbGapStudy<-function(id) {
   out<-list(title=title, url=url, disease=diseases, type=ty, history=hs, pi=pi, description=dsc);
   as.list(sapply(out, function(out) if (length(out)==0) '' else out));
 }
+
+
 ################################################################################
-
-
 # Summarize metadata infomration of dbGaP studies
 SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'), 
                          update.all.study=FALSE, update.all.pubmed=FALSE) {
@@ -471,7 +473,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   ###############################################
   # Get Pubmed mapped to the analysis from a cgi script of dbGap
   url1<-readRDS(file=paste(path, 'r/url_analysis2pubmed.rds', sep='/'));
-  if (!update.all.pubmed & file.exists(paste(path, 'r/url_analysis2pubmed.rds', sep='/'))) {
+  if (!update.all.pubmed & file.exists(paste(path, 'r/analysis2pubmed.rds', sep='/'))) {
     pmid<-readRDS(file=paste(path, 'r/analysis2pubmed.rds', sep='/')); 
     url1<-url1[!(names(url1) %in% names(pmid))];
   } else {
