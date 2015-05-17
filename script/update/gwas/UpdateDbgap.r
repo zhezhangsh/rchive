@@ -13,6 +13,6 @@ cat('Update log\n');
 UpdateLog(meta, paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'));
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(RCHIVE_HOME, 'source/update/gwas/UpdateDbgap.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/source/update/gwas/log/', tm, '_UpdateDbgap.r' , sep='');
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/script/update/gwas/UpdateDbgap.r', sep='/');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gwas/log/', tm, '_UpdateDbgap.r' , sep='');
 file.copy(fn0, fn1)

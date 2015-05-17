@@ -8,12 +8,12 @@ UpdateLog<-function(updates, path, just.new=FALSE) {
   
   if (!file.exists(fn)) log<-updates else {
     log<-readRDS(fn);
-    if (!just.new) log[[as.character(nm)]][[as.character(Sys.Date())]]<-updates else {
+    if (!just.new) log[[as.character(Sys.Date())]]<-updates else {
       lst<-lapply(names(updates), function(nm) unlist(lapply(log, function(log) log$nm), use.names=FALSE));
       names(lst)<-names(updates);
       up<-lapply(names(updates), function(nm) setdiff(updates[[nm]], lst[[nm]]));
       up$removed<-lapply(names(updates), function(nm) setdiff(lst[[nm]], updates[[nm]]));
-      log[[as.character(nm)]][[as.character(Sys.Date())]]<-up;
+      log[[as.character(Sys.Date())]]<-up;
     }
   }
   

@@ -100,8 +100,8 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   } 
   ####################################################################################
   
-  saveRDS(meta, file=fn.meta);
-  saveRDS(meta.lst, file=fn.meta.lst);
+  saveRDS(meta[order(rownames(meta)), ], file=fn.meta);
+  saveRDS(meta.lst[order(names(meta.lst))], file=fn.meta.lst);
   
   meta;
 }
@@ -540,7 +540,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   ###############################################
   # Get Pubmed mapped to the study from a cgi script of dbGap
   url1<-readRDS(file=paste(path, 'r/url_study2pubmed.rds', sep='/'));
-  if (!update.all.pubmed & file.exists(paste(path, 'r/url_study2pubmed.rds', sep='/'))) {
+  if (!update.all.pubmed & file.exists(paste(path, 'r/study2pubmed.rds', sep='/'))) {
     pmid<-readRDS(file=paste(path, 'r/study2pubmed.rds', sep='/')); 
     url1<-url1[!(names(url1) %in% names(pmid))];
   } else {
