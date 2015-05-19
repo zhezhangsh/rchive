@@ -458,8 +458,6 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
       lns[lns=='']<-getURL(url0[lns=='']); 
       cat("Retrieved", length(lns[lns!='']), 'analysis URLs\n');
     }
-    
-    lns<-getURL(url0);
     url.new<-sapply(lns, function(ln) {
       ln<-strsplit(ln, '\n')[[1]];
       ln<-ln[grep('initializeAnalysisReferences', ln)][1];
