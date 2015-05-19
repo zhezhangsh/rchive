@@ -453,13 +453,20 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
     url1<-c();
   }
   if (length(url0) > 0) {
-    url.new<-sapply(url0, function(url) {
-      html<-strsplit(getURL(url), '\n')[[1]];
-      ln<-html[grep('initializeAnalysisReferences', html)][1];
+    lns<-rep('', length(url0));
+    while (length(lns[lns=='']) > 0) {
+      lns[lns=='']<-getURL(url0[lns=='']); 
+      cat("Retrieved", length(lns[lns!='']), 'analysis URLs\n');
+    }
+    
+    lns<-getURL(url0);
+    url.new<-sapply(lns, function(ln) {
+      ln<-strsplit(ln, '\n')[[1]];
+      ln<-ln[grep('initializeAnalysisReferences', ln)][1];
       ln<-strsplit(ln, '[\";]')[[1]];
       ln<-ln[grep('^initializeAnalysisReferences', ln)][1]
       ln<-strsplit(ln, '[(\',)]')[[1]]; 
-      print(ln[3]);   
+      #print(ln[3]);   
       if (length(ln) !=7) '' else {
         paste("http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/GetAnalysisReference.cgi?pha=", ln[3], '&version=', ln[5], '&page_number=1', sep='');
       }

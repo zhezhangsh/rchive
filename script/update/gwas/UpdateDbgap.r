@@ -1,5 +1,5 @@
-library(devtools);
-install_github("zhezhangsh/rchive");
+#library(devtools);
+#install_github("zhezhangsh/rchive");
 library(rchive);
 
 cat('Downloading dbGaP analyses\n');
