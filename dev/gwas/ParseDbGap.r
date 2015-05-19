@@ -294,7 +294,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
     f<-f[grep('.rds$', f)];
     f<-paste(path, 'r', f, sep='/');
     stat<-lapply(f, function(f) {
-      print(f);
+      #print(f);
       mtrx<-readRDS(f);
       apply(mtrx, 2, function(p) {
         c(length(p[!is.na(p)]), min(p, na.rm=TRUE), max(p, na.rm=TRUE))
@@ -325,7 +325,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
       saveRDS(st, file=fn.dbgap);
     }
   } else {
-    st<-lapply(st.id, function(x) {print(x); GetDbGapStudy(x); }); # get study info from dbGAP web page
+    st<-lapply(st.id, function(x) GetDbGapStudy(x)); # get study info from dbGAP web page
     names(st)<-st.id;
     st<-st[order(names(st))];
     saveRDS(st, file=fn.dbgap);
@@ -424,7 +424,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   # get one page of Pubmed IDs based on given URL
   getPMID<-function(url) {
     url<-url[1];
-    print(url);
+    #print(url);
     if (url=='' | is.na(url)) '' else {
       html<-strsplit(getURL(url), '\n')[[1]];
       ln<-html[grep('^<a href=', html)];
@@ -487,7 +487,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   if (length(url1) > 0) {
     pmid0<-list();
     for (i in 1:length(url1)) {
-      print(i);
+      #print(i);
       pmid0[[i]]<-getPMID(url1[i]);
     }
     names(pmid0)<-names(url1);
@@ -531,7 +531,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
       ln<-strsplit(ln, '[\";]')[[1]];
       ln<-ln[grep('^initializeReferences', ln)][1]
       ln<-strsplit(ln, '[(\',)]')[[1]]; 
-      print(ln[3]);   
+      #print(ln[3]);   
       if (length(ln) !=7) '' else {
         paste("http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/GetReference.cgi?study_id=", ln[3], '&study_key=', ln[5], '&page_number=1', sep='');
       }
@@ -554,7 +554,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   if (length(url1) > 0) {
     pmid0<-list();
     for (i in 1:length(url1)) {
-      print(i);
+      #print(i);
       pmid0[[i]]<-getPMID(url1[i]);
     }
     names(pmid0)<-names(url1);
