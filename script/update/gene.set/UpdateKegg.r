@@ -1,6 +1,8 @@
 library(devtools);
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
 
+options(stringsAsFactors=FALSE);
+
 # Species to map
 species<-c('human'='hsa', 'mouse'='mmu', 'rat'='rno', 'fly'='dme', 'worm'='cel', 'zebrafish'='dre', 'yeast'='sce', 'ecoli'='eco');
 

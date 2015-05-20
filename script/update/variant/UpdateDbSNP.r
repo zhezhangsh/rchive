@@ -3,6 +3,8 @@ library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
 
+options(stringsAsFactors=FALSE);
+
 vcfs<-c(
   'GRCh37' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh37p13/VCF/All_20150415.vcf.gz",
   'GRCh38' = "ftp://ftp.ncbi.nih.gov/snp//organisms/human_9606_b142_GRCh38/VCF/All_20150416.vcf.gz"

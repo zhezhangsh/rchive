@@ -1,6 +1,8 @@
 library(devtools);
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
 
+options(stringsAsFactors=FALSE);
+
 # Selected species
 species<-c(
   'human' = '9606',

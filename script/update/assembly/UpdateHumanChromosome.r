@@ -2,6 +2,8 @@
 # The mapping uses the first-come-first-use rule to avoid ambiguity, the final data might miss some rare contig
 path<-paste(RCHIVE_HOME, 'data/assembly/public/chromosome', sep='/');
 
+options(stringsAsFactors=FALSE);
+
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
 if (!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);

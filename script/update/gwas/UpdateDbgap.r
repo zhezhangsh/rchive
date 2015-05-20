@@ -2,6 +2,8 @@
 #install_github("zhezhangsh/rchive");
 library(rchive);
 
+options(stringsAsFactors=FALSE);
+
 cat('Downloading dbGaP analyses\n');
 meta<-DownloadDbGap();
 cat('Retrieve dbGaP p values\n');

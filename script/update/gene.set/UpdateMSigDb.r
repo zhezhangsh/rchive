@@ -1,6 +1,8 @@
 # Download and parse the MSigDb database
 path<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/msigdb', sep='/');
   
+options(stringsAsFactors=FALSE);
+
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
 if (!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'));

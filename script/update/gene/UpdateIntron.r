@@ -6,6 +6,7 @@ library(rchive);
 path<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gtf/r', sep='/');
 path.chr<-paste(Sys.getenv("RCHIVE_HOME"), 'data/assembly/public/chromosome/r/', sep='/');
 
+options(stringsAsFactors=FALSE);
 
 # Genome and version
 if (exists('genome')) rm(genome);

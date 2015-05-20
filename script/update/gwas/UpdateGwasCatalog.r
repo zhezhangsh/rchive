@@ -2,6 +2,8 @@ library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
 
+options(stringsAsFactors=FALSE);
+
 url<-"https://www.ebi.ac.uk/gwas/api/search/downloads/full";
 
 updates<-ParseGwasCatalog(url);

@@ -4,6 +4,8 @@ library(rchive);
 
 path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gtf', sep='/');
 
+options(stringsAsFactors=FALSE);
+
 if (!file.exists(path)) dir.create(path, recursive=TRUE);
 if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
 if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);

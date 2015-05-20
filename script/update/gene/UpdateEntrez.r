@@ -1,6 +1,7 @@
 library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
+options(stringsAsFactors=FALSE);
 
 ftp.file<-"ftp://ftp.ncbi.nih.gov/gene//DATA/GENE_INFO/All_Data.gene_info.gz";
 
