@@ -141,30 +141,21 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
     id<-sub('^pmid', '', st.id);
     new.pub<-id[!(id %in% names(pm))];
     if (length(new.pub) > 0) { # there are new pubmed articles
-      new.pm<-lapply(new.pub, GetPubMed);
+      new.pm<-GetPubMedAbstract(new.pub);
       names(new.pm)<-new.pub;
       saveRDS(new.pm, file=paste(path, 'r/pubmed_new_article.rds', sep='/'));
       pm<-c(pm, new.pm);
       saveRDS(pm,file=paste(path, 'r/pubmed_downloaded.rds', sep='/'));
     }
   } else {
-    library(NCBI2R)
-    pm<-lapply(sub('^pmid', '', st.id), GetPubMed);
+    pm<-GetPubMedAbstract(sub('^pmid', '', st.id));
     names(pm)<-sub('^pmid', '', st.id);
     saveRDS(pm,file=paste(path, 'r/pubmed_downloaded.rds', sep='/'));
   }    
   
   # PubMed table
-  pubmed<-sapply(pm, function(pm) pm[1, c('TI', 'JT', 'DA', 'link', 'AB')]);
-  pubmed<-data.frame(t(pubmed), stringsAsFactors=FALSE, row.names=names(pm));
-  colnames(pubmed)<-c('Title', 'Journal', 'Date', 'URL', 'Abstract');
-  for (i in 1:ncol(pubmed)) pubmed[[i]]<-as.vector(unlist(pubmed[[i]]));
+  pubmed<-GetPubMedFields(pm);
   saveRDS(pubmed, file=paste(path, 'r/pubmed.rds', sep='/'));
-  
-  # PubMed list named by PMID
-  pm.by.id<-lapply(pm, function(pm) as.list(pm[1,]));
-  names(pm.by.id)<-names(pm);
-  saveRDS(pm.by.id, file=paste(path, 'r/pubmed_by_id.rds', sep='/'));
   
   ###############################################################################################################
   ###############################################################################################################
@@ -179,7 +170,6 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   mn<-apply(tbl, 2, function(x) min(x, na.rm=TRUE));
   mx<-sapply(rownames(an), function(id) max(tbl[, id], na.rm=TRUE));
   mn<-sapply(rownames(an), function(id) min(tbl[, id], na.rm=TRUE));
-  
   
   # analysis annotation table
   title<-pubmed[, 'Title'];
@@ -256,6 +246,11 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   names(id2std)<-rownames(std);
   id2std<-id2std[order(names(id2std))];
   saveRDS(id2std, file=paste(path, 'r/study_by_id.rds', sep='/'));
+  
+  ana2pm<-lapply(id2ana, function(x) x$PubMed);
+  std2pm<-lapply(id2std, function(x) x$PubMed);
+  saveRDS(ana2pm, file=paste(path, 'r/analysis2pubmed.rds', sep='/'));
+  saveRDS(std2pm, file=paste(path, 'r/study2pubmed.rds', sep='/'));
   
   list(
     snp = rownames(tbl),
