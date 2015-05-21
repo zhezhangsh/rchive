@@ -1,11 +1,13 @@
 # Download and process GWAS results from GWAS catalog
-ParseGwasCatalog<-function(url, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/gwascatalog', sep='/'), update.all.pubmed=FALSE) {
+ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/full", 
+                           path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/gwascatalog', sep='/'), 
+                           update.all.pubmed=FALSE) {
   # url    Source file URL
   # path   Path to output files
   # update.all.pubmed   Re-download all PubMed entries if TRUE
   
   library(RCurl);
-  library(NCBI2R);
+  library(rchive);
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);

@@ -4,6 +4,7 @@ SummarizeDbGap<-function(meta, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/
   # meta              Analysis metadata table prepared by the DownloadDbGap function
   # path              Path to output folder
   # update.all.study  If TRUE, re-download information of all studies from source; Just download the new ones if FASLE
+  library(rchive);
   
   std2ana<-split(rownames(meta), meta$study);
   

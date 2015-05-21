@@ -10,7 +10,7 @@ DownloadDbGap<-function(url="ftp://ftp.ncbi.nlm.nih.gov/dbgap//Analysis_Table_of
   # redundant.studies     Exclude redundant studies of the same analyses belong to other studys
   
   library(RCurl);
-  library(NCBI2R);
+  library(rchive);
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);

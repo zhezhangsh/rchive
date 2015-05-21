@@ -13,6 +13,7 @@ AddDbGapPubMed<-function(path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public
   id2ana<-readRDS(file=paste(path, 'r/analysis_by_id.rds', sep='/'));
   
   library(RCurl);
+  library(rchive);
   
   ##################################################################
   # get one page of Pubmed IDs based on given URL
