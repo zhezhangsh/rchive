@@ -1,0 +1,114 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmp9UtcQf/devtools74104caf467f/zhezhangsh-rchive-6cda797'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Downloading dbGaP analyses
+Loading required package: methods
+Loading required package: bitops
+Retrieve dbGaP p values
+Updating study phs000001 
+
+Execution halted
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmp9RUkad/devtools74445df3e910/zhezhangsh-rchive-6cda797'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Downloading dbGaP analyses
+Loading required package: methods
+Loading required package: bitops
+Retrieve dbGaP p values
+Updating study phs000001 
+Updating study phs000007 
+Updating study phs000016 
+Updating study phs000017 
+Updating study phs000018 
+Updating study phs000019 
+Updating study phs000020 
+Updating study phs000021 
+Updating study phs000048 
+Updating study phs000086 
+Updating study phs000089 
+Updating study phs000092 
+Updating study phs000100 
+Updating study phs000101 
+Updating study phs000102 
+Updating study phs000122 
+Updating study phs000123 
+Updating study phs000124 
+Updating study phs000125 
+Updating study phs000126 
+Updating study phs000127 
+Updating study phs000130 
+Updating study phs000139 
+Updating study phs000147 
+Updating study phs000171 
+Updating study phs000180 
+Updating study phs000182 
+Updating study phs000184 
+Updating study phs000202 
+Updating study phs000206 
+Updating study phs000207 
+Updating study phs000215 
+Updating study phs000217 
+Updating study phs000219 
+Updating study phs000220 
+Updating study phs000221 
+Updating study phs000223 
+Updating study phs000226 
+Updating study phs000227 
+Updating study phs000236 
+Updating study phs000267 
+Updating study phs000272 
+Updating study phs000276 
+Updating study phs000301 
+Updating study phs000338 
+Updating study phs000355 
+Updating study phs000356 
+Updating study phs000360 
+Updating study phs000361 
+Updating study phs000375 
+Updating study phs000379 
+Updating study phs000391 
+Updating study phs000393 
+Updating study phs000423 
+Updating study phs000444 
+Updating study phs000487 
+Updating study phs000493 
+Updating study phs000543 
+Updating study phs000552 
+Updating study phs000579 
+Updating study phs000580 
+Updating study phs000585 
+Updating study phs000600 
+Updating study phs000604 
+Updating study phs000618 
+Updating study phs000652 
+Updating study phs000670 
+Updating study phs000692 
+Updating study phs000699 
+Updating study phs000716 
+Updating study phs000751 
+Updating study phs000763 
+Updating study phs000832 

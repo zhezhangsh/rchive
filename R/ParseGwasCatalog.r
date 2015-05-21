@@ -6,6 +6,8 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   # path   Path to output files
   # update.all.pubmed   Re-download all PubMed entries if TRUE
   
+  options()
+  
   library(RCurl);
   library(rchive);
   
@@ -182,23 +184,19 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   saveRDS(ana, file=paste(path, 'r/analysis.rds', sep='/'))
   
   # study anotation table
-  names(pm)<-paste('pmid', names(pm), sep='');
-  nm<-as.vector(sapply(pm, function(pm) pm$TI));
-  url<-as.vector(sapply(pm, function(pm) pm$link));
-  desc<-as.vector(sapply(pm, function(pm) pm$AB));
-  n.ana<-as.vector(as.vector(table(ana$Study)[names(pm)]));
+  n.ana<-as.vector(table(ana$Study)[paste('pmid', rownames(pubmed), sep='')]);
   n.ana[is.na(n.ana)]<-0;
-  std<-data.frame(Source=rep('GWAScatalog', length(pm)), Name=nm, Num_Analyses=n.ana, URL=url, Description=desc, row.names=names(pm));
-  std<-std[order(rownames(std)),];
-  names(pm)<-sub('^pmid', '', names(pm));
-  saveRDS(std, file=paste(path, 'r/study.rds', sep='/'))
+  std<-data.frame(Source=rep('GWAScatalog', nrow(pubmed)), Name=as.vector(pubmed$Title), Num_Analyses=n.ana, URL=as.vector(pubmed$URL), 
+                  Description=as.vector(pubmed$Abstract), row.names=paste('pmid', rownames(pubmed), sep=''), stringsAsFactors=FALSE);
+  saveRDS(std[order(rownames(std)),], file=paste(path, 'r/study.rds', sep='/')); 
   
   ## full analysis info by ID
-  a<-cbind(ana[rownames(an), ], an);
+  a<-cbind(ana[rownames(an), ], an, PubMed=sub('pmid', '', as.vector(ana[rownames(an), 'Study_ID'])));
   cnm<-c( # fields to be included
     Name = 'Name',
     'Study ID' = 'Study_ID',
     URL = 'URL',
+    'PubMed' = 'PubMed',
     'Number of variants' = 'Num_Variants',
     'Minimum Phred score' = 'Min_Phred',
     'Maximum Phred score' = 'Max_Phred',
@@ -227,25 +225,22 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   saveRDS(id2ana, file=paste(path, 'r/analysis_by_id.rds', sep='/'))
   
   ## full study info by ID
-  sid<-as.vector(ana[rownames(an), ]$Study_ID);
-  jnl<-sapply(split(as.vector(an$Journal), sid), function(j) paste(unique(j), collapse=';'));
-  dt<-sapply(split(as.vector(an$Date), sid), function(j) paste(unique(j), collapse=';'));
-  for (i in 1:ncol(std)) std[[i]]<-as.vector(std[[i]]);
   id2std<-lapply(rownames(std), function(id) {
     list(
       ID = id,
       Source = 'GWAScatalog',
       Name = std[id, 'Name'],
       URL = std[id, 'URL'],
+      PubMed = sub('pmid', '', id),
       'Number of analyses' = std[id, 'Num_Analyses'],
       Journal = as.vector(jnl[id]),
-      Date = as.vector(dt[id]),        
+      Date = as.vector(dt[id]),
+      Analyses = rownames(ana)[ana$Study_ID==id & !is.na(ana$Study_ID)],
       'Full description' = std[id, 'Description']
     )
   });
   names(id2std)<-rownames(std);
-  id2std<-id2std[order(names(id2std))];
-  saveRDS(id2std, file=paste(path, 'r/study_by_id.rds', sep='/'));
+  saveRDS(id2std[order(names(id2std))], file=paste(path, 'r/study_by_id.rds', sep='/'));
   
   ana2pm<-lapply(id2ana, function(x) x$PubMed);
   std2pm<-lapply(id2std, function(x) x$PubMed);
