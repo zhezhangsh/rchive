@@ -1,10 +1,15 @@
 
+export("AddDbGapPubMed");
 export("CleanHtmlTags");
 export("CombineIntron");
 export("DownloadDbGap");
+export("DownloadDbGap");
+export("DownloadDbGap2");
+export("GetDbGapStudy");
 export("GetDbGapStudy");
 export("GetPubMedAbstract");
 export("GetPubMedFields");
+export("GetSetURL");
 export("GtfExon2Intron");
 export("GtfTranscript2Exon");
 export("LinkEntryKeggApi");
@@ -24,6 +29,8 @@ export("ParseGwasCatalog");
 export("ParsePubtator");
 export("RenameSeqlevels");
 export("RetrieveDbGapStat");
+export("RetrieveDbGapStat");
+export("SummarizeDbGap");
 export("SummarizeDbGap");
 export("UpdateLog");
 

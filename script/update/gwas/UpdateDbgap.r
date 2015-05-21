@@ -10,6 +10,8 @@ cat('Retrieve dbGaP p values\n');
 RetrieveDbGapStat(rownames(meta), meta[,'study'], stat.name='p value');
 cat('Summarize dbGaP metadata\n');
 SummarizeDbGap(meta);
+cat('Add PubMed\n');
+AddDbGapPubMed();
 
 cat('Update log\n');
 UpdateLog(meta, paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/dbgap', sep='/'));

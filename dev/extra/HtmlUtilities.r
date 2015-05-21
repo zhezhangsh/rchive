@@ -34,9 +34,18 @@ GetSetURL<-function(url, max.try=10, split.lines=TRUE, clean.tags=TRUE, select.l
   # number of un-downloaded pages
   n.pgs<-length(pgs[pgs=='']);
   
+  #################################################
+  # Get 100 pages a time
+  get.by.100<-function(url) {
+    url<-split(url, rep(1:ceiling(length(url)/100), each=100, length.out=length(url)));
+    pgs<-lapply(url, getURL);
+    unlist(pgs, use.names=FALSE);
+  }
+  #################################################
+  
   while(length(pgs[is.na(pgs) | pgs==''])>0 & n.try<=max.try) { 
     # download un-downloaded pages
-    pgs[is.na(pgs) | pgs=='']<-getURL(url[is.na(pgs) | pgs=='']);
+    pgs[is.na(pgs) | pgs=='']<-get.by.100(url[is.na(pgs) | pgs=='']);
     
     if (n.pgs == length(pgs[is.na(pgs) | pgs==''])) { # no new downloads achieved
       n.try<-n.try+1;

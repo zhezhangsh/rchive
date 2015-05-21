@@ -57,14 +57,15 @@ GetPubMedFields<-function(articles, fields=c('Title', 'Journal', 'Date', 'URL', 
     'day' = "MedlineCitation.DateCreated.Day",
     'lastname' = "MedlineCitation.Article.AuthorList.Author.LastName",
     'initials' = "MedlineCitation.Article.AuthorList.Author.Initials",
-    'affiliation' = "MedlineCitation.Article.AuthorList.Author.AffiliationInfo.Affiliation",
-    'abstract' = "MedlineCitation.Article.Abstract.AbstractText"
-  )
+    'affiliation' = "MedlineCitation.Article.AuthorList.Author.AffiliationInfo.Affiliation"
+  );
+  # Field names of abstract
+  abs.nm = c("MedlineCitation.Article.Abstract.AbstractText", "MedlineCitation.Article.Abstract.AbstractText.text");
   
   # get article PMID and corresponding URL
   art<-lapply(articles, unlist);
   pmid<-sapply(art, function(art) art['MedlineCitation.PMID.text']);
-  url<-paste('http://www.ncbi.nlm.nih.gov/pubmed', pmid, sep='');
+  url<-paste('http://www.ncbi.nlm.nih.gov/pubmed/?term=', pmid, sep='');
   
   # Create the output table
   tbl<-t(sapply(art, function(art) art[mp]));
@@ -72,6 +73,7 @@ GetPubMedFields<-function(articles, fields=c('Title', 'Journal', 'Date', 'URL', 
   rownames(tbl)<-pmid;
   tbl<-cbind(tbl, url=url, date=paste(tbl[, 'year'], tbl[, 'month'], tbl[, 'day'], sep=''), 
              author=paste(tbl[, 'lastname'], ', ', tbl[, 'initials'], sep=''));
+  tbl<-cbind(tbl, abstract=sapply(art, function(art) paste(art[names(art) %in% abs.nm], collapse=' ')));
   tbl<-tbl[!duplicated(rownames(tbl)), , drop=FALSE];
   
   # select column in output
