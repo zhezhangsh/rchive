@@ -178,8 +178,12 @@ AddDbGapPubMed<-function(path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public
   
   saveRDS(pm, file=paste(path, 'r/pubmed_downloaded.rds', sep='/'));
   pubmed<-GetPubMedFields(pm);
+  id2pub<-lapply(rownames(pubmed), function(id) c(ID=id, pubmed[id, ]));
+  names(id2pub)<-rownames(pubmed);  
+
   ###
   saveRDS(pubmed, file=paste(path, 'r/pubmed.rds', sep='/'));
+  saveRDS(id2pub, file=paste(path, 'r/pubmed_by_id.rds', sep='/'));
   ###
 }
 
