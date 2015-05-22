@@ -1,6 +1,7 @@
 
 export("AddDbGapPubMed");
 export("CleanHtmlTags");
+export("CombineGwas");
 export("CombineIntron");
 export("DownloadDbGap");
 export("DownloadDbGap");

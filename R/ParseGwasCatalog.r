@@ -25,6 +25,7 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   # this will download an outdated version of GWAScatalog, 
   # but its column names were used across the rest of this function
   # so it's downloaded just to provide the column names
+  library(NCBI2R);
   gw0<-GetPublishedGWAS(); 
   if (ncol(gw) == ncol(gw0)) colnames(gw)<-colnames(gw0) else warning("Unmatched column names between versions!")
   
@@ -159,6 +160,10 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
   pubmed<-GetPubMedFields(pm);
   saveRDS(pubmed, file=paste(path, 'r/pubmed.rds', sep='/'));
   
+  id2pub<-lapply(rownames(pubmed), function(id) c(ID=id, pubmed[id, ]));
+  names(id2pub)<-rownames(pubmed);
+  saveRDS(id2pub, file=paste(path, 'r/pubmed_by_id.rds', sep='/'));
+  
   ###############################################################################################################
   ###############################################################################################################
   cat('Putting together analysis and study tables ...\n');
@@ -233,9 +238,9 @@ ParseGwasCatalog<-function(url="https://www.ebi.ac.uk/gwas/api/search/downloads/
       URL = std[id, 'URL'],
       PubMed = sub('pmid', '', id),
       'Number of analyses' = std[id, 'Num_Analyses'],
-      Journal = as.vector(jnl[id]),
-      Date = as.vector(dt[id]),
       Analyses = rownames(ana)[ana$Study_ID==id & !is.na(ana$Study_ID)],
+      Journal = pubmed[sub('^pmid', '', id), 'Journal'],
+      Date = pubmed[sub('^pmid', '', id), 'Date'],
       'Full description' = std[id, 'Description']
     )
   });

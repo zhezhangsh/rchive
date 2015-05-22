@@ -2,6 +2,7 @@
 RCHIVE_HOME<-Sys.getenv("RCHIVE_HOME");
 library(devtools);
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/AddDbGapPubMed.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineGwas.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineIntron.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap2.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap.r");

@@ -1,12 +1,13 @@
 library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
+library(NCBI2R);
 
 options(stringsAsFactors=FALSE);
 
 #url<-"https://www.ebi.ac.uk/gwas/api/search/downloads/full";
 
-updates<-ParseGwasCatalog(update.all.pubmed=TRUE);
+updates<-ParseGwasCatalog(update.all.pubmed=FALSE);
 
 ##############################################################################################################
 UpdateLog(updates, paste(RCHIVE_HOME, 'data/gwas/public/gwascatalog', sep='/'), just.new=TRUE);
