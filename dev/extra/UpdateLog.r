@@ -6,7 +6,10 @@ UpdateLog<-function(updates, path, just.new=FALSE) {
   
   fn<-paste(path, 'log.rds', sep='/');
   
-  if (!file.exists(fn)) log<-updates else {
+  if (!file.exists(fn)) {
+	log<-list(updates);
+	names(log)<-Sys.Date();
+} else {
     log<-readRDS(fn);
     if (!just.new) log[[as.character(Sys.Date())]]<-updates else {
       lst<-lapply(names(updates), function(nm) unlist(lapply(log, function(log) log$nm), use.names=FALSE));

@@ -28,7 +28,7 @@ ParsePubtator<-function(ftp.files, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/l
     mp<-sapply(split(id1, id2), unique);
     saveRDS(mp, file=paste(path, '/r/', nm, '2pubmed.rds', sep=''));
     mp<-sapply(split(id2, id1), unique);
-    saveRDS(split(df[, 2], df[, 1]), file=paste(path, '/r/pubmed2', nm, '.rds', sep=''));
+    saveRDS(mp, file=paste(path, '/r/pubmed2', nm, '.rds', sep=''));
     #save(df, file=paste(path, '/src/', nm, '.rdata', sep=''))
     nrow(df);
   });
