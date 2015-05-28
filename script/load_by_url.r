@@ -17,6 +17,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDb
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEntrez.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGtf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGwasCatalog.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/SummarizeDbGap.r");

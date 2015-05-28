@@ -13,10 +13,7 @@ ftp.files<-c(
   gene="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//gene2pubtator.gz",
   mutation="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//mutation2pubtator.gz"
 )
-for (i in 1:length(ftp.files)) {
-  cat('Loading', ftp.files[i]); 
-  ParsePubtator(ftp.files[i]);
-}
+sapply(ftp.files, ParsePubtator);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/script/update/literature/UpdatePubtator.r', sep='/');

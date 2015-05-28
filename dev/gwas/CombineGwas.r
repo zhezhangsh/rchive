@@ -13,8 +13,9 @@ CombineGwas<-function(path.out=paste(Sys.getenv('RCHIVE_HOME'), 'data/gwas/r', s
   # depended files #
   ##################
   # required keyword files from PubTator
-  fn.key<-paste(Sys.getenv("RCHIVE_HOME"), '/data/literature/public/pubtator/r/pubmed2', 
+  fn.key<-paste(Sys.getenv("RCHIVE_HOME"), '/data/literature/public/pubtator/r/original_pubmed2', 
                 c('gene', 'disease', 'chemical'), '.rds', sep='');
+  names(fn.key)<-c('Gene', 'Disease', 'Chemical');
   
   # required GWAS metadata files in each collection
   fn.req<-c("analysis.rds", "study.rds", "pubmed.rds");
@@ -124,41 +125,103 @@ CombineGwas<-function(path.out=paste(Sys.getenv('RCHIVE_HOME'), 'data/gwas/r', s
   # Use PubTator to map Pubmed ID to keywords
   all.keys<-lapply(fn.key, function(fn) {
     ky<-readRDS(fn);
-    ky[names(ky) %in% pm.all];
+    ky[ky[,1] %in% pm.all, ];
   });
+  names(all.keys)<-names(fn.key);
   saveRDS(all.keys, file=paste(path.out, 'keyword_all.rds', sep='/'));
 
-  ##########################################
-  # Gene keywords
-  gn.id<-strsplit(gn$EntrezGeneID, ',');
-  n.gn.id<-sapply(gn.id, length);
-  gn.id<-unlist(gn.id);
-  key.gn<-data.frame(PMID=rep(gn$PMID, n.gn.id), ID=paste('ENTREZ:', gn.id, sep=''), Type='Gene', URL=paste("http://www.ncbi.nlm.nih.gov/gene/?term=", gn.id, sep=''), Synonym=rep(as.vector(gn[, 4]), n.gn.id), stringsAsFactors=FALSE);
+  # combine keywords into a single table
+  tbl<-cbind(do.call('rbind', all.keys), Type=rep(names(fn.key), sapply(all.keys, nrow)));
+  tbl<-cbind(tbl[, 1:2], Type=rep(names(fn.key), sapply(all.keys, nrow)), tbl[, 3:ncol(tbl)]);
+
+  # expand keyword IDs if multiple IDs in the same cell
+  key.ids<-strsplit(tbl$MeshID, '[/,]'); # All keyword IDs
+  key.rnm<-rep(rownames(tbl), sapply(key.ids, length)); # table row names
+  key.ids<-unlist(key.ids, use.names=FALSE);
+  key.typ<-tbl[key.rnm, 'Type']; # Keyword type
+  key.pub<-tbl[key.rnm, 'PMID']; # Corresponding Pubmed ID
+  key.syn<-tbl[key.rnm, 'Mentions'];
   
-  ##########################################
-  # Disease keywords
-  ds<-readRDS(pt.disease);
-  ds<-ds[ds[,1] %in% pm.all, ];
+  # Fix keyword format as source:id
+  key.ids<-sub('GeneID', 'ENTREZ', key.ids);
+  key.ids[key.typ=='Gene' & !grepl(':', key.ids)]<-paste('ENTREZ:', key.ids[key.typ=='Gene' & !grepl(':', key.ids)], sep='')
+  key.ids[key.typ=='Chemical' & !grepl(':', key.ids)]<-paste('MESH:', key.ids[key.typ=='Chemical' & !grepl(':', key.ids)], sep='')
+  key.src<-sapply(strsplit(key.ids, ':'), function(x) x[1]);
+  key.val<-sapply(strsplit(key.ids, ':'), function(x) x[2]);
   
-  id<-sapply(strsplit(ds[,2], ':'), function(x) x[2]);
-  db<-sapply(strsplit(ds[,2], ':'), function(x) x[1]);
-  url<-rep('', length(id));
-  url[db=='MESH']<-paste('http://www.ncbi.nlm.nih.gov/mesh/?term=', id[db=='MESH'], sep='');
-  url[db=='OMIM']<-paste('http://omim.org/entry/', id[db=='OMIM'], sep='');
-  key.ds<-data.frame(PMID=ds[,1], ID=ds[,2], Type='Disease', URL=url, Synonym=as.vector(ds[, 3]), stringsAsFactors=FALSE);
+  # Create URL
+  url.pre<-c(
+    'ENTREZ' = "http://www.ncbi.nlm.nih.gov/gene/?term=",
+    'MESH' = "http://www.ncbi.nlm.nih.gov/mesh/?term=", 
+    'OMIM' = "http://omim.org/entry/",
+    'CHEBI' = "http://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString="
+  )[key.src];
+  url<-paste(url.pre, key.val, sep='');
+  url[is.na(url.pre)]<-'';
   
-  ##########################################
-  # Chemical keywords
-  cm<-readRDS(pt.chemical);
-  cm<-cm[cm[,1] %in% pm.all, ];
+  keyword<-data.frame(PMID=key.pub, ID=key.ids, Type=key.typ, URL=url, Synonym=key.syn, stringsAsFactors=FALSE);
+  keys<-unique(keyword$ID);
   
-  id<-sapply(strsplit(cm[,2], ':'), function(x) x[2]);
-  db<-sapply(strsplit(cm[,2], ':'), function(x) x[1]);
-  url<-rep('', length(id));
-  url[db=='MESH']<-paste('http://www.ncbi.nlm.nih.gov/mesh/?term=', id[db=='MESH'], sep='');
-  url[db=='CHEBI']<-paste('http://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=', id[db=='CHEBI'], sep='');
-  key.cm<-data.frame(PMID=cm[,1], ID=cm[,2], Type='Chemical', URL=url, Synonym=as.vector(cm[, 3]), stringsAsFactors=FALSE);
-  key.cm<-key.cm[key.cm[,4]!='', ];
+  ###################################################################
+  # Keyword names
+  ttl<-rep('', length(keys));
+  names(ttl)<-keys;
+  id<-sapply(strsplit(keys,':'), function(x) x[2]);
+  names(id)<-keys;
+  url<-as.vector(keyword$URL);
+  names(url)<-as.vector(keyword$ID);
+  url<-url[keys];
   
+  # Names of known genes
+  f<-dir(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/', sep='/'));
+  f<-f[grep('_genes_full.rds$', f)];
+  f<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r', f, sep='/')
+  anno<-lapply(f, readRDS);
+  anno<-do.call('rbind', anno);
+  sym<-as.vector(anno[id[grep('^ENTREZ', keys)], 'Symbol']);
+  desc<-as.vector(anno[id[grep('^ENTREZ', keys)], 'description']);
+  nm<-paste(sym, desc, sep='; ');
+  names(nm)<-keys[grep('^ENTREZ', keys)];
+  nm<-nm[!is.na(sym) & !is.na(desc)];
+  ttl[names(nm)]<-as.vector(nm);
   
+  # Names of other keywords, parse from html pages
+  library(stringr); # str_trim function
+  url0<-url[names(ttl[ttl=='' & url!=''])];
+  if (length(url0) > 0) {
+    pgs<-GetSetURL(url0);
+    names(pgs)<-names(url0);
+    ttl0<-sapply(names(url0), function(nm) {
+      print(nm);
+      u<-url0[nm];
+      #html<-strsplit(getURL(u), '\n')[[1]];
+      download.file(u, 'temp.html');
+      html<-scan('temp.html', what='', sep='\n', flush=TRUE);
+      if (grepl('^ENTREZ:', nm)) {
+        t<-strsplit(html[grep('<title>', html)], '[<[>]')[[1]][3];
+        t<-sub('No items found - Gene - NCBI', '', t);
+      } else if (grepl('^OMIM:', nm)) {
+        mk<-paste(' ', sub('^OMIM:', '', nm), ' - ', sep='');
+        t<-html[grep(mk, html)][1];
+        t<-sapply(strsplit(t, mk), function(x) x[2]);
+      } else if (grepl('^MESH:', nm)) {
+        t<-strsplit(html[grep('<title>', html)], '[<[>]')[[1]][3];
+        t<-sub(' - MeSH - NCBI', '', t);
+      } else if (grepl('^CHEBI:', nm)) {
+        mk<-paste('\\(', nm, '\\)$', sep='');
+        t<-html[grep(mk, html)][1];
+        t<-sub(mk, '', t);
+      }
+      str_trim(t); # take out spaces at the beginning or end
+    });
+    
+    # If name not available, use source names
+    ttl[names(ttl0)]<-ttl0;
+    ttl[ttl=='No items found']<-'';
+    ttl1<-ttl[is.na(ttl) | ttl==''];
+    ttl.k<-keyword[keyword$ID %in% names(ttl1), ];
+    mp<-split(as.vector(ttl.k$Synonym), as.vector(ttl.k$ID))[names(ttl1)];
+    mp<-sapply(mp, function(mp) unique(mp)[1]);
+    ttl[names(ttl1)]<-mp[names(ttl1)]; 
+  }
 }

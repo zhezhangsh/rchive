@@ -27,6 +27,7 @@ export("ParseDbSNP");
 export("ParseEntrez");
 export("ParseGtf");
 export("ParseGwasCatalog");
+export("ParseOmim");
 export("ParsePubtator");
 export("RenameSeqlevels");
 export("RetrieveDbGapStat");

@@ -1,0 +1,131 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpeEYwjd/devtools33a32c944299/zhezhangsh-rchive-9d0d25e'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+$chemical
+NULL
+
+$species
+NULL
+
+$disease
+NULL
+
+$gene
+NULL
+
+$mutation
+NULL
+
+[1] FALSE
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmpj1QGWD/devtools33d8309bf89e/zhezhangsh-rchive-9d0d25e'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+[1] FALSE
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpQZVJH3/devtools340a16cec2f5/zhezhangsh-rchive-9d0d25e'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+trying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gz'
+ftp data connection made, file length 284036900 bytes
+opened URL
+==================================================
+downloaded 270.9 Mb
+
+trying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//species2pubtator.gz'
+ftp data connection made, file length 37 bytes
+opened URL
+==================================================
+downloaded 37 bytes
+
+trying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//disease2pubtator.gz'
+ftp data connection made, file length 356161933 bytes
+opened URL
+==================================================
+downloaded 339.7 Mb
+
+trying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//gene2pubtator.gz'
+ftp data connection made, file length 83691225 bytes
+opened URL
+==================================================
+downloaded 79.8 Mb
+
+trying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//mutation2pubtator.gz'
+ftp data connection made, file length 38 bytes
+opened URL
+==================================================
+downloaded 38 bytes
+
+chemical 
+
+Execution halted
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpskbEfA/devtools34846bb6760e/zhezhangsh-rchive-9d0d25e'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Loading ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gztrying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gz'
+ftp data connection made, file length 284036900 bytes
+opened URL
+==================================================
+downloaded 270.9 Mb
+
+chemical 
+Read 27323050 items
+Loading ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//species2pubtator.gztrying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//species2pubtator.gz'
+ftp data connection made, file length 37 bytes
+opened URL
+==================================================
+downloaded 37 bytes
+
+species 
+Read 0 items
+Error in d[[1]] : subscript out of bounds
+Calls: ParsePubtator -> lapply -> FUN -> strsplit
+Execution halted
+Warning message:
+system call failed: Cannot allocate memory 

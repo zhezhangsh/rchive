@@ -25,7 +25,7 @@ path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/');
 ids<-ParseEntrez(ftp.file, species, TRUE, path);
 
 ##############################################################################################################
-UpdateLog(ids, paste(RCHIVE_HOME, 'data/gene/public/entrez', sep='/'), just.new=FALSE);
+UpdateLog(ids, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/'), just.new=FALSE);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/update/gene/UpdateEntrez.r', sep='/');
