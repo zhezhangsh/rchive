@@ -15,7 +15,7 @@ ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", path=paste(Sys.getenv("RCHIVE
   ## Process full record of OMIM entries
   # Load file
   fn.omim<-fn.loc['omim.txt.Z'];
-  cd<-system(paste('uncompress -k', fn.omim));
+  cd<-system(paste('uncompress -kf', fn.omim));
   lns<-scan(sub('.Z$', '', fn.omim), what='', flush=TRUE, sep='\n');
   
   # assign entry ID to lines
