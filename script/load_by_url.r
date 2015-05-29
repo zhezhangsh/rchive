@@ -12,6 +12,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapBios
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapChromosome.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapGtf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapKegg.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseChebi.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbSNP.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEntrez.r");

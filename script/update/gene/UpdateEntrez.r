@@ -28,6 +28,6 @@ ids<-ParseEntrez(ftp.file, species, TRUE, path);
 UpdateLog(ids, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/'), just.new=FALSE);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/update/gene/UpdateEntrez.r', sep='/');
-fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/update/gene/log/', tm, '_UpdateEntrez.r' , sep='');
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene/UpdateEntrez.r', sep='');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene/log/', tm, '_UpdateEntrez.r' , sep='');
 file.copy(fn0, fn1)

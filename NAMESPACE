@@ -23,6 +23,7 @@ export("MapKeggOne2One");
 export("MapKeggPath2Gene");
 export("MergeTable");
 export("ParseBiosystemsGeneral");
+export("ParseChebi");
 export("ParseDbSNP");
 export("ParseEntrez");
 export("ParseGtf");
