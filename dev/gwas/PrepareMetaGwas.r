@@ -216,7 +216,7 @@ PrepareMetaGwas<-function(phred_tbls,
   ###################################################################
   # Get keyword names
   anno.gn<-lapply(unique(c(fn.anno['gene'], fn.gn)), readRDS);
-  id2nm.gn<-unlist(lapply(anno, function(x) x[[1]]), use.names=FALSE);
+  id2nm.gn<-unlist(lapply(anno.gn, function(x) x[[1]]), use.names=FALSE);
   names(id2nm.gn)<-paste('ENTREZ', unlist(lapply(anno.gn, rownames), use.names=FALSE), sep=':');
   #  
   chebi<-readRDS(fn.anno['chebi']);
@@ -239,6 +239,7 @@ PrepareMetaGwas<-function(phred_tbls,
   id2nm<-c(id2nm.ms, id2nm.om, id2nm.ch, id2nm.gn);
   key2nm<-id2nm[keys];
   names(key2nm)<-keys;
+  saveRDS(key2nm[order(names(key2nm))], file=paste(path.out, 'keyword_title.rds', sep='/'));
   syn<-keyword$Synonym;
   names(syn)<-keyword$ID;
   key2nm[is.na(key2nm)]<-syn[names(key2nm[is.na(key2nm)])];
