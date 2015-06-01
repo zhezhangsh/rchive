@@ -1,6 +1,7 @@
 library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
+
 options(stringsAsFactors=FALSE);
 
 ##########################

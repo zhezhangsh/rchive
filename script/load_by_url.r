@@ -16,11 +16,13 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseCh
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbSNP.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEntrez.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseG1kVcf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGtf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGwasCatalog.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseMesh.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareMetaGwas.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/SummarizeDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/TableUtilities.r");
