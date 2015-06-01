@@ -260,7 +260,7 @@ PrepareMetaGwas<-function(phred_tbls,
 
   # Create key to study matrix
   std<-readRDS(paste(path.out, 'study.rds', sep='/'));
-  std.by.id<-readRDS(path.out, 'study_by_id.rds', sep='/');
+  std.by.id<-readRDS(paste(path.out, 'study_by_id.rds', sep='/'));
   std2pm<-lapply(std.by.id, function(x) x$PubMed);
   std2key<-lapply(std2pm, function(pm) unlist(pm2id[pm], use.names=FALSE))
   std2key<-lapply(std2key, unique)[rownames(std)];
