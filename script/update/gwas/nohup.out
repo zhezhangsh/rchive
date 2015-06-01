@@ -1,0 +1,18 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpdMkNod/devtools16971ebaa83/zhezhangsh-rchive-2b4fe1f'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Error in lapply(anno, function(x) x[[1]]) : object 'anno' not found
+Calls: PrepareMetaGwas -> unlist -> lapply
+Execution halted
