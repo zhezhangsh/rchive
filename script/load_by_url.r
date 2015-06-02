@@ -23,6 +23,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseMe
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareMetaGwas.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/QueryDbsnpDb.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/SummarizeDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/TableUtilities.r");

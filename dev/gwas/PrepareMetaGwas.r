@@ -352,26 +352,15 @@ PrepareMetaGwas<-function(phred_tbls,
   # Unique SNP IDs in GWAS results
   snp.id<-lapply(fn.phred, function(fn) rownames(readRDS(fn)));
   snp.id<-sort(unique(unlist(snp.id, use.names=FALSE)));
-
-  if (file.exists(paste(path.out, 'position.rds', sep='/'))) pos<-readRDS(paste(path.out, 'position.rds', sep='/'));
-  # Connect to database tables
-  library(dplyr);
-  library(IRanges);
-  db<-src_sqlite(db.snp);
-  tbl.nm<-src_tbls(db);
-  gnm<-c('GRCh37', 'GRCh38'); # genome versions
-  tbls<-lapply(gnm, function(v) tbl(db, tbl.nm[grep(v, tbl.nm)[1]]));
   
-  # Get SNP IDs and position
-  t<-lapply(tbls, function(t) dplyr::filter(t, id %in% snp.id));
-  t<-lapply(t, dplyr::collect);
-  pos<-lapply(t, function(t) {
-    pos<-as.vector(t[['pos']]);
-    names(pos)<-as.vector(t[['id']]);
-    IntegerList(split(pos, as.vector(t[['chr']])));
+  # Get SNP position from dbSNP SQLite database
+  pos<-lapply(c('GRCh37', 'GRCh38'), function(g) GetSnpPosById(snp.id, g));
+  pos<-lapply(pos, function(pos) {
+    loc<-BiocGenerics::start(pos);
+    names(loc)<-names(pos);
+    split(loc, as.vector(seqnames(pos)));
   });
-  rm(db);
-  rm(t);
+  pos<-lapply(pos, IntegerList);
   saveRDS(pos, file=paste(path.out, 'position.rds', sep='/'));
   
   # Get summary statistics of a set of phred scores
