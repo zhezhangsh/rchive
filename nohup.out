@@ -1,7 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpamOPLn/devtools27383ec68a26/zhezhangsh-rchive-4e04145'  \
+  '/tmp/RtmpIVMqkD/devtools2a037fd1c29f/zhezhangsh-rchive-e154d00'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -81,4 +81,7 @@ Summarize table phs000267
 Summarize table phs000338 
 Summarize table phs000375 
 Summarize table gwascatalog 
-[1] TRUE
+Error in `unsafe.names<-`(`*tmp*`, value = c("rs1000033", "rs1000050",  : 
+  too many names
+Calls: PrepareMetaGwas ... names<- -> names<- -> names<- -> names<- -> unsafe.names<-
+Execution halted

@@ -8,6 +8,7 @@ export("DownloadDbGap");
 export("DownloadDbGap2");
 export("GetDbGapStudy");
 export("GetDbGapStudy");
+export("GetEntrezDetail");
 export("GetPubMedAbstract");
 export("GetPubMedFields");
 export("GetSetURL");
