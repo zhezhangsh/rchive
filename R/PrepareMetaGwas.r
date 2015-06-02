@@ -7,8 +7,7 @@
 PrepareMetaGwas<-function(phred_tbls,
                       path.out=paste(Sys.getenv('RCHIVE_HOME'), 'data/gwas/r', sep='/'), 
                       paths=paste(Sys.getenv('RCHIVE_HOME'), 'data/gwas/public', c('dbgap/r', 'gwascatalog/r'), sep='/')
-  ) {
-  
+                      ) {
   # path.out    Path to output files
   # paths       Paths to GWAS collections
      
@@ -25,6 +24,11 @@ PrepareMetaGwas<-function(phred_tbls,
   names(fn.key)<-c('Gene', 'Disease', 'Chemical');
   if (length(fn.key[!file.exists(fn.key)]) > 0) 
     stop("Error: missing depended PubTator files:\n", paste(fn.key[!file.exists(fn.key)], collapse='; ')); 
+  
+  # dbSNP variants
+  # GrCH37/38 variants saved in sqlite database
+  db.snp<-paste(Sys.getenv("RCHIVE_HOME"), '/data/variant/db/variant_position.sqlite', sep='');
+  if (!file.exists(db.snp)) stop("Error: missing dbSNP SQlite database file.\n");
   
   ### Keyword annotation
   # Gene annotation
@@ -340,5 +344,104 @@ PrepareMetaGwas<-function(phred_tbls,
   
   saveRDS(browse.tbl, file=paste(path.out, 'browse_table.rds', sep='/'));
   
-  list(Analysis=ana, Study=std, PubMed=pub, Keyword=kywd);
+  ####################################################################################################
+  ####################################################################################################
+  # Summarize Phred scores
+  
+  ##################################################
+  # Unique SNP IDs in GWAS results
+  snp.id<-lapply(phred, rownames);
+  snp.id<-sort(unique(unlist(snp.id, use.names=FALSE)));
+
+  if (file.exists(paste(path.out, 'position.rds', sep='/'))) pos<-readRDS(paste(path.out, 'position.rds', sep='/'));
+  # Connect to database tables
+  library(dplyr);
+  library(IRanges);
+  db<-src_sqlite(db.snp);
+  tbl.nm<-src_tbls(db);
+  gnm<-c('GRCh37', 'GRCh38'); # genome versions
+  tbls<-lapply(gnm, function(v) tbl(db, tbl.nm[grep(v, tbl.nm)[1]]));
+  
+  # Get SNP IDs and position
+  t<-lapply(tbls, function(t) dplyr::filter(t, id %in% snp.id));
+  t<-lapply(t, dplyr::collect);
+  pos<-lapply(t, function(t) {
+    pos<-as.vector(t[['pos']]);
+    names(pos)<-as.vector(t[['id']]);
+    IntegerList(split(pos, as.vector(t[['chr']])));
+  });
+  rm(db);
+  rm(t);
+  saveRDS(pos, file=paste(path.out, 'position.rds', sep='/'));
+  
+  # Get summary statistics of a set of phred scores
+  summ.phred<-function(ps) {
+    ps<-sort(ps[!is.na(ps)], decreasing=TRUE);
+    n<-length(ps);
+    if (n==0) rep(0, 21) else {
+      c(
+        n=n,
+        min=ps[length(ps)],
+        max=ps[1],
+        top10=ps[min(10, n)],
+        top100=ps[min(100, n)],
+        top1000=ps[min(1000, n)],
+        phred20=length(ps[ps>=20]),
+        phred30=length(ps[ps>=30]),
+        phred40=length(ps[ps>=40]),
+        phred50=length(ps[ps>=50]),
+        phred60=length(ps[ps>=60]),
+        percentile0.0001=ps[ceiling(n/10^6)],
+        percentile0.001=ps[ceiling(n/10^5)],
+        percentile0.01=ps[ceiling(n/10^4)],
+        percentile0.1=ps[ceiling(n/10^3)],
+        percentile1.0=ps[ceiling(n/10^2)],
+        percentile5.0=ps[ceiling(n*0.05)],
+        percentile10.0=ps[ceiling(n*0.1)],
+        percentile25.0=ps[ceiling(n*0.25)],
+        percentile50.0=ps[ceiling(n*0.5)],
+        percentile75.0=ps[ceiling(n*.75)]
+      )}
+  };
+  ##################################################
+  
+  ##################################################
+  # Summary statistics of Phred scores
+  # remove SNPs on X, Y, and MT
+  xy<-lapply(pos, function(pos) pos[c('X', 'Y', 'MT')]);
+  xy<-lapply(xy, function(xy) lapply(xy, names))
+  xy<-unique(unlist(xy, use.names=FALSE));
+  # Summary stats
+  stat<-lapply(names(fn.phred), function(nm) {
+    cat('Summarize table', nm, '\n');
+    t<-readRDS(fn.phred[nm]);
+    t<-t[!(rownames(t) %in% xy), ];
+    apply(t, 2, summ.phred);
+  }); 
+  stat<-lapply(stat, t);
+  stat<-do.call('rbind', stat);
+  colnames(stat)<-c('N', 'Min', 'Max', 'Top 10', 'Top 100', 'Top 1000', 'Phred>20', 'Phred>30', 'Phred>40', 'Phred>50', 'Phred>60',
+                    'Top 0.0001%', 'Top 0.001%', 'Top 0.01%', 'Top 0.1%', 'Top 1%', 'Top 5%', 'Top 10%', 'Top 25%', 'Top 50%', 'Top 75%')
+  stat<-stat[order(rownames(stat)), ];
+  saveRDS(stat, file=paste(path.out, 'phred_stat.rds', sep='/'));
+  
+  tbl2snp<-lapply(fn.phred, function(fn) sort(unique(rownames(readRDS(fn)))));
+  saveRDS(tbl2snp, file=paste(path.out, "table2snp.rds", sep='/'));
+  
+  n<-sapply(fn.phred, function(fn) {
+    phred<-readRDS(fn);
+    length(phred[!is.na(phred)]);
+  })
+  
+  N<-c('Phred scores'=sum(n), 
+       'unique SNPs'=length(unique(unlist(tbl2snp, use.names=FALSE))), 
+       'GWAS analyse'=nrow(readRDS(paste(path.out, 'analysis.rds', sep='/'))),
+       'GWAS studies'=nrow(readRDS(paste(path.out, 'study.rds', sep='/'))),
+       'PubMed articles'=nrow(readRDS(paste(path.out, 'pubmed.rds', sep='/'))),
+       'Keywords'=nrow(readRDS(paste(path.out, 'keyword.rds', sep='/'))),
+       'database tables'=nrow(readRDS(paste(path.out, 'table.rds', sep='/')))
+  );
+  saveRDS(N, file=paste(path.out, 'total_numbers.rds', sep='/'));
+  
+  list(Number=N, Analysis=ana, Study=std, PubMed=pub, Keyword=kywd);
 }
