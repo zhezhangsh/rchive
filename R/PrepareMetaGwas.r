@@ -360,7 +360,7 @@ PrepareMetaGwas<-function(phred_tbls,
   pos<-lapply(pos, function(pos) {
     loc<-BiocGenerics::start(pos);
     names(loc)<-names(pos);
-    split(loc, as.vector(seqnames(pos)));
+    split(loc, as.vector(GenomeInfoDb::seqnames(pos)));
   });
   pos<-lapply(pos, IntegerList);
   saveRDS(pos, file=paste(path.out, 'position.rds', sep='/'));
