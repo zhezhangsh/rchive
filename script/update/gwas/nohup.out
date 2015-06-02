@@ -1,25 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/Rtmpr9dskj/devtools1a67528719d8/zhezhangsh-rchive-5810563'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-mv: cannot move ‘/zhangz/R/library/rchive’ to ‘/zhangz/R/library/00LOCK-zhezhangsh-rchive-5810563/rchive’: Permission denied
-Warning in file.copy(f, instdir, TRUE) :
-  problem copying ./NAMESPACE to /zhangz/R/library/rchive/NAMESPACE: Permission denied
-Warning in file(file, ifelse(append, "a", "w")) :
-  cannot open file '/zhangz/R/library/rchive/DESCRIPTION': Permission denied
-Error in file(file, ifelse(append, "a", "w")) : 
-  cannot open the connection
-ERROR: installing package DESCRIPTION failed for package ‘rchive’
-* removing ‘/zhangz/R/library/rchive’
-Error: Command failed (1)
-Execution halted
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpTqQ7J3/devtools1a954cac6ac0/zhezhangsh-rchive-5810563'  \
+  '/tmp/RtmpLdAkwa/devtools1fdce9eccf6/zhezhangsh-rchive-025bd7c'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -31,7 +13,6 @@ No man pages found in package  ‘rchive’
 ** building package indices
 ** testing if installed package can be loaded
 * DONE (rchive)
-Error in readRDS(path.out, "study_by_id.rds", sep = "/") : 
-  unused argument (sep = "/")
-Calls: PrepareMetaGwas -> readRDS
+Error in lapply(phred, rownames) : object 'phred' not found
+Calls: PrepareMetaGwas -> lapply
 Execution halted

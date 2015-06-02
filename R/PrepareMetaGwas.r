@@ -350,7 +350,7 @@ PrepareMetaGwas<-function(phred_tbls,
   
   ##################################################
   # Unique SNP IDs in GWAS results
-  snp.id<-lapply(phred, rownames);
+  snp.id<-lapply(fn.phred, function(fn) rownames(readRDS(fn)));
   snp.id<-sort(unique(unlist(snp.id, use.names=FALSE)));
 
   if (file.exists(paste(path.out, 'position.rds', sep='/'))) pos<-readRDS(paste(path.out, 'position.rds', sep='/'));
