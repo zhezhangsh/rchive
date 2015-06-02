@@ -355,6 +355,7 @@ PrepareMetaGwas<-function(phred_tbls,
   
   # Get SNP position from dbSNP SQLite database
   pos<-lapply(c('GRCh37', 'GRCh38'), function(g) GetSnpPosById(snp.id, g));
+  saveRDS(pos, file=paste(path.out, 'position.rds', sep='/'));
   pos<-lapply(pos, function(pos) {
     loc<-BiocGenerics::start(pos);
     names(loc)<-names(pos);
