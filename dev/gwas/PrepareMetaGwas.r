@@ -12,7 +12,9 @@ PrepareMetaGwas<-function(phred_tbls,
   # paths       Paths to GWAS collections
      
   if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
-
+  path.db<-sub('/r$', '/db', path.out);
+  if (!file.exists(path.db)) dir.create(path.db, recursive=TRUE);
+  
   library(stringr);
   
   ##################
@@ -433,6 +435,51 @@ PrepareMetaGwas<-function(phred_tbls,
        'database tables'=nrow(readRDS(paste(path.out, 'table.rds', sep='/')))
   );
   saveRDS(N, file=paste(path.out, 'total_numbers.rds', sep='/'));
+
+  ####################################################################################################
+  ####################################################################################################
+  ### Load Phred scores into a SQLite database
+  
+  # Load in SNP positions
+  pos<-readRDS(paste(path.out, 'position.rds', sep='/'))
+  loc<-lapply(pos, function(pos) unlist(pos, use.names=FALSE));
+  chr<-lapply(pos, function(pos) rep(names(pos), sapply(pos, length)));
+  ids<-lapply(pos, function(pos) unlist(lapply(pos, names), use.names=FALSE));
+  for (i in 1:length(chr)) names(chr[[i]])<-names(loc[[i]])<-ids[[i]];
+  
+  # Create SQLite database
+  library(dplyr);
+  fn.db<-paste(path.db, 'gwas_phred.sqlite', sep='/');
+  if (file.exists(fn.db)) file.remove(fn.db);
+  db<-src_sqlite(fn.db, create=TRUE);
+  
+  # Add Phred score tables
+  snp.pos<-lapply(names(fn.phred), function(tnm) {
+    phred<-readRDS(fn.phred[tnm]);
+    id<-rownames(phred);
+    ch<-sapply(chr, function(chr) {
+      c<-chr[id];
+      c[is.na(c)]<-'0';
+      c;
+    });
+    lc<-sapply(loc, function(loc) {
+      l<-loc[id];
+      l[is.na(l)]<-0;
+      l;
+    });
+    t<-data.frame(id, ch, lc, stringsAsFactors=FALSE, row.names=1:length(id));
+    colnames(t)<-c('id', 'GRCh37_chr', 'GRCh38_chr', 'GRCh37_pos', 'GRCh38_pos');
+    ind<-as.list(colnames(t));
+    cat("Adding table", tnm, 'to database\n');
+    t<-cbind(t, phred);
+    t<-t[order(t[, 3], t[, 5]), ];
+    copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
+    
+    t;
+  });
+  t<-do.call('rbind', snp.pos)
+  t<-t[!duplicated(t[['id']]), ];
+  copy_to(db, t, 'just_position', temporary=FALSE, indexes=as.list(colnames(t)));
   
   list(Number=N, Analysis=ana, Study=std, PubMed=pub, Keyword=kywd);
 }
