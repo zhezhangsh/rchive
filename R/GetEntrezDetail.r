@@ -3,7 +3,7 @@
 ####################### THIS IS A SLOW PROCESS, REQUIRES DOWNLOADING SEVERAL GB OF DATA FROM NCBI ################################
 #  Dependent on: saved gene annotation downloaded from NCBI FTP server; an R object named "anno" whose row names are Entrez IDs
 
-GetEntrezDetail<-function(species='human', num.clusters=4, block.size=500, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/')) {
+GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/')) {
   
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
@@ -120,6 +120,7 @@ GetEntrezDetail<-function(species='human', num.clusters=4, block.size=500, path=
   } else {
     gn<-list();
     for (i in 1:length(ids)) {
+      print(i);
       gn[[i]]<-parse.set(ids[[i]]);
     }
   }

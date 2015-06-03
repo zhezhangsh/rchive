@@ -473,8 +473,8 @@ PrepareMetaGwas<-function(phred_tbls,
     cat("Adding table", tnm, 'to database\n');
     t<-cbind(t, phred);
     t<-t[order(t[, 3], t[, 5]), ];
-    copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
-    
+    #copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
+    saveRDS(t, file=paste(path.out, '/db_', tnm, '.rds', sep='')); # Prepared database tables
     t;
   });
   t<-do.call('rbind', snp.pos)
