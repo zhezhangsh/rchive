@@ -442,7 +442,7 @@ PrepareMetaGwas<-function(phred_tbls,
   
   # Load in SNP positions
   pos<-readRDS(paste(path.out, 'position.rds', sep='/'))
-  loc<-lapply(pos, function(pos) unlist(pos, use.names=FALSE));
+  loc<-lapply(pos, function(pos) unlist(lapply(pos, as.vector), use.names=FALSE));
   chr<-lapply(pos, function(pos) rep(names(pos), sapply(pos, length)));
   ids<-lapply(pos, function(pos) unlist(lapply(pos, names), use.names=FALSE));
   for (i in 1:length(chr)) names(chr[[i]])<-names(loc[[i]])<-ids[[i]];
@@ -453,7 +453,7 @@ PrepareMetaGwas<-function(phred_tbls,
   if (file.exists(fn.db)) file.remove(fn.db);
   db<-src_sqlite(fn.db, create=TRUE);
   
-  # Add Phred score tables
+  # Make database Phred score tables
   snp.pos<-lapply(names(fn.phred), function(tnm) {
     phred<-readRDS(fn.phred[tnm]);
     id<-rownames(phred);
@@ -470,11 +470,11 @@ PrepareMetaGwas<-function(phred_tbls,
     t<-data.frame(id, ch, lc, stringsAsFactors=FALSE, row.names=1:length(id));
     colnames(t)<-c('id', 'GRCh37_chr', 'GRCh38_chr', 'GRCh37_pos', 'GRCh38_pos');
     ind<-as.list(colnames(t));
-    cat("Adding table", tnm, 'to database\n');
+    cat("Make database table", tnm, '\n');
     t<-cbind(t, phred);
     t<-t[order(t[, 3], t[, 5]), ];
-    #copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
-    saveRDS(t, file=paste(path.out, '/db_', tnm, '.rds', sep='')); # Prepared database tables
+    copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
+    #saveRDS(t, file=paste(path.out, '/db_', tnm, '.rds', sep='')); # Prepared database tables
     t;
   });
   t<-do.call('rbind', snp.pos)
