@@ -550,5 +550,5 @@ PrepareMetaGwas<-function(phred_tbls, patch.only=FALSE,
   
   
   ################################################################
-  outputs;
+  output;
 }
