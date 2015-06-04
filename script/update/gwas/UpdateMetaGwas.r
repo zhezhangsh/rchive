@@ -7,7 +7,7 @@ options(stringsAsFactors=FALSE);
 library(yaml);
 
 fn.phred<-yaml.load_file(paste(Sys.getenv('RCHIVE_HOME'), "source/script/update/gwas/phred_tables.yaml", sep='/'));
-gwas<-PrepareMetaGwas(unlist(fn.phred));
+gwas<-PrepareMetaGwas(unlist(fn.phred), patch.only=TRUE);
 
 # Update log;
 UpdateLog(gwas, paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas', sep='/'));

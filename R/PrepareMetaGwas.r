@@ -15,7 +15,7 @@ PrepareMetaGwas<-function(phred_tbls, patch.only=FALSE,
   
   output<-NA;
   
-  if (!is.patch) {
+  if (!patch.only) {
     if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
     path.db<-sub('/r$', '/db', path.out);
     if (!file.exists(path.db)) dir.create(path.db, recursive=TRUE);
