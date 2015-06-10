@@ -20,9 +20,11 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEn
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseG1kVcf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGtf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGwasCatalog.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseHomologene.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseMesh.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseTaxonomy.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareMetaGwas.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/QueryDbsnpDb.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");

@@ -477,13 +477,14 @@ PrepareMetaGwas<-function(phred_tbls, patch.only=FALSE,
       ind<-as.list(colnames(t));
       cat("Make database table", tnm, '\n');
       t<-cbind(t, phred);
-      t<-t[order(t[, 3], t[, 5]), ];
       copy_to(db, t, tnm, temporary=FALSE, indexes=ind);
-      #saveRDS(t, file=paste(path.out, '/db_', tnm, '.rds', sep='')); # Prepared database tables
+      saveRDS(t, file=paste(path.out, '/db_phred', tnm, '.rds', sep='')); # Prepared database tables
       t;
     });
     t<-do.call('rbind', snp.pos)
     t<-t[!duplicated(t[['id']]), ];
+    t<-t[order(t[["GRCh38_chr"]], t[["GRCh38_pos"]]), ];
+    rownames(t)<-1:nrow(t);
     copy_to(db, t, 'just_position', temporary=FALSE, indexes=as.list(colnames(t)));
     
     output<-list(Number=N, Analysis=ana, Study=std, PubMed=pub, Keyword=kywd);
