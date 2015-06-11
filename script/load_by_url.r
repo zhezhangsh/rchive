@@ -12,6 +12,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/HtmlUti
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapBiosystems.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapChromosome.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapGtf.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapHomologene.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapKegg.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseChebi.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbGap.r");
@@ -25,7 +26,9 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseMe
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseTaxonomy.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareGeexCollection.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareMetaGwas.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ProcessGexDataset.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/QueryDbsnpDb.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/SummarizeDbGap.r");

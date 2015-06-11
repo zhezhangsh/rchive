@@ -7,6 +7,8 @@ ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE,
  
   fn<-paste(path, 'r', 'all_genes.rds', sep='/');
   
+  saveRDS(species, file=paste(path, 'r/name2taxid.rds', sep='/'));
+  
   # Re-download and load all gene table
   if (download.new | !file.exists(fn)) {
     fn.gz<-strsplit(ftp.file, '/')[[1]];

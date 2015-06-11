@@ -1,0 +1,23 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpFne0tB/devtoolsea563834a45/zhezhangsh-rchive-f0207d8'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+trying URL 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
+ftp data connection made, file length 32309657 bytes
+opened URL
+==================================================
+downloaded 30.8 Mb
+
+Read 1937200 items
+[1] TRUE
