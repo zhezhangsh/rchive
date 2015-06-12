@@ -81,9 +81,15 @@ PrepareGeexCollection<-function(path.coll,
   });
   
   # Combine data sets into one matrix, using human gene ID
-  rnm<-unique(unlist(lapply(data, function(d) rownames(d[[1]]))));
   cnm<-unique(unlist(lapply(data, function(d) colnames(d[[1]]))));
+  rnm<-unique(unlist(lapply(data, function(d) rownames(d[[1]]))));
+  cnm<-sort(cnm);
+  rnm<-sort(as.numeric(rnm));
   logged<-pct<-matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm));
+  for (i in 1:length(data)) {
+    logged[rownames(data[[i]]$logged), colnames(data[[i]]$logged)]<-data[[i]]$logged;
+    logged[rownames(data[[i]]$percentile), colnames(data[[i]]$percentile)]<-data[[i]]$percentile;
+  }
   gex.comb<-list(logged=logged, percentile=pct);
   
   for (i in 1:length(data)) {
