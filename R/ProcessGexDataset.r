@@ -14,14 +14,15 @@ ProcessGexDataset<-function(gex, grp2smp, id, taxid=NA, homologene=NA, map.to='9
   grp2smp<-grp2smp[sapply(grp2smp, length)>0];
   if (length(grp2smp) > 0) {
     ms<-sapply(names(grp2smp), function(nm) rowMeans(gex[, grp2smp[[nm]], drop=FALSE], na.rm=TRUE));
-    gex<-cbind(gex, ms);
+    gex<-cbind(gex, round(ms, 6));
   }
-  gex<-cbind(gex, rowMeans(gex, na.rm=TRUE));
+  gex<-cbind(gex, round(rowMeans(gex, na.rm=TRUE), 6));
   colnames(gex)[ncol(gex)]<-id;
   
   pct<-apply(gex, 2, function(g) round(dplyr::percent_rank(g)*100, 4));
   
-  out<-list(gex=list(logged=gex, percentile=pct));
+  out<-list(list(logged=gex, percentile=pct));
+  names(out)<-taxid;
   
   map.to<-map.to[map.to!=taxid];
   map.to<-map.to[!is.na(map.to)];
@@ -35,7 +36,7 @@ ProcessGexDataset<-function(gex, grp2smp, id, taxid=NA, homologene=NA, map.to='9
       list(logged=g, percentile=p);
     });
     names(homolog)<-map.to;
-    out$homolog<-homolog;
+    out$'9606'<-homolog[[1]];
   }
   
   out;
