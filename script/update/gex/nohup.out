@@ -1,7 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/Rtmp1G5lY1/devtoolsf193d7bbc73/zhezhangsh-rchive-7d7f126'  \
+  '/tmp/Rtmp7g6Kl7/devtools1f994a229d2e/zhezhangsh-rchive-629781f'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -51,4 +51,7 @@ Processing dataset: D0032
 Processing dataset: D0033 
 Processing dataset: D0034 
 Processing dataset: D0035 
+Warning messages:
+1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
+2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
 [1] TRUE

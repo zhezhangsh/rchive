@@ -130,7 +130,7 @@ PrepareGeexCollection<-function(path.coll,
   
   saveRDS(gex.comb, file=paste(path.coll, 'gex_combined.rds', sep='/'));
   saveRDS(anno, file=paste(path.coll, 'gene.rds', sep='/'));
-  saveRDS(browse.tbl, file=paste(path.coll, 'browse_tables.rds', sep='/'));
+  saveRDS(browse.tbl, file=paste(path.coll, 'browse_table.rds', sep='/'));
   saveRDS(mapping, file=paste(path.coll, 'mapping.rds', sep='/'));
   
   mapping;
