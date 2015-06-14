@@ -10,16 +10,20 @@ PrepareGeexCollection<-function(path.coll,
   ############## Required files
   fn.meta<-paste(path.coll, 'metadata.rds', sep='/');
   fn.gex<-paste(path.coll, 'gex.rds', sep='/');
+  fn.browse<-paste(path.coll, 'browse_table.rds', sep='/');
   if (!file.exists(fn.meta)) 
     stop("Error: metadata file not exist:", fn.meta, '\n');
   if (!file.exists(fn.gex)) 
     stop("Error: expression data file not exist:", fn.gex, '\n');
+  if (!file.exists(fn.browse)) 
+    stop("Error: formatted tables not exist:", fn.gex, '\n');
+  
   ##############
   
   # Loading in data
   meta<-readRDS(fn.meta);
   gex<-readRDS(fn.gex);
-  ds<-meta$metadata$Dataset;
+  ds<-meta$Dataset;
   ds.id<-intersect(names(gex), rownames(ds));
   if (length(ds.id) == 0) stop('Error: no matching dataset ID in metadata table and expression matrix\n');
   ds<-ds[ds.id, ];
@@ -49,8 +53,8 @@ PrepareGeexCollection<-function(path.coll,
   
   ##################################################################################################
   # Dataset, group, sample metadata
-  id2nm<-do.call('c', lapply(meta$metadata, function(meta) meta[, 'Name']));
-  names(id2nm)<-unlist(lapply(meta$metadata, rownames));
+  id2nm<-do.call('c', lapply(meta, function(meta) meta[, 'Name']));
+  names(id2nm)<-unlist(lapply(meta, rownames));
   mapping<-list(id2name=id2nm);
   
   # Full gene annotation
@@ -67,7 +71,7 @@ PrepareGeexCollection<-function(path.coll,
   data<-lapply(names(gex), function(nm) {
     cat("Processing dataset:", nm, '\n');
     g<-gex[[nm]];
-    smp<-meta$metadata$Sample;
+    smp<-meta$Sample;
     snm<-setdiff(colnames(g), rownames(smp));
     if (length(snm) > 0) 
       stop("Error: samples not matching between expression data and metadata:", paste(snm, collapse='; '), '\n');
@@ -128,7 +132,7 @@ PrepareGeexCollection<-function(path.coll,
   ##################################################################################################
   
   # Tables for content browsing 
-  browse.tbl<-meta[[3]];
+  browse.tbl<-readRDS(fn.browse);
   names(browse.tbl)<-c('Data set', 'Group', 'Sample');
   gn.url<-awsomics::AddHref(rownames(anno), paste("http://www.ncbi.nlm.nih.gov/gene/?term=", rownames(anno), sep=''));  
   browse.tbl$Gene<-data.frame(gn.url, anno[, c(1, 2, 6, 7, 9, 8)], stringsAsFactors=FALSE);
