@@ -55,7 +55,15 @@ PrepareGeexCollection<-function(path.coll,
   # Dataset, group, sample metadata
   id2nm<-do.call('c', lapply(meta, function(meta) meta[, 'Name']));
   names(id2nm)<-unlist(lapply(meta, rownames));
-  mapping<-list(id2name=id2nm);
+  nm2id<-names(id2nm);
+  mapping<-list(
+    id2name=id2nm,
+    name2id=setNames(names(id2nm), as.vector(id2nm)),
+    id2longname=setNames(paste(names(id2nm), id2nm, sep=': '), names(id2nm)),
+    longname2id=setNames(names(id2nm), paste(names(id2nm), id2nm, sep=': ')),
+    name2longname=setNames(paste(names(id2nm), id2nm, sep=': '), as.vector(id2nm)),
+    longname2name=setNames(as.vector(id2nm), paste(names(id2nm), id2nm, sep=': '))
+  );
   
   # Full gene annotation
   anno.all<-do.call('rbind', lapply(fn.gene, readRDS));
@@ -106,6 +114,7 @@ PrepareGeexCollection<-function(path.coll,
   anno<-anno[order(as.numeric(rownames(anno))), ];
   mapping$gene2name<-anno$Symbol;
   names(mapping$gene2name)<-rownames(anno);
+  mapping$name2gene<-setNames(names(mapping$gene2name), as.vector(mapping$gene2name));
   
   # Species mapping
   sp2id<-split(rownames(anno), anno$Species);
