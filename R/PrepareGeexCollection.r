@@ -92,6 +92,18 @@ PrepareGeexCollection<-function(path.coll,
     d$human;
   });
   
+  # data set to gene mapping
+  ds2gene<-lapply(names(gex), function(nm) {
+    d<-readRDS(paste(path.coll, '/gex_', nm, '.rds', sep=''));
+    lapply(d, function(d) rownames(d$logged));
+  });
+  names(ds2gene)<-names(gex);
+  gene2ds<-split(rep(names(ds2gene), sapply(lapply(ds2gene, unlist), length)), unlist(ds2gene, use.names=FALSE));
+  gene2ds<-lapply(gene2ds, function(ds) sort(unique(ds)));
+  gene2ds<-gene2ds[order(as.numeric(names(gene2ds)))];
+  mapping$dataset2gene<-ds2gene;
+  mapping$gene2dataset<-gene2ds;
+  
   # Combine data sets into one matrix, using human gene ID
   cnm<-unique(unlist(lapply(data, function(d) colnames(d[[1]]))));
   rnm<-unique(unlist(lapply(data, function(d) rownames(d[[1]]))));
@@ -109,12 +121,12 @@ PrepareGeexCollection<-function(path.coll,
     pct[rownames(data[[i]][[2]]), colnames(data[[i]][[2]])]<-data[[i]][[2]];    
   }
   
-  
   # all gene annotation
   anno<-anno[order(as.numeric(rownames(anno))), ];
   mapping$gene2name<-anno$Symbol;
   names(mapping$gene2name)<-rownames(anno);
   mapping$name2gene<-setNames(names(mapping$gene2name), as.vector(mapping$gene2name));
+  
   
   # Species mapping
   sp2id<-split(rownames(anno), anno$Species);
@@ -133,19 +145,25 @@ PrepareGeexCollection<-function(path.coll,
 
   homo.id<-setdiff(mp2hs, rownames(anno));
   if (length(homo.id) > 0) {
-    anno0<-anno.all[homo.id, , drop=FALSE];
+    anno0<-anno.all[homo.id[homo.id %in% rownames(anno.all)], , drop=FALSE];
     anno0<-cbind(Species=rep('human', nrow(anno0)), anno0);
     anno0[[1]]<-as.vector(anno0[[1]]);
     anno<-rbind(anno, anno0);
   } 
+  
+  # Count gene 2 dataset/sample
+  anno<-anno[order(as.numeric(rownames(anno))), ];
+  n.ds<-sapply(gene2ds[rownames(anno)], length);
+  n.smp<-sapply(gene2ds[rownames(anno)], function(ds) sum(meta$Dataset[ds, 'Num_Sample']));
+  anno<-data.frame(anno[, c('Species', 'Symbol')], Num_Dataset=n.ds, Num_Sample=n.smp, anno[, colnames(anno)[!(colnames(anno) %in% c('Species', 'Symbol'))], drop=FALSE], stringsAsFactors=FALSE);
   ##################################################################################################
   
   # Tables for content browsing 
-  browse.tbl<-readRDS(fn.browse);
+  browse.tbl<-readRDS(fn.browse)[1:3];
   names(browse.tbl)<-c('Data set', 'Group', 'Sample');
   gn.url<-awsomics::AddHref(rownames(anno), paste("http://www.ncbi.nlm.nih.gov/gene/?term=", rownames(anno), sep=''));  
-  browse.tbl$Gene<-data.frame(gn.url, anno[, c(1, 2, 6, 7, 9, 8)], stringsAsFactors=FALSE);
-  colnames(browse.tbl$Gene)<-c('ID', 'Species', 'Name', 'Chromosom', 'Location', 'Type', 'Title');
+  browse.tbl$Gene<-data.frame(gn.url, anno[, c('Species', 'Symbol', 'Num_Dataset', 'Num_Sample', 'type_of_gene', 'description')], stringsAsFactors=FALSE);
+  colnames(browse.tbl$Gene)<-c('ID', 'Species', 'Name', 'Num_Dataset', 'Num_Sample', 'Type', 'Title');
   
   saveRDS(gex.comb, file=paste(path.coll, 'gex_combined.rds', sep='/'));
   saveRDS(anno, file=paste(path.coll, 'gene.rds', sep='/'));
