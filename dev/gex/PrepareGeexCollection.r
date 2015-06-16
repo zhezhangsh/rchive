@@ -112,7 +112,7 @@ PrepareGeexCollection<-function(path.coll,
   logged<-pct<-matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm));
   for (i in 1:length(data)) {
     logged[rownames(data[[i]]$logged), colnames(data[[i]]$logged)]<-data[[i]]$logged;
-    logged[rownames(data[[i]]$percentile), colnames(data[[i]]$percentile)]<-data[[i]]$percentile;
+    pct[rownames(data[[i]]$percentile), colnames(data[[i]]$percentile)]<-data[[i]]$percentile;
   }
   gex.comb<-list(logged=logged, percentile=pct);
   
@@ -126,7 +126,6 @@ PrepareGeexCollection<-function(path.coll,
   mapping$gene2name<-anno$Symbol;
   names(mapping$gene2name)<-rownames(anno);
   mapping$name2gene<-setNames(names(mapping$gene2name), as.vector(mapping$gene2name));
-  
   
   # Species mapping
   sp2id<-split(rownames(anno), anno$Species);
