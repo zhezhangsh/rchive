@@ -28,6 +28,7 @@ PrepareGeexCollection<-function(path.coll,
   if (length(ds.id) == 0) stop('Error: no matching dataset ID in metadata table and expression matrix\n');
   ds<-ds[ds.id, ];
   gex<-gex[ds.id];
+  gex<-lapply(gex, as.matrix);
   tax.nm<-tolower(ds$Species);
   names(tax.nm)<-rownames(ds);
   
