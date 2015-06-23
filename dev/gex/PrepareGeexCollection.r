@@ -65,15 +65,6 @@ PrepareGeexCollection<-function(path.coll,
     longname2name=setNames(as.vector(id2nm), paste(names(id2nm), id2nm, sep=': '))
   );
   
-  # Full gene annotation
-  anno.all<-do.call('rbind', lapply(fn.gene, readRDS));
-  gn.id<-lapply(gex, rownames);
-  gn.id<-lapply(gn.id, function(id) id[id %in% rownames(anno.all)]);
-  gn.id<-lapply(split(gn.id, tax.nm), function(id) unique(unlist(id)));
-  anno<-anno.all[unlist(gn.id), ];
-  anno<-cbind(Species=rep(names(gn.id), sapply(gn.id, length)), anno);
-  anno[[1]]<-as.vector(anno[[1]]);
-
   # Pre-process data
   homo<-readRDS(fn.homo);
   data<-lapply(names(gex), function(nm) {
@@ -89,9 +80,30 @@ PrepareGeexCollection<-function(path.coll,
     d<-ProcessGexDataset(g, grp2smp, nm, from, homo, '9606');
     names(d)<-sapply(names(d), function(nm) names(taxid)[taxid==nm][1]);
     saveRDS(d, file=paste(path.coll, '/gex_', nm, '.rds', sep=''));
-    d$human;
+    lapply(1:2, function(i) do.call('rbind', lapply(d, function(d) d[[i]])));    
   });
   
+  # Combine data sets into one matrix, using human gene ID
+  cnm<-unique(sort(unique(unlist(lapply(data, function(d) colnames(d[[1]]))))));
+  rnm<-unique(sort(as.numeric(unlist(lapply(data, function(d) rownames(d[[1]]))))));
+  logged<-pct<-matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm));
+  for (i in 1:length(data)) {
+    logged[rownames(data[[i]][[1]]), colnames(data[[i]][[1]])]<-data[[i]][[1]];
+    pct[rownames(data[[i]][[2]]), colnames(data[[i]][[2]])]<-data[[i]][[2]];    
+  }
+  gex.comb<-list(logged=logged, percentile=pct);
+  
+  # Full gene annotation
+  names(fn.gene)<-tax.nm;
+  fn.gene<-fn.gene[!duplicated(fn.gene)];
+  anno.all<-lapply(fn.gene, readRDS);
+  sp<-rep(names(fn.gene), sapply(anno.all, nrow));
+  id<-as.vector(unlist(lapply(anno.all, rownames)));
+  anno.all<-do.call('rbind', anno.all);
+  anno<-data.frame(Species=sp, anno.all, row.names=id, stringsAsFactors=FALSE);
+  gex.comb<-lapply(gex.comb, function(g) g[rownames(g) %in% rownames(anno), , drop=FALSE]);
+  anno<-anno[rownames(gex.comb[[1]]), , drop=FALSE];
+    
   # data set to gene mapping
   ds2gene<-lapply(names(gex), function(nm) {
     d<-readRDS(paste(path.coll, '/gex_', nm, '.rds', sep=''));
@@ -103,26 +115,6 @@ PrepareGeexCollection<-function(path.coll,
   gene2ds<-gene2ds[order(as.numeric(names(gene2ds)))];
   mapping$dataset2gene<-ds2gene;
   mapping$gene2dataset<-gene2ds;
-  
-  # Combine data sets into one matrix, using human gene ID
-  cnm<-unique(unlist(lapply(data, function(d) colnames(d[[1]]))));
-  rnm<-unique(unlist(lapply(data, function(d) rownames(d[[1]]))));
-  cnm<-sort(cnm);
-  rnm<-sort(as.numeric(rnm));
-  logged<-pct<-matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm));
-  for (i in 1:length(data)) {
-    logged[rownames(data[[i]]$logged), colnames(data[[i]]$logged)]<-data[[i]]$logged;
-    pct[rownames(data[[i]]$percentile), colnames(data[[i]]$percentile)]<-data[[i]]$percentile;
-  }
-  gex.comb<-list(logged=logged, percentile=pct);
-  
-  for (i in 1:length(data)) {
-    logged[rownames(data[[i]][[1]]), colnames(data[[i]][[1]])]<-data[[i]][[1]];
-    pct[rownames(data[[i]][[2]]), colnames(data[[i]][[2]])]<-data[[i]][[2]];    
-  }
-  
-  # all gene annotation
-  anno<-anno[order(as.numeric(rownames(anno))), ];
   mapping$gene2name<-anno$Symbol;
   names(mapping$gene2name)<-rownames(anno);
   mapping$name2gene<-setNames(names(mapping$gene2name), as.vector(mapping$gene2name));
@@ -142,13 +134,13 @@ PrepareGeexCollection<-function(path.coll,
   mapping$species2human<-split(as.vector(mp2hs), names(mp2hs));
   mapping$human2species<-split(names(mp2hs), as.vector(mp2hs));
 
-  homo.id<-setdiff(mp2hs, rownames(anno));
-  if (length(homo.id) > 0) {
-    anno0<-anno.all[homo.id[homo.id %in% rownames(anno.all)], , drop=FALSE];
-    anno0<-cbind(Species=rep('human', nrow(anno0)), anno0);
-    anno0[[1]]<-as.vector(anno0[[1]]);
-    anno<-rbind(anno, anno0);
-  } 
+#   homo.id<-setdiff(mp2hs, rownames(anno));
+#   if (length(homo.id) > 0) {
+#     anno0<-anno.all[homo.id[homo.id %in% rownames(anno.all)], , drop=FALSE];
+#     anno0<-cbind(Species=rep('human', nrow(anno0)), anno0);
+#     anno0[[1]]<-as.vector(anno0[[1]]);
+#     anno<-rbind(anno, anno0);
+#   } 
   
   # Count gene 2 dataset/sample
   anno<-anno[order(as.numeric(rownames(anno))), ];
