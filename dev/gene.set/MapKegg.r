@@ -4,8 +4,8 @@
 
 ######################################################################################################
 ######################################################################################################
-# Map all KEGG pathways to Entrez genes of one or more species
-MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
+# Map types of KEGG IDs to Entrez genes of one or more species
+MapKegg2Gene<-function(types=c('pathway'), species=c('human'='hsa'), path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
   # species   Named character vector of species codes; the name will be used as prefix of output file
   # path      Path to output files
   
@@ -15,41 +15,66 @@ MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(Sys.getenv("RCHI
   nm<-names(species);
   if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
   
-  ids<-lapply(names(species), function(nm) {
-    cat(nm, '\n');
-    sp<-species[nm];
-    
-    # Pathway full names
-    anno<-ListEntryKeggApi('pathway', sp);
-    id<-sub('^path:', '', rownames(anno));
-    desc<-sapply(strsplit(anno[[1]], ' - '), function(x) x[1]);
-    names(desc)<-id;
-    
-    # Mapping
-    mapped<-LinkEntryKeggApi(sp, 'pathway');
-    pth<-sub('^path:', '', mapped[[1]]);
-    gn<-sapply(strsplit(mapped[[2]], ':'), function(x) x[2]);   
-    mp<-split(gn, pth);
-    mp<-mp[names(desc)];
-    names(mp)<-names(desc);
-    mp<-lapply(mp, unique);
-    mp<-lapply(mp, function(x) x[!is.na(x)]);
-    
-    # Save results
-    fn<-paste(path, '/r/', nm, '_pathway2gene.rds', sep='');
-    saveRDS(list(Organism=species[nm], Pathway=desc, Pathway2Gene=mp), file=fn);
-    
-    id;
-  })
+  # ID types
+  dbs<-strsplit("pathway | brite | module | ko | compound | glycan | reaction | rpair | rclass | enzyme | disease | drug | dgroup | environ", ' \\| ')[[1]];
+  types<-tolower(types);
+  types<-types[types %in% dbs];
   
-  # save log, all pathway IDs
-  log.fn<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/');
-  if (file.exists(log.fn)) log<-readRDS(log.fn) else log<-list();
-  tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-  log[[tm]]<-ids;
-  saveRDS(log, file=paste((paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/'))));
+  map2entrez<-lapply(species, ConvertGene2EntrezKeggApi);
   
-  ids;
+  if (length(types)==0 | length(species)==0) c() else {
+    ids<-lapply(types, function(tp) {
+      ids<-lapply(names(species), function(nm) {
+        cat(tp, '\t', nm, '\n');
+        sp<-species[nm];
+        
+        # Full names
+        if (tp=='pathway' | tp=='module' ) sp0<-sp else sp0<-'';
+        anno<-ListEntryKeggApi(tp, sp0);
+        id<-sapply(strsplit(rownames(anno), ':'), function(x) x[length(x)]);
+        desc<-sapply(strsplit(anno[[1]], ' - '), function(x) x[1]);
+        names(desc)<-id;
+        
+        # Mapping
+        mapped<-LinkEntryKeggApi(sp, tp);
+        if (nrow(mapped) > 0) {
+          id0<-sapply(strsplit(mapped[[1]], ':'), function(x) x[length(x)]);
+          mp<-split(mapped[[2]], id0);
+          mp<-lapply(mp, function(x) {
+            gn<-unlist(map2entrez[[nm]][x], use.names=FALSE);
+            if (length(gn) == 0) c() else unique(gn[!is.na(gn)])
+          });
+          mp<-mp[sapply(mp, length)>0];
+          desc<-desc[names(desc) %in% names(mp)];
+          mp<-mp[names(desc)];
+          
+          # Save results
+          fn<-paste(path, '/r/', nm, '_', tp, '2gene.rds', sep='');
+          saveRDS(list(Organism=species[nm], Name=desc, Map=mp), file=fn);
+          
+          id;
+        } else c();  
+      });
+      names(ids)<-names(species);
+      ids;
+    });
+    names(ids)<-types;
+    ids;
+  }
+}
+
+######################################################################################################
+######################################################################################################
+# Usee the KEGG "ID conversion" API to convert all KEGG gene ID of a species to NCBI gene ID
+ConvertGene2EntrezKeggApi<-function(org) {
+  # org: Organism code, such as 'hsa' or 'cel', for the alternative query form as above
+  url<-paste("http://rest.kegg.jp/conv", org, "ncbi-geneid", sep='/');
+  cat(url, '\n');
+  
+  download.file(url, 'tmp.csv');
+  mp<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
+  id<-sub("^ncbi-geneid:", '', mp[,1]);
+  split(id, mp[,2]);
 }
 
 ######################################################################################################
@@ -100,12 +125,21 @@ LinkEntryKeggApi<-function(to, from, option='') {
   url<-paste("http://rest.kegg.jp/link", to, paste(from, collapse='+'), option, sep='/');
   
   download.file(url, 'tmp.csv');
-  mp<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
+  
+  if (file.info('tmp.csv')[,1]<=1) mp<-data.frame(matrix(nr=0, nc=2)) else mp<-read.csv2('tmp.csv', sep='\t', header=FALSE, stringsAsFactors=FALSE);
   colnames(mp)<-c('From', 'To');
   file.remove('tmp.csv');
   
   mp;
 }
+
+#######################################
+#######################################
+######### Obsolete functions ##########
+#######################################
+#######################################
+
+
 ######################################################################################################
 ######################################################################################################
 # Use the KEGG dbget engine to map a ID to IDs of all KEGG database
@@ -122,7 +156,8 @@ MapKeggOne2All<-function(id, type, verbose=FALSE) {
   
   #library(RCurl);
   library(devtools);
-  source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/htmlUtilities.r"); # functions that remove HTML tags from a string
+  install_github("zhezhangsh/rchive");
+  library(rchive);
   
   # URL prefix
   prefix<-"http://www.genome.jp/dbget-bin/get_linkdb?-t+alldb+";
@@ -208,7 +243,8 @@ MapKeggOne2One<-function(id, type, to, verbose=FALSE) {
   # to    The database that the id will be mapped to, use database name, such as 'genes', 'pathway', and 'compound'
   
   library(devtools);
-  source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/extra/htmlUtilities.r"); # functions that remove HTML tags from a string
+  install_github("zhezhangsh/rchive");
+  library(rchive);
   
   # URL prefix
   url<-paste("http://www.genome.jp/dbget-bin/get_linkdb?-t+", to, '+', type, ':', id, sep='');
@@ -236,4 +272,54 @@ MapKeggOne2One<-function(id, type, to, verbose=FALSE) {
   mp[mp==' ' | is.na(mp)]<-'';
   
   mp;
+}
+
+
+# Map all KEGG pathways to Entrez genes of one or more species
+MapKeggPath2Gene<-function(species=c('human'='hsa'), path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
+  # species   Named character vector of species codes; the name will be used as prefix of output file
+  # path      Path to output files
+  
+  if (!file.exists(path)) dir.create(path, recursive=TRUE);
+  if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
+  
+  nm<-names(species);
+  if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
+  
+  ids<-lapply(names(species), function(nm) {
+    cat(nm, '\n');
+    sp<-species[nm];
+    
+    # Pathway full names
+    anno<-ListEntryKeggApi('pathway', sp);
+    id<-sub('^path:', '', rownames(anno));
+    desc<-sapply(strsplit(anno[[1]], ' - '), function(x) x[1]);
+    names(desc)<-id;
+    
+    # Mapping
+    mapped<-LinkEntryKeggApi(sp, 'pathway');
+    pth<-sub('^path:', '', mapped[[1]]);
+    #gn<-sapply(strsplit(mapped[[2]], ':'), function(x) x[2]);  
+    gn<-mapped[,2];
+    mp<-split(gn, pth);
+    mp<-mp[names(desc)];
+    names(mp)<-names(desc);
+    mp<-lapply(mp, unique);
+    mp<-lapply(mp, function(x) x[!is.na(x)]);
+    
+    # Save results
+    fn<-paste(path, '/r/', nm, '_pathway2gene.rds', sep='');
+    saveRDS(list(Organism=species[nm], Pathway=desc, Pathway2Gene=mp), file=fn);
+    
+    id;
+  })
+  
+  # save log, all pathway IDs
+  log.fn<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/');
+  if (file.exists(log.fn)) log<-readRDS(log.fn) else log<-list();
+  tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+  log[[tm]]<-ids;
+  saveRDS(log, file=paste((paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/log.rds', sep='/'))));
+  
+  ids;
 }

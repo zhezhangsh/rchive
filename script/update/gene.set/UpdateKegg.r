@@ -1,19 +1,26 @@
 library(devtools);
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
+install_github("zhezhangsh/rchive");
+library(rchive);
 
 options(stringsAsFactors=FALSE);
+
+# Types of KEGG databases
+types<-c('pathway', 'module', 'compound', 'glycan', 'reaction', 'enzyme', 'disease', 'drug', 'dgroup', 'environ');
 
 # Species to map
 species<-c('human'='hsa', 'mouse'='mmu', 'rat'='rno', 'fly'='dme', 'worm'='cel', 'zebrafish'='dre', 'yeast'='sce', 'ecoli'='eco');
 
 # Path to output files
-out<-paste(RCHIVE_HOME, 'data/gene.set/public/kegg', sep='/'); 
+out<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/'); 
 
 # Download data and save results
-ids<-MapKeggPath2Gene(species, out); 
+ids<-MapKegg2Gene(types, species, out); 
+
+
+##############################################################################################################
+UpdateLog(ids, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/gene.set', sep='/'), just.new=FALSE);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(RCHIVE_HOME, 'source/update/gene.set/KeggP2G.r', sep='/');
-fn1<-paste(RCHIVE_HOME, '/source/update/gene.set/log/', tm, '_KeggP2G.r' , sep='');
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene.set/UpdateKegg.r', sep='');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene.set/log/', tm, '_UpdateKegg.r' , sep='');
 file.copy(fn0, fn1)
-
