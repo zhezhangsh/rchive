@@ -1,5 +1,5 @@
 # Summarize all gene sets
-path.out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene.set/r', sep='/');
+path.out<-Sys.getenv('RCHIVE_HOME', 'data/gene.set/r', sep='/');
 
 if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
@@ -85,24 +85,14 @@ nm<-lapply(tbls, function(t) paste(t$Accession, t$Name, sep=': '));
 meta3<-data.frame(Collection=rep(cl, sapply(tbls, nrow)), Name=unlist(nm, use.names=FALSE), Species=rep(sp, sapply(tbls, nrow)), stringsAsFactors=FALSE);
 rownames(meta3)<-unlist(lapply(tbls, rownames), use.names=FALSE);
 meta3$Size<-sapply(full.list[rownames(meta3)], length);
-meta3$URL<-paste("http://www.ncbi.nlm.nih.gov/biosystems", rownames(meta3), sep='/');
+meta3$URL<-paste("http://www.ncbi.nlm.nih.gov/biosystems/", rownames(meta3), sep='/');
 meta3<-meta3[meta3$Size>0, , drop=FALSE];
 list3<-full.list[rownames(meta3)];
 
-meta<-list(BioSystems=meta3, KEGG=meta2, MSigDB=meta1);
-list<-list(BioSystems=list3, KEGG=list2, MSigDB=list1);
-saveRDS(meta, file=paste(path.out, 'metadata.rds', sep='/'));
-saveRDS(list, file=paste(path.out, 'all_list.rds', sep='/'));
-
-meta.tree<-lapply(meta, function(m) lapply(split(m, m$Collection), function(x) split(x, x$Species)))
-meta.tree<-lapply(meta.tree, function(m) lapply(m, function(m) lapply(m, function(m) m[, c('Name', 'Size', 'URL')])));
-saveRDS(meta.tree, file=paste(path.out, 'metadata_as_tree.rds', sep='/'));
-
-sapply(names(list), function(nm) saveRDS(list[[nm]], file=paste(path.out, '/', tolower(nm), '_list.rds', sep='')));
 
 
 ##############################################################################################################
-UpdateLog(lapply(meta, rownames), paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public', sep='/'), just.new=FALSE);
+UpdateLog(ids, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/'), just.new=FALSE);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene.set/UpdateGeneSet.r', sep='');
