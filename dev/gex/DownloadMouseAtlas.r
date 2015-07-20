@@ -135,7 +135,7 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
   anno=readRDS(fn.anno);
   gex<-expr[rownames(anno[rownames(anno) %in% rownames(expr), ]), ];
   anno<-anno[rownames(gex), ];
-  
+ 
   # re-order samples
   smp.e<-smp[grep('^E', smp$Age), ];
   smp.e<-smp.e[order(as.numeric(sub('^E', '', smp.e$Age))), ];
@@ -170,7 +170,9 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
   tbl.ds<-data.frame(row.names=ds.id, stringsAsFactors=FALSE, Name=ds.name, Num_Gene=nrow(gex), 
                      Num_Group=as.integer(table(tbl.grp$Dataset)[ds.id]), Num_Sample=as.integer(table(tbl.smp$Dataset)[ds.id]), Species='Mouse');
   metadata<-list(Dataset=tbl.ds, Group=tbl.grp, Sample=tbl.smp);
+  saveRDS(metadata, file=paste(path, 'r', 'metadata.rds', sep='/'));
   
+ 
   # Browse tables
   brow.gene<-data.frame(row.names=rownames(anno), stringsAsFactors=FALSE, ID=awsomics::AddHref(rownames(anno), paste('http://www.ncbi.nlm.nih.gov/gene/?term=', rownames(anno), sep='')),
                         Species='mouse', Name=as.vector(anno$Symbol), Num_Dataset=nrow(tbl.ds), Num_Sample=nrow(tbl.smp), Type=as.vector(anno$type_of_gene), Title=anno$description);
@@ -179,10 +181,12 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
   brow.grp<-data.frame(ID=rownames(tbl.grp), tbl.grp, stringsAsFactors=FALSE);
   brow.ds<-data.frame(ID=rownames(tbl.ds), tbl.ds, stringsAsFactors=FALSE);
   browse_table<-list(Dataset=brow.ds, Group=brow.grp, Sample=brow.smp, Gene=brow.gene);
-  
-  saveRDS(gex, file=paste(path, 'r', 'gex.rds', sep='/'));
-  saveRDS(metadata, file=paste(path, 'r', 'metadata.rds', sep='/'));
   saveRDS(browse_table, file=paste(path, 'r', 'browse_table.rds', sep='/'));
+  
+  gex<-gex[, tbl.smp$Original_ID];
+  colnames(gex)<-rownames(tbl.smp);
+  gex<-lapply(rownames(tbl.ds), function(ds) gex[, rownames(tbl.smp)[tbl.smp$Dataset==ds], drop=FALSE])
+  saveRDS(gex, file=paste(path, 'r', 'gex.rds', sep='/'));
   
   metadata;
   ##########################################################################################################################  
