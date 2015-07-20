@@ -95,3 +95,39 @@ Calls: PrepareMetaGwas -> do.call -> rbind -> rbind
 Execution halted
 Warning message:
 system call failed: Cannot allocate memory 
+copied 2 function files to R/
+[1] TRUE TRUE
+Read 187 items
+Read 223 items
+Read 45 items
+Read 107 items
+Read 94 items
+Read 205 items
+Read 138 items
+Read 85 items
+Read 78 items
+Read 193 items
+Read 42 items
+Read 144 items
+Read 29 items
+Read 314 items
+Read 61 items
+Read 607 items
+Read 61 items
+Read 94 items
+Read 3 items
+Read 92 items
+Read 261 items
+Read 21 items
+Read 62 items
+Read 167 items
+Read 48 items
+Read 60 items
+Read 165 items
+Read 554 items
+Read 43 items
+Read 30 items
+Read 98 items
+Read 202 items
+Read 95 items
+Read 24 items

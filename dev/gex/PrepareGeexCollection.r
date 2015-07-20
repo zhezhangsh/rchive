@@ -8,7 +8,7 @@ PrepareGeexCollection<-function(path.coll,
   library(awsomics);
   
   ############## Required files
-  fn.meta<-paste(path.coll, 'metadata.rds', sep='/');
+  fn.meta<-paste(path.coll, 'metadata.rds', sep='/'); 
   fn.gex<-paste(path.coll, 'gex.rds', sep='/');
   fn.browse<-paste(path.coll, 'browse_table.rds', sep='/');
   if (!file.exists(fn.meta)) 
