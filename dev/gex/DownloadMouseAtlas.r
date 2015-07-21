@@ -155,17 +155,23 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
   grp.id<-sub('1', 'G', 10000+1:length(grp.name));
   names(grp.id)<-grp.name;
   smp.id<-sub('1', 'S', 10000+1:nrow(smp));
-  smp.name<-paste(smp$Organ, smp$Age, sep=':');
-  names(smp.name)<-smp.id;
-  grp2smp<-split(smp.name, smp.name);
-  smp.name<-paste(unlist(grp2smp), unlist(lapply(grp2smp, function(x) 1:length(x))), sep='_');
-  names(smp.name)<-unlist(lapply(grp2smp, names));
-  smp.name<-smp.name[smp.id];
-  
+#   smp.name<-paste(smp$Organ, smp$Age, sep=':');
+#   names(smp.name)<-smp.id;
+#   grp2smp<-split(smp.name, smp.name);
+#   smp.name<-paste(unlist(grp2smp), unlist(lapply(grp2smp, function(x) 1:length(x))), sep='_');
+#   names(smp.name)<-unlist(lapply(grp2smp, names));
+#   smp.name<-smp.name[smp.id];
+  smp.name<-smp$Part;
+  smp.name[smp.name=='']<-smp$Organ[smp.name==''];
+  smp.name[smp.name=='Whole']<-paste('Whole', smp$Organ[smp.name=='Whole']);
+  uni<-unique(smp.name);
+  for (i in 1:length(uni)) smp.name[smp.name==uni[i]]<-paste(smp.name[smp.name==uni[i]], 1:length(smp.name[smp.name==uni[i]]));
+
   # metadata tables
   tbl.smp<-data.frame(row.names=smp.id, stringsAsFactors=FALSE, Name=smp.name, Original_ID=rownames(smp), 
                       Group=grp.id[paste(smp$Organ, smp$Age, sep=':')], Dataset=ds.id[smp$Organ], smp);
-  tbl.grp<-data.frame(row.names=grp.id, stringsAsFactors=FALSE, Name=grp.name, Dataset=ds.id[names(grp.name)], Num_Sample=sapply(grp2smp, length)[grp.name], 
+  tbl.grp<-data.frame(row.names=grp.id, stringsAsFactors=FALSE, Name=grp.name, Dataset=ds.id[names(grp.name)], 
+                      Num_Sample=sapply(grp.id, function(id) nrow(tbl.smp[tbl.smp$Group==id, , drop=FALSE])), 
                       Organ=sapply(strsplit(grp.name, ':'), function(x) x[1]), Age=sapply(strsplit(grp.name, ':'), function(x) x[2]));
   tbl.ds<-data.frame(row.names=ds.id, stringsAsFactors=FALSE, Name=ds.name, Num_Gene=nrow(gex), 
                      Num_Group=as.integer(table(tbl.grp$Dataset)[ds.id]), Num_Sample=as.integer(table(tbl.smp$Dataset)[ds.id]), Species='Mouse');
@@ -185,7 +191,8 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
   
   gex<-gex[, tbl.smp$Original_ID];
   colnames(gex)<-rownames(tbl.smp);
-  gex<-lapply(rownames(tbl.ds), function(ds) gex[, rownames(tbl.smp)[tbl.smp$Dataset==ds], drop=FALSE])
+  gex<-lapply(rownames(tbl.ds), function(ds) gex[, rownames(tbl.smp)[tbl.smp$Dataset==ds], drop=FALSE]);
+  names(gex)<-rownames(tbl.ds);
   saveRDS(gex, file=paste(path, 'r', 'gex.rds', sep='/'));
   
   metadata;

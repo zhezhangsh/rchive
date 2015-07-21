@@ -5,7 +5,8 @@ options(stringsAsFactors=FALSE);
 
 path.coll<-c(
   'Demo'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/demo/r', sep='/'),
-  'ToMD'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/tomd/r', sep='/')
+  'ToMD'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/tomd/r', sep='/'),
+  'MAGE'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/mage/r', sep='/')
 );
 
 mapping<-lapply(path.coll, PrepareGeexCollection);

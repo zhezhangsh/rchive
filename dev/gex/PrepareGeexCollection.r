@@ -50,6 +50,8 @@ PrepareGeexCollection<-function(path.coll,
   x<-setdiff(tax.nm, names(tax.id));
   if (length(x) > 0) stop("Error: species not included in gene repository:", paste(x, collapse='; '), '\n');
   taxid<-tax.id[tax.nm];
+  taxid<-c(taxid, 'human'='9606');
+  taxid<-taxid[!duplicated(taxid)];
   ##############
   
   ##################################################################################################
@@ -96,6 +98,7 @@ PrepareGeexCollection<-function(path.coll,
   
   # Full gene annotation
   names(fn.gene)<-tax.nm;
+  fn.gene<-c(fn.gene, 'human'=paste(path.gene, 'human_genes_full.rds', sep='/'));
   fn.gene<-fn.gene[!duplicated(fn.gene)];
   anno.all<-lapply(fn.gene, readRDS);
   sp<-rep(names(fn.gene), sapply(anno.all, nrow));
