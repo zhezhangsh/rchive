@@ -1,14 +1,12 @@
-#devtools::install_github("zhezhangsh/rchive");
+devtools::install_github("zhezhangsh/rchive");
 library(rchive);
 
 options(stringsAsFactors=FALSE);
 
 path.coll<-c(
-#   'ADHB'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/adhb/r', sep='/'),
-#   'MAGE'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/mage/r', sep='/'),
-#   'Demo'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/demo/r', sep='/'),
-#   'ToMD'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/tomd/r', sep='/')
-   'GTEx'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/gtex/r', sep='/')
+  'Demo'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/demo/r', sep='/'),
+  'ToMD'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/tomd/r', sep='/'),
+  'MAGE'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/mage/r', sep='/')
 );
 
 mapping<-lapply(path.coll, PrepareGeexCollection);
