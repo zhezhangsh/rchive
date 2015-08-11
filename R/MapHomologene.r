@@ -12,6 +12,8 @@ MapHomologene<-function(homolo, ids, from, to, id.type=1:4) {
   
   from<-as.character(from);
   to<-as.character(to);
+  if (from=='559292') from<-'4932';
+  if (to=='559292') to<-'4932';  
   if (!(from %in% sp)) stop('Unknown species ', from);
   if (!(to %in% sp)) stop('Unknown species ', to);
   

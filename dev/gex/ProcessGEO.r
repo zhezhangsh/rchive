@@ -2,6 +2,7 @@
 
 ProcessGEO<-function(gse.id, path.out, affy.supp=TRUE, gsm.ids=c()) {  
   # gsm.ids     A subset samples of the same GSE, must from the same platform
+  library(affy);
   
   # download GEO data sets
   if (length(gsm.ids)>0) path<-ParseGSM(gsm.ids, paste(path.out, gse.id, sep='/'), affy.supp) else 
@@ -38,6 +39,7 @@ ProcessGEO<-function(gse.id, path.out, affy.supp=TRUE, gsm.ids=c()) {
 
 # Load a set of CEL files
 LoadAffyCel<-function(fn) {
+  library(affy);
   fn<-fn[file.exists(fn)];
   if (length(fn) == 0) NA else {
     heads<-sapply(fn, function(f) affyio::read.celfile.header(f)[[1]]);
