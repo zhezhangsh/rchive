@@ -128,8 +128,16 @@ DownloadGtex<-function(path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gex/public/gt
   gex<-lapply(rownames(ds), function(id) gex[, rownames(smp)[smp$Dataset==id], drop=FALSE]);
   names(gex)<-rownames(ds);
   gex<-lapply(gex, function(gex) affy::normalize.loess(gex, log.it=FALSE)); 
-
+  
   saveRDS(gex, file=paste(path, 'r', 'gex.rds', sep='/'));
+  
+  bro<-lapply(meta, function(meta) data.frame(ID=rownames(meta), meta, stringsAsFactors=FALSE));
+  names(bro)[1]<-'Data set';
+  bro$Gene<-data.frame(row.names=rownames(anno), stringsAsFactors=FALSE,
+                       ID=awsomics::AddHref(rownames(anno), awsomics::UrlEntrezGene(rownames(anno))), 
+                       Species='human', Name=as.vector(anno$Symbol), Num_Dataset=nrow(ds), Num_Sample=nrow(smp), 
+                       Type=anno$type_of_gene, Title=anno$description);
+  saveRDS(bro, file=paste(path, 'r', 'browse_table.rds', sep='/'));
   
   meta;
 }

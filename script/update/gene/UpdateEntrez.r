@@ -18,7 +18,8 @@ species<-c(
   'worm' = '6239',
   'fly' = '7227',
   'zebrafish' = '7955',
-  'ecoli' = '511145'
+  'ecoli' = '511145',
+  'yeast' = '559292'
 );
 
 path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/');

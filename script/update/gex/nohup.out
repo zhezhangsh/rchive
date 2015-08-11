@@ -1,197 +1,10 @@
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpQkEJd4/devtools5ea0536ffeef/zhezhangsh-rchive-5304290'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Processing dataset: D0001 
-Processing dataset: D0004 
-Processing dataset: D0013 
-Processing dataset: D0001 
-Processing dataset: D0002 
-Processing dataset: D0003 
-Processing dataset: D0004 
-Processing dataset: D0005 
-Processing dataset: D0006 
-Processing dataset: D0007 
-Processing dataset: D0008 
-Processing dataset: D0009 
-Processing dataset: D0010 
-Processing dataset: D0011 
-Processing dataset: D0012 
-Processing dataset: D0013 
-Processing dataset: D0014 
-Processing dataset: D0015 
-Processing dataset: D0016 
-Processing dataset: D0017 
-Processing dataset: D0018 
-Processing dataset: D0019 
-Processing dataset: D0020 
-Processing dataset: D0021 
-Processing dataset: D0022 
-Processing dataset: D0023 
-Processing dataset: D0024 
-Processing dataset: D0025 
-Processing dataset: D0026 
-Processing dataset: D0027 
-Processing dataset: D0028 
-Processing dataset: D0029 
-Processing dataset: D0030 
-Processing dataset: D0031 
-Processing dataset: D0032 
-Processing dataset: D0033 
-Processing dataset: D0034 
-Processing dataset: D0035 
-Warning messages:
-1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
-2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-[1] TRUE
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpddVG4C/devtools64ec37336b21/zhezhangsh-rchive-5c48999'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Processing dataset: D0001 
-Processing dataset: D0004 
-Processing dataset: D0013 
-Processing dataset: D0001 
-Processing dataset: D0002 
-Processing dataset: D0003 
-Processing dataset: D0004 
-Processing dataset: D0005 
-Processing dataset: D0006 
-Processing dataset: D0007 
-Processing dataset: D0008 
-Processing dataset: D0009 
-Processing dataset: D0010 
-Processing dataset: D0011 
-Processing dataset: D0012 
-Processing dataset: D0013 
-Processing dataset: D0014 
-Processing dataset: D0015 
-Processing dataset: D0016 
-Processing dataset: D0017 
-Processing dataset: D0018 
-Processing dataset: D0019 
-Processing dataset: D0020 
-Processing dataset: D0021 
-Processing dataset: D0022 
-Processing dataset: D0023 
-Processing dataset: D0024 
-Processing dataset: D0025 
-Processing dataset: D0026 
-Processing dataset: D0027 
-Processing dataset: D0028 
-Processing dataset: D0029 
-Processing dataset: D0030 
-Processing dataset: D0031 
-Processing dataset: D0032 
-Processing dataset: D0033 
-Processing dataset: D0034 
-Processing dataset: D0035 
-Warning messages:
-1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
-2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-[1] TRUE
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/Rtmps5z3F0/devtools40163b782eb8/zhezhangsh-rchive-3b5ca78'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Processing dataset: D0001 
-Processing dataset: D0004 
-Processing dataset: D0013 
-Processing dataset: D0001 
-Processing dataset: D0002 
-Processing dataset: D0003 
-Processing dataset: D0004 
-Processing dataset: D0005 
-Processing dataset: D0006 
-Processing dataset: D0007 
-Processing dataset: D0008 
-Processing dataset: D0009 
-Processing dataset: D0010 
-Processing dataset: D0011 
-Processing dataset: D0012 
-Processing dataset: D0013 
-Processing dataset: D0014 
-Processing dataset: D0015 
-Processing dataset: D0016 
-Processing dataset: D0017 
-Processing dataset: D0018 
-Processing dataset: D0019 
-Processing dataset: D0020 
-Processing dataset: D0021 
-Processing dataset: D0022 
-Processing dataset: D0023 
-Processing dataset: D0024 
-Processing dataset: D0025 
-Processing dataset: D0026 
-Processing dataset: D0027 
-Processing dataset: D0028 
-Processing dataset: D0029 
-Processing dataset: D0030 
-Processing dataset: D0031 
-Processing dataset: D0032 
-Processing dataset: D0033 
-Processing dataset: D0034 
-Processing dataset: D0035 
-Error in `[<-`(`*tmp*`, rownames(data[[i]][[1]]), colnames(data[[i]][[1]]),  : 
-  subscript out of bounds
+Error in FUN("/zhangz/rchive/data/gex/public/gtex/r"[[1L]], ...) : 
+  Error: formatted tables not exist:/zhangz/rchive/data/gex/public/gtex/r/gex.rds
 Calls: lapply -> FUN
 In addition: Warning messages:
 1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
 2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-3: In sort(as.numeric(unlist(lapply(data, function(d) rownames(d[[1]]))))) :
-  NAs introduced by coercion
 Execution halted
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/Rtmp3mCT0L/devtools410a12f15db8/zhezhangsh-rchive-6bc272e'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Processing dataset: D0001 
-Processing dataset: D0004 
-Processing dataset: D0013 
 Processing dataset: D0001 
 Processing dataset: D0002 
 Processing dataset: D0003 
@@ -227,95 +40,24 @@ Processing dataset: D0032
 Processing dataset: D0033 
 Processing dataset: D0034 
 Processing dataset: D0035 
-Warning messages:
-1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
-2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-[1] TRUE
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpFrY6vq/devtools69524cc25c1/zhezhangsh-rchive-12c1669'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Processing dataset: D0001 
-Processing dataset: D0004 
-Processing dataset: D0013 
-Processing dataset: D0001 
-Processing dataset: D0002 
-Processing dataset: D0003 
-Processing dataset: D0004 
-Processing dataset: D0005 
-Processing dataset: D0006 
-Processing dataset: D0007 
-Processing dataset: D0008 
-Processing dataset: D0009 
-Processing dataset: D0010 
-Processing dataset: D0011 
-Processing dataset: D0012 
-Processing dataset: D0013 
-Processing dataset: D0014 
-Processing dataset: D0015 
-Processing dataset: D0016 
-Processing dataset: D0017 
-Processing dataset: D0018 
-Processing dataset: D0019 
-Processing dataset: D0020 
-Processing dataset: D0021 
-Processing dataset: D0022 
-Processing dataset: D0023 
-Processing dataset: D0024 
-Processing dataset: D0025 
-Processing dataset: D0026 
-Processing dataset: D0027 
-Processing dataset: D0028 
-Processing dataset: D0029 
-Processing dataset: D0030 
-Processing dataset: D0031 
-Processing dataset: D0032 
-Processing dataset: D0033 
-Processing dataset: D0034 
-Processing dataset: D0035 
-Processing dataset: D0001 
-Processing dataset: D0002 
-Processing dataset: D0003 
-Processing dataset: D0004 
-Processing dataset: D0005 
-Processing dataset: D0006 
-Processing dataset: D0007 
-Processing dataset: D0008 
-Processing dataset: D0009 
-Processing dataset: D0010 
-Processing dataset: D0011 
-Processing dataset: D0012 
-Processing dataset: D0013 
-Processing dataset: D0014 
-Processing dataset: D0015 
-Processing dataset: D0016 
-Processing dataset: D0017 
-Processing dataset: D0018 
-Processing dataset: D0019 
-Processing dataset: D0020 
-Processing dataset: D0021 
-Processing dataset: D0022 
-Processing dataset: D0023 
-Processing dataset: D0024 
-Processing dataset: D0025 
-Processing dataset: D0026 
-Processing dataset: D0027 
-Processing dataset: D0028 
-Processing dataset: D0029 
-Processing dataset: D0030 
-Processing dataset: D0031 
-Processing dataset: D0032 
+Processing dataset: D0036 
+Processing dataset: D0037 
+Processing dataset: D0038 
+Processing dataset: D0039 
+Processing dataset: D0040 
+Processing dataset: D0041 
+Processing dataset: D0042 
+Processing dataset: D0043 
+Processing dataset: D0044 
+Processing dataset: D0045 
+Processing dataset: D0046 
+Processing dataset: D0047 
+Processing dataset: D0048 
+Processing dataset: D0049 
+Processing dataset: D0050 
+Processing dataset: D0051 
+Processing dataset: D0052 
+Processing dataset: D0053 
 Warning messages:
 1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
 2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
