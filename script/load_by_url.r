@@ -21,6 +21,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapSet2
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseChebi.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbSNP.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDisGeNET.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseEntrez.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseG1kVcf.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGtf.r");
