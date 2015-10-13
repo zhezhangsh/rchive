@@ -50,6 +50,7 @@ export("ParseMesh");
 export("ParseMeshChemical");
 export("ParseMeshDisease");
 export("ParseOmim");
+export("ParsePir");
 export("ParsePubtator");
 export("ParseTaxonomy");
 export("PrepareGeexCollection");

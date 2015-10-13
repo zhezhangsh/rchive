@@ -29,6 +29,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseGw
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseHomologene.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseMesh.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOmim.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePir.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseTaxonomy.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareGeexCollection.r");

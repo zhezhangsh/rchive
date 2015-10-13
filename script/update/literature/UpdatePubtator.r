@@ -1,6 +1,6 @@
 library(devtools);
 #source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/load.r");
-install_github("zhezhangsh/rchive");
+#install_github("zhezhangsh/rchive");
 library(rchive);
 
 options(stringsAsFactors=FALSE);
