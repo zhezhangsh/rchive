@@ -11,4 +11,3 @@ ids<-lapply(ids, function(ids) sapply(strsplit(ids, ' '), function(x) x[1]));
 names(ids)<-sps;
 
 status<-lapply(sps, function(s) {download.kegg(sub(s, '', ids[[s]]), s, path.out)})
-
