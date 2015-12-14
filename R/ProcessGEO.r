@@ -73,7 +73,7 @@ InstallBrainarray<-function(affy.name, type='entrezg', version='19.0.0') {
                   c('cdf', 'probe', '.db'), '_', version, '.tar.gz', sep='');
       urls<-urls[sapply(urls, RCurl::url.exists)];
       if (length(urls) == 0) NA else {
-        fn<-sapply(urls, install_url);
+        fn<-sapply(urls, devtools::install_url);
         nm.new;
       }
     }
