@@ -56,7 +56,7 @@ LoadAffyCel<-function(fn) {
 }
 
 # Install a BrainArray package;
-InstallBrainarray<-function(affy.name, type='entrezg', version='19.0.0') {
+InstallBrainarray<-function(affy.name, type='entrezg', version='20.0.0') {
   url="http://brainarray.mbni.med.umich.edu/Brainarray/Database/CustomCDF"
   u<-paste(url, '/', version, '/', type, '.asp', sep='');
   if(!RCurl::url.exists(u)) NA else {
