@@ -211,6 +211,16 @@ saveRDS(hs2wm, file=paste(file_out, 'human2worm_entrez.rds', sep='/'));
 
 To wrap up, we mapped WORMBASE gene IDs to Entrez gene IDs of human homolog through Ensembl protein IDs. `r length(n[n>0])` WORMBASE IDs were mapped to at least one human gene, and `r length(n[n>1])` of them were mapped to more than one. 
 
+```{r full_mapping, include=FALSE}
+fn.wm2hs<-paste(file_out, 'worm2human_entrez.rds', sep='/'); 
+fn.hs2wm<-paste(file_out, 'human2worm_entrez.rds', sep='/'); 
+
+fn.homo<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r/homologene.rds', sep='/');
+
+homolo<-readRDS(fn.homo);
+
+```
+
 ```{r save_script, include=FALSE}
 ##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];

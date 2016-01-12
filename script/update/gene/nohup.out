@@ -1,25 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpN95wxj/devtoolsdc26001fc1a/zhezhangsh-rchive-8814456'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-mv: cannot move ‘/zhangz/R/library/rchive’ to ‘/zhangz/R/library/00LOCK-zhezhangsh-rchive-8814456/rchive’: Permission denied
-Warning in file.copy(f, instdir, TRUE) :
-  problem copying ./NAMESPACE to /zhangz/R/library/rchive/NAMESPACE: Permission denied
-Warning in file(file, ifelse(append, "a", "w")) :
-  cannot open file '/zhangz/R/library/rchive/DESCRIPTION': Permission denied
-Error in file(file, ifelse(append, "a", "w")) : 
-  cannot open the connection
-ERROR: installing package DESCRIPTION failed for package ‘rchive’
-* removing ‘/zhangz/R/library/rchive’
-Error: Command failed (1)
-Execution halted
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpxnAlu3/devtoolsdf253f339cd/zhezhangsh-rchive-8814456'  \
+  '/tmp/RtmpDAvcOt/devtoolsb4938320827/zhezhangsh-rchive-d079dd0'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -31,43 +13,14 @@ No man pages found in package  ‘rchive’
 ** building package indices
 ** testing if installed package can be loaded
 * DONE (rchive)
-trying URL 'ftp://ftp.ncbi.nih.gov/gene//DATA/GENE_INFO/All_Data.gene_info.gz'
-ftp data connection made, file length 215512259 bytes
-opened URL
-==================================================
-downloaded 205.5 Mb
-
-Read 1 item
-Read 11893251 items
-Processed 56364 human genes
-Processed 73347 mouse genes
-Processed 42671 rat genes
-Processed 35526 chimp genes
-Processed 48693 pig genes
-Processed 26078 chicken genes
-Processed 30539 dog genes
-Processed 58802 cow genes
-Processed 46693 worm genes
-Processed 24620 fly genes
-Processed 37241 zebrafish genes
-Processed 4499 ecoli genes
-Processed 36 yeast genes
-[1] 1
-Loading required package: methods
-Loading required package: bitops
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-
+Error in download.file(ftp.file, fn) : 
+  cannot open destfile '/zhangz/rchive/data/gene/public/unigene/src/human.data.gz', reason 'Permission denied'
+Calls: lapply -> FUN -> ParseUnigene -> download.file
 Execution halted
-Warning message:
-system call failed: Cannot allocate memory 
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpB4mc5X/devtoolse3c41a31a78/zhezhangsh-rchive-8814456'  \
+  '/tmp/RtmpjZwBD1/devtoolsb7e152c6d5d/zhezhangsh-rchive-d079dd0'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -79,60 +32,49 @@ No man pages found in package  ‘rchive’
 ** building package indices
 ** testing if installed package can be loaded
 * DONE (rchive)
-trying URL 'ftp://ftp.ncbi.nih.gov/gene//DATA/GENE_INFO/All_Data.gene_info.gz'
-ftp data connection made, file length 215512259 bytes
+trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Homo_sapiens/Hs.data.gz'
+ftp data connection made, file length 164097045 bytes
 opened URL
 ==================================================
-downloaded 205.5 Mb
+downloaded 156.5 Mb
 
-Read 1 item
-Read 11893251 items
-Processed 56364 human genes
-Processed 73347 mouse genes
-Processed 42671 rat genes
-Processed 35526 chimp genes
-Processed 48693 pig genes
-Processed 26078 chicken genes
-Processed 30539 dog genes
-Processed 58802 cow genes
-Processed 46693 worm genes
-Processed 24620 fly genes
-Processed 37241 zebrafish genes
-Processed 4499 ecoli genes
-Processed 6351 yeast genes
-[1] 1
-Loading required package: methods
-Loading required package: bitops
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10
-[1] 11
-[1] 12
-[1] 13
-[1] 14
-[1] 15
-[1] 16
-[1] 17
-[1] 18
-[1] 19
-[1] 20
-[1] 21
-[1] 22
-[1] 23
-[1] 24
-Error in parse.set(ids[[i]]) : Error: spliting xml by genes.
-Calls: GetEntrezDetail -> parse.set
-In addition: Warning messages:
-1: In ind2 <= ind1 :
-  longer object length is not a multiple of shorter object length
-2: In ind1[-1] <= ind2[-length(ind2)] :
-  longer object length is not a multiple of shorter object length
+Loading source file...
+Read 8759380 items
+Creating gene annotation table ...
+Create tissue expression table ...
+Creating gene homolog table ...
+trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Mus_musculus/Mm.data.gz'
+ftp data connection made, file length 115660902 bytes
+opened URL
+==================================================
+downloaded 110.3 Mb
+
+Loading source file...
+Read 5920230 items
+Creating gene annotation table ...
+Create tissue expression table ...
+Creating gene homolog table ...
+trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Rattus_norvegicus/Rn.data.gz'
+ftp data connection made, file length 41075337 bytes
+opened URL
+==================================================
+downloaded 39.2 Mb
+
+Loading source file...
+Read 2443328 items
+Creating gene annotation table ...
+Create tissue expression table ...
+Creating gene homolog table ...
+trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Pan_troglodytes/Ptr.data.gz'
+ftp data connection made, file length 1819566 bytes
+opened URL
+==================================================
+downloaded 1.7 Mb
+
+Loading source file...
+Read 117916 items
+Creating gene annotation table ...
+Create tissue expression table ...
+Error in `[<-`(`*tmp*`, j, i, value = 1) : subscript out of bounds
+Calls: lapply -> FUN -> ParseUnigene
 Execution halted
-Warning message:
-system call failed: Cannot allocate memory 
