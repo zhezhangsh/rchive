@@ -32,6 +32,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseOm
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePir.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParsePubtator.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseTaxonomy.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseUnigene.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareGeexCollection.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/PrepareMetaGwas.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ProcessGEO.r");

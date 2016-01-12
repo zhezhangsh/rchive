@@ -53,6 +53,7 @@ export("ParseOmim");
 export("ParsePir");
 export("ParsePubtator");
 export("ParseTaxonomy");
+export("ParseUnigene");
 export("PrepareGeexCollection");
 export("PrepareMetaGwas");
 export("ProcessGEO");
