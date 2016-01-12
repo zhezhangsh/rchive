@@ -1,7 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpivuhY1/devtoolscde3ff0c9f1/zhezhangsh-rchive-cc8f477'  \
+  '/tmp/RtmpxPwaT9/devtoolse182715c12e/zhezhangsh-rchive-baf1ec3'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -20,9 +20,3 @@ opened URL
 downloaded 156.5 Mb
 
 Loading source file...
-Read 8759380 items
-Creating gene annotation table ...
-Create tissue expression table ...
-Error in rownames(exprd.tbl) <- ids : object 'exprd.tbl' not found
-Calls: lapply -> FUN -> ParseUnigene
-Execution halted
