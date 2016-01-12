@@ -19,7 +19,7 @@ ftp.files<-c(
 );
 
 path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/unigene', sep='/');
-parsed<-lapply(names(ftp.files), function(nm) ParseUnigene(ftp.files[nm], nm, TRUE, path)); 
+parsed<-lapply(names(ftp.files)[1], function(nm) ParseUnigene(ftp.files[nm], nm, TRUE, path)); 
 ids<-lapply(parsed, function(x) list(id=rownames(x[[1]]), tissue=colnames(x[[2]]), homolog=nrow(x[[3]])));
 
 ##############################################################################################################

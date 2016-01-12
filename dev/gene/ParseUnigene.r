@@ -28,23 +28,23 @@ ParseUnigene<-function(ftp.file, species='human', download.new=FALSE,
   #### Make the gene annotation table
   cat('Creating gene annotation table ...\n'); 
   if (!('ID' %in% col.names)) col.names<-c('ID', col.names); 
-  col<-lapply(col.names, function(cnm) {
+  cls<-lapply(col.names, function(cnm) {
     v<-val[fld==cnm]; 
     split(as.vector(v), names(v)); 
   }); 
-  names(col)<-col.names;
-  ids<-col[['ID']];
+  names(cls)<-col.names;
+  ids<-cls[['ID']];
   ids<-sapply(ids, function(id) id[1]); 
   ids<-ids[order(as.numeric(names(ids)))];
   tmp<-rep('', length(ids));
   names(tmp)<-names(ids); 
-  tbl<-sapply(col[col.names!='ID'], function(col) {
-    c<-paste(col, sep=';'); 
-    names(c)<-names(col); 
+  tbl<-sapply(cls[col.names!='ID'], function(cls) {
+    c<-paste(cls, sep=';'); 
+    names(c)<-names(cls); 
     c<-c[names(c) %in% names(tmp)];
     tmp[names(c)]<-c; 
     as.vector(tmp); 
-  });
+  }); 
   rownames(tbl)<-ids;
   tbl<-data.frame(tbl, stringsAsFactors = FALSE);
   saveRDS(tbl, file=paste(path, 'r', paste(species, '_genes.rds', sep=''), sep='/')); 
