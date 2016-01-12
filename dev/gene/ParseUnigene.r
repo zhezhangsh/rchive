@@ -64,7 +64,7 @@ ParseUnigene<-function(ftp.file, species='human', download.new=FALSE,
       j<-unique(expr.ind[expr.val==expr.cnm[i]]); 
       expr.tbl[j, i]<-1;
     };
-    rownames(exprd.tbl)<-ids;
+    rownames(expr.tbl)<-ids;
     saveRDS(expr.tbl, file=paste(path, 'r', paste(species, '_expression.rds', sep=''), sep='/')); 
     out$expression<-expr.tbl;
   }

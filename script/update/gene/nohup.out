@@ -1,26 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpDAvcOt/devtoolsb4938320827/zhezhangsh-rchive-d079dd0'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Error in download.file(ftp.file, fn) : 
-  cannot open destfile '/zhangz/rchive/data/gene/public/unigene/src/human.data.gz', reason 'Permission denied'
-Calls: lapply -> FUN -> ParseUnigene -> download.file
-Execution halted
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpjZwBD1/devtoolsb7e152c6d5d/zhezhangsh-rchive-d079dd0'  \
+  '/tmp/RtmpivuhY1/devtoolscde3ff0c9f1/zhezhangsh-rchive-cc8f477'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -42,39 +23,6 @@ Loading source file...
 Read 8759380 items
 Creating gene annotation table ...
 Create tissue expression table ...
-Creating gene homolog table ...
-trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Mus_musculus/Mm.data.gz'
-ftp data connection made, file length 115660902 bytes
-opened URL
-==================================================
-downloaded 110.3 Mb
-
-Loading source file...
-Read 5920230 items
-Creating gene annotation table ...
-Create tissue expression table ...
-Creating gene homolog table ...
-trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Rattus_norvegicus/Rn.data.gz'
-ftp data connection made, file length 41075337 bytes
-opened URL
-==================================================
-downloaded 39.2 Mb
-
-Loading source file...
-Read 2443328 items
-Creating gene annotation table ...
-Create tissue expression table ...
-Creating gene homolog table ...
-trying URL 'ftp://ftp.ncbi.nih.gov/repository/UniGene//Pan_troglodytes/Ptr.data.gz'
-ftp data connection made, file length 1819566 bytes
-opened URL
-==================================================
-downloaded 1.7 Mb
-
-Loading source file...
-Read 117916 items
-Creating gene annotation table ...
-Create tissue expression table ...
-Error in `[<-`(`*tmp*`, j, i, value = 1) : subscript out of bounds
+Error in rownames(exprd.tbl) <- ids : object 'exprd.tbl' not found
 Calls: lapply -> FUN -> ParseUnigene
 Execution halted
