@@ -195,7 +195,7 @@ saveRDS(mapped, paste(file_out, 'wormbase2human_entrez.rds', sep='/'));
 # Entrez to Entrez mapping between worm and human
 mp1<-rep(names(mapped), sapply(mapped, length)); 
 mp2<-unlist(mapped, use.names=FALSE); 
-mp3<-wb2eg[mp1]; 
+mp3<-readRDS(paste(file_out, 'wormbase2entrez.rds', sep='/'))[mp1]; 
 mp4<-rep(mp2, sapply(mp3, length)); 
 mp5<-unlist(mp3, use.names=FALSE); 
 flg<-mp4=='' | mp5=='' | is.na(mp4) | is.na(mp5); 
@@ -212,8 +212,12 @@ saveRDS(hs2wm, file=paste(file_out, 'human2worm_entrez.rds', sep='/'));
 We mapped WORMBASE gene IDs to Entrez gene IDs of human homolog through Ensembl protein IDs. `r length(n[n>0])` WORMBASE IDs were mapped to at least one human gene, and `r length(n[n>1])` of them were mapped to more than one. 
 
 ```{r full_mapping, include=FALSE}
+library(rchive); 
+
 fn.wm2hs<-paste(file_out, 'worm2human_entrez.rds', sep='/'); 
 fn.hs2wm<-paste(file_out, 'human2worm_entrez.rds', sep='/'); 
+wb.wm2hs<-readRDS(fn.wm2hs);
+wb.hs2wm<-readRDS(fn.hs2wm);
 
 fn.homo<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r/homologene.rds', sep='/');
 
@@ -236,8 +240,37 @@ homolo.ce2hs<-split(as.vector(homolo.ce2hs), names(homolo.ce2hs));
 # Unigene mapping
 uni.hs<-readRDS(fn.uni[1]);
 uni.hs.homolog<-readRDS(fn.uni[3]); 
+uni.hs.homolog[, 1]<-uni.hs[uni.hs.homolog[, 1], 'GENE_ID'];
+uni.hs.mp<-MapUnigeneSpecies(uni.hs.homolog, 'org.Ce.eg.db'); 
+uni.hs.mp<-lapply(uni.hs.mp, names);
+uni.hs.mp<-lapply(uni.hs.mp, function(x) x[x!='']);
+uni.hs.mp<-uni.hs.mp[sapply(uni.hs.mp, length)>0]; 
 
+uni.ce<-readRDS(fn.uni[2]);
+uni.ce.homolog<-readRDS(fn.uni[4]); 
+uni.ce.mp<-MapUnigeneSpecies(uni.ce.homolog, 'org.Hs.eg.db'); 
+uni.ce.mp<-lapply(uni.ce.mp, names);
+uni.ce.mp<-lapply(uni.ce.mp, function(x) x[x!='']);
+uni.ce.mp<-uni.ce.mp[sapply(uni.ce.mp, length)>0]; 
+
+mp<-list(homologene=list(worm2human=homolo.ce2hs, human2worm=homolo.hs2ce),
+         wormbase=list(worm2human=wb.wm2hs, human2worm=wb.hs2wm), 
+         unigene=list(worm2human=uni.ce.mp, human2worm=uni.hs.mp)); 
+worm2human<-CombineHomolog(lapply(mp, function(x) x[[1]])); 
+human2worm<-CombineHomolog(lapply(mp, function(x) x[[2]])); 
+saveRDS(worm2human, file=paste(file_out, 'worm2human_full.rds', sep='/')); 
+saveRDS(human2worm, file=paste(file_out, 'human2worm_full.rds', sep='/')); 
+
+ns<-sapply(mp, function(x) length(x[[1]]));
+nm<-names(mp); 
+ln<-paste(' - **', nm, '**:', ns, ' mapped genes', sep=''); 
+ln<-paste(ln, sep='\n'); 
 ```
+
+Finally, we combined worm-human gene mapping from `r length(mp)` different resource. Totally, `r nrow(worm2human[[1]])` worm genes were mapped to at least 1 human gene. 
+
+`r ln`
+
 
 ```{r save_script, include=FALSE}
 ##############################################################################################################

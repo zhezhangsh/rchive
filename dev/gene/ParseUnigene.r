@@ -46,7 +46,7 @@ ParseUnigene<-function(ftp.file, species='human', download.new=FALSE,
     as.vector(tmp); 
   }); 
   rownames(tbl)<-ids;
-  tbl<-data.frame(tbl, stringsAsFactors = FALSE);
+  tbl<-data.frame(tbl, stringsAsFactors = FALSE); 
   saveRDS(tbl, file=paste(path, 'r', paste(species, '_genes.rds', sep=''), sep='/')); 
   out<-list(annotation=tbl); 
   

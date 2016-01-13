@@ -2,6 +2,7 @@
 export("AddDbGapPubMed");
 export("CleanHtmlTags");
 export("CombineGwas");
+export("CombineHomolog");
 export("CombineIntron");
 export("ConvertGene2EntrezKeggApi");
 export("DownloadBrainSpan");
@@ -32,7 +33,9 @@ export("MapKegg2Gene");
 export("MapKeggOne2All");
 export("MapKeggOne2One");
 export("MapKeggPath2Gene");
+export("MapOrg2Gene");
 export("MapSet2Species");
+export("MapUnigeneSpecies");
 export("MatchSage");
 export("MergeTable");
 export("ParseBiosystemsGeneral");
