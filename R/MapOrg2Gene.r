@@ -10,14 +10,24 @@ MapOrg2Gene<-function(pkg.name, ids=c(), type) {
     if(!require(pkg.name, character.only = TRUE)) stop(pkg.name, ": package not found");
   }
   
-  if (!grepl('$org', type)) fld<-paste(sub('.db$', '', pkg.name), type, sep='') else fld<-type;
+  #if (!grepl('$org', type)) fld<-paste(sub('.db$', '', pkg.name), type, sep='') else fld<-type;
   
-  x<-eval(parse(text=fld));
-  mapped_genes <- mappedkeys(x);
-  xx <- as.list(x[mapped_genes]);
+  library(dplyr);
+  fn.db<-paste(.libPaths()[1], pkg.name, 'extdata', sub('.db', '.sqlite', pkg.name), sep='/'); 
+  db<-src_sqlite(fn.db);
+  t<-as.data.frame(collect(tbl(db, tolower(type)))); 
+  gn<-as.data.frame(collect(tbl(db, 'genes')));
+
+  g<-gn[,2];
+  names(g)<-gn[,1]; 
+  mp1<-t[, 2]; 
+  mp2<-as.vector(g[as.character(t[, 1])]); 
   
-  mp1<-unlist(xx, use.names=FALSE);
-  mp2<-rep(names(xx), sapply(xx, length)); 
+  #x<-eval(parse(text=fld)); 
+  #mapped_genes <- mappedkeys(x);  
+  #xx <- as.list(x[mapped_genes]);
+  #mp1<-unlist(xx, use.names=FALSE);
+  #mp2<-rep(names(xx), sapply(xx, length)); 
   mp<-split(mp2, mp1);
   
   ids<-ids[!is.na(ids)];

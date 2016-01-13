@@ -231,10 +231,10 @@ fn.uni<-c(
 # Homologene mapping
 homolo<-readRDS(fn.homo);
 gn.hs<-unique(homolo[homolo[,2]=='9606', 3]); 
-homolo.hs2ce<-rchive::MapHomologene(homolo, gn.hs, from='9606', to='6239'); 
+homolo.hs2ce<-MapHomologene(homolo, gn.hs, from='9606', to='6239'); 
 homolo.hs2ce<-split(as.vector(homolo.hs2ce), names(homolo.hs2ce)); 
 gn.ce<-unique(homolo[homolo[,2]=='6239', 3]); 
-homolo.ce2hs<-rchive::MapHomologene(homolo, gn.ce, from='6239', to='9606'); 
+homolo.ce2hs<-MapHomologene(homolo, gn.ce, from='6239', to='9606'); 
 homolo.ce2hs<-split(as.vector(homolo.ce2hs), names(homolo.ce2hs)); 
 
 # Unigene mapping
