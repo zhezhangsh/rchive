@@ -3,8 +3,8 @@ path.out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene.set/r', sep='/');
 
 if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
-species<-'mouse';
-sp.mp<-readRDS(paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r/mapped_human2mouse.rds', sep='/'));
+species<-'worm';
+sp.mp<-readRDS(paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/wormbase/r/human2worm_full.rds', sep='/'))$list;
 
 meta<-readRDS(file=paste(path.out, 'metadata.rds', sep='/'));
 
