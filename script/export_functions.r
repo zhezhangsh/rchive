@@ -12,8 +12,8 @@ mt1<-file.info(fn1)[, 'mtime'];
 names(fn0)<-fn1;
 fn0<-fn0[is.na(mt1) | mt0>mt1];
 if (length(fn0)) {
-	cat("copied", length(fn0), "function files to R/\n");
-	file.copy(fn0, names(fn0), overwrite=TRUE);
+	cat(fn0, " copied", length(fn0), "function files to R/\n");
+	file.copy(fn0, names(fn0), overwrite=TRUE, copy.date=TRUE);
 }
 
 # Export functions in NAMESPACE file
