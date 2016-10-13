@@ -1,9 +1,5 @@
 # Parse OMIM database
 ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", 
-<<<<<<< HEAD
-                    path.gene=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_synonyms2id.rds', sep='/')
-=======
->>>>>>> d9c9daaf6e20ffad74db0d679812de03ff9acd0f
                     path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), 
                     download.all=FALSE) {
 
@@ -17,21 +13,6 @@ ParseOmim<-function(url="ftp://ftp.omim.org/OMIM",
   fn.loc<-paste(path, 'src', fn.src, sep='/');
   names(fn.loc)<-fn.src;
   for (i in 1:length(fn.ftp)) if (download.all | !file.exists(fn.loc[i])) download.file(fn.ftp[i], fn.loc[i]);
-  
-  #######################################################################################
-  mp<-strsplit(scan(fn.loc[1], sep='\n', flush=TRUE, what=''), '\\|');
-  mp.gn<-strsplit(sapply(mp, function(mp) mp[6]), ', ');
-  mp.id<-sapply(mp, function(mp) mp[10]);
-  mp.id<-rep(mp.id, sapply(mp.gn, length));
-  mp.gn<-unlist(mp.gn, use.names=FALSE);
-  hu.gn<-readRDS(path.gene);
-  gn<-hu.gn[mp.gn];
-  mp.id<-rep(mp.id, sapply(gn, length));
-  gn<-unlist(gn, use.names=FALSE);
-  id2gn<-lapply(split(gn, mp.id), unique);
-  gn2id<-lapply(split(mp.id, gnf), unique);
-  saveRDS(id2gn, file=paste(path, 'r/map_omim2gene.rds', sep='/'));
-  saveRDS(gn2id, file=paste(path, 'r/map_gene2omim.rds', sep='/'));
   
   ############################################################################
   ## Process full record of OMIM entries
