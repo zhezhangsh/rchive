@@ -20,8 +20,10 @@ MergeEncodeReadCount <- function(fns) {
   cnm <- sub('.tsv', '', cnm); 
   cnt <- matrix(0, nr=length(ids), nc=length(cnm), dimnames=list(ids, cnm)); 
   
-  for (i in 1:length(cnm)) cnt[ids, i] <- as.vector(d[[i]][[2]]); 
+  num <- sapply(d, function(d) length(d[[1]])); 
   
-  list(length=len, count=cnt); 
+  for (i in 1:length(cnm)) cnt[names(d[[i]][[2]]), i] <- as.vector(d[[i]][[2]]); 
+  
+  list(length=len, number=num, count=cnt); 
 }
 
