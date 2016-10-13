@@ -4,7 +4,7 @@ MergeEncodeReadCount <- function(fns) {
   fns <- fns[file.exists(fns)]; 
   
   d <- lapply(fns, function(f) {
-    tbl <- read.table(f, sep='\t', header=TRUE, row=1); 
+    tbl <- read.delim(f, row=1); 
     len <- tbl$length;
     cnt <- tbl$expected_count;
     names(len) <- names(cnt) <- rownames(tbl); 
@@ -19,6 +19,8 @@ MergeEncodeReadCount <- function(fns) {
   cnm <- TrimPath(fns); 
   cnm <- sub('.tsv', '', cnm); 
   cnt <- matrix(0, nr=length(ids), nc=length(cnm), dimnames=list(ids, cnm)); 
+  
+  for (i in 1:length(cnm)) cnt[ids, i] <- as.vector(d[[i]][[2]]); 
   
   list(length=len, count=cnt); 
 }

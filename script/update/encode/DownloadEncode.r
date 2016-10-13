@@ -2,8 +2,10 @@
 q <- c("Assay"='RNA-seq', "File.format"='tsv', "Assembly"='GRCh38', "Output.type"='gene quantifications', "Project"='ENCODE', 
        "Library.made.from"='RNA', "Library.size.range"='>200', "Library.depleted.in"='rRNA')
 p <- paste(Sys.getenv("RCHIVE_HOME"), 'data/encode/public/rnaseq/src/grch38/gene', sep='/'); 
+o <- paste(Sys.getenv("RCHIVE_HOME"), 'data/encode/public/rnaseq/r/grch38/gene', sep='/'); 
 
 if (!file.exists(p)) dir.create(p, recursive = TRUE);
+if (!file.exists(o)) dir.create(o, recursive = TRUE);
 
 devtools::install_github("zhezhangsh/rchive");
 
@@ -43,5 +45,4 @@ for (i in 1:length(url)) {
   }
 };
 
-fns <- fns[!file.exists(fns)]; 
-
+cnt <- MergeEncodeReadCount(fns); 
