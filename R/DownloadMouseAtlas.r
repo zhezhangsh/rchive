@@ -96,7 +96,7 @@ DownloadMouseAtlas<-function(url.table="http://www.mouseatlas.org/data/mouse/pro
     c<-c[names(c) %in% rownames(tag2gn)];
     if (length(c)>0) cnt[names(c), i]<-as.integer(c);
   }
-  saveRDS(tag2gn, file=paste(path, 'r', 'tag2gene_all.rdse', sep='/'));
+  saveRDS(tag2gn, file=paste(path, 'r', 'tag2gene_all.rds', sep='/'));
   saveRDS(cnt, file=paste(path, 'r', 'tagcount_all.rds', sep='/'));
   
   # Gene Count matix

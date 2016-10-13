@@ -18,6 +18,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapGtf.
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapHomologene.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapKegg.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MapSet2Species.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/MergeEncodeReadCount.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseChebi.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/ParseDbSNP.r");

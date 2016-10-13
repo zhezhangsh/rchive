@@ -1,1230 +1,7 @@
 Downloading github repo zhezhangsh/rchive@master
 Installing rchive
 '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab17eec0e5/zhezhangsh-rchive-fc002b5'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘rchive’ ...
-** R
-** preparing package for lazy loading
-** help
-No man pages found in package  ‘rchive’ 
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (rchive)
-Loading required package: BiocGenerics
-Loading required package: methods
-Loading required package: parallel
-
-Attaching package: ‘BiocGenerics’
-
-The following objects are masked from ‘package:parallel’:
-
-    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-    clusterExport, clusterMap, parApply, parCapply, parLapply,
-    parLapplyLB, parRapply, parSapply, parSapplyLB
-
-The following object is masked from ‘package:stats’:
-
-    xtabs
-
-The following objects are masked from ‘package:base’:
-
-    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
-    do.call, duplicated, eval, evalq, Filter, Find, get, intersect,
-    is.unsorted, lapply, Map, mapply, match, mget, order, paste, pmax,
-    pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce, rep.int,
-    rownames, sapply, setdiff, sort, table, tapply, union, unique,
-    unlist, unsplit
-
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Setting options('download.file.method.GEOquery'='curl')
-trying URL 'http://gbnci.abcc.ncifcrf.gov/geo/GEOmetadb.sqlite.gz'
-Content type 'application/x-gzip' length 265667934 bytes (253.4 Mb)
-opened URL
-==================================================
-downloaded 253.4 Mb
-
-Unzipping...
-Metadata associate with downloaded file:
-                name               value
-1     schema version                 1.0
-2 creation timestamp 2015-08-08 11:28:35
-[1] "/zhangz/rchive/data/gex/db/GEOmetadb.sqlite"
-Warning message:
-closing unused connection 3 (http://gbnci.abcc.ncifcrf.gov/geo/GEOmetadb.sqlite.gz) 
-Parsing GEO series GSE64034 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE64nnn/GSE64034/matrix/
-Found 1 file(s)
-GSE64034_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE64034_series_matrix.txt.gz
-Using locally cached version of GPL17889 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL17889.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE64nnn/GSE64034/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 18  149M   18 27.8M    0     0  24.1M      0  0:00:06  0:00:01  0:00:05 24.0M 42  149M   42 62.9M    0     0  29.1M      0  0:00:05  0:00:02  0:00:03 29.1M 75  149M   75  113M    0     0  35.9M      0  0:00:04  0:00:03  0:00:01 35.9M100  149M  100  149M    0     0  40.0M      0  0:00:03  0:00:03 --:--:-- 40.0M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1774  100  1774    0     0   6816      0 --:--:-- --:--:-- --:--:--  6823
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563205_CDL_6-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563206_CDL_6-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563207_CDL_15-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563208_CDL_15-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563209_CDL_160-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563210_CDL_160-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563211_CDL_444-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563212_CDL_444-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563213_GM_1652-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563214_GM_1864-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563215_GM_1864-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563216_GM-2036-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563217_GM-2036-2_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563218_GM-2036-3_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563219_GM-3348-1_HuGene-2_0-st_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64034-GPL17889/GSE64034/GSM1563220_GM-3348-2_HuGene-2_0-st_.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hugene20sthsentrezgcdf_19.0.0.tar.gz
-Installing hugene20sthsentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1babef91d6c/hugene20sthsentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hugene20sthsentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hugene20sthsentrezgcdf)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hugene20sthsentrezgprobe_19.0.0.tar.gz
-Installing hugene20sthsentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab61a5d7a7/hugene20sthsentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hugene20sthsentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hugene20sthsentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hugene20sthsentrezg.db_19.0.0.tar.gz
-Installing hugene20sthsentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab7eb28303/hugene20sthsentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hugene20sthsentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hugene20sthsentrezg.db)
-Loading required package: AnnotationDbi
-Loading required package: stats4
-Loading required package: GenomeInfoDb
-Loading required package: S4Vectors
-Loading required package: IRanges
-
-Attaching package: ‘AnnotationDbi’
-
-The following object is masked from ‘package:GenomeInfoDb’:
-
-    species
-
-
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE12408 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE12nnn/GSE12408/matrix/
-Found 1 file(s)
-GSE12408_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE12408_series_matrix.txt.gz
-Using locally cached version of GPL570 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL570.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE12nnn/GSE12408/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0  179M    0  173k    0     0   568k      0  0:05:22 --:--:--  0:05:22  568k 20  179M   20 36.7M    0     0  27.6M      0  0:00:06  0:00:01  0:00:05 27.6M 34  179M   34 62.4M    0     0  26.3M      0  0:00:06  0:00:02  0:00:04 26.3M 51  179M   51 91.6M    0     0  27.5M      0  0:00:06  0:00:03  0:00:03 27.5M 71  179M   71  128M    0     0  29.8M      0  0:00:06  0:00:04  0:00:02 29.8M 92  179M   92  166M    0     0  31.2M      0  0:00:05  0:00:05 --:--:-- 33.1M100  179M  100  179M    0     0  31.5M      0  0:00:05  0:00:05 --:--:-- 32.7M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2199  100  2199    0     0   8851      0 --:--:-- --:--:-- --:--:--  8866
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311313.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311314.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311315.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311316.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311317.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311318.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311319.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311320.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311321.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311322.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311323.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311324.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311325.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311326.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311327.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311328.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311329.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311330.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311331.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311332.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311333.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311334.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311335.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311336.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311337.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311338.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311339.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311340.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311341.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311342.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311343.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311344.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311345.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311346.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311347.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311348.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311349.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311350.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE12408-GPL570/GSE12408/GSM311351.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgcdf_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab448bd2e5/hgu133plus2hsentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgcdf)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgprobe_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab4f7802a2/hgu133plus2hsentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezg.db_19.0.0.tar.gz
-Installing hgu133plus2hsentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab39bda1d2/hgu133plus2hsentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezg.db)
-
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE64031 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE64nnn/GSE64031/matrix/
-Found 1 file(s)
-GSE64031_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE64031_series_matrix.txt.gz
-Using locally cached version of GPL17810 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL17810.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE64nnn/GSE64031/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 54 43.0M   54 23.5M    0     0  19.9M      0  0:00:02  0:00:01  0:00:01 19.9M100 43.0M  100 43.0M    0     0  27.0M      0  0:00:01  0:00:01 --:--:-- 26.9M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   893  100   893    0     0   1227      0 --:--:-- --:--:-- --:--:--  1226
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563125_1_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563126_2_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563127_3_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563128_4_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563129_5_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563130_6_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563131_7_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563132_8_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563133_9_011613_HG-U133_Plus_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE64031-GPL17810/GSE64031/GSM1563134_10_011613_HG-U133_Plus_2_.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgcdf_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab7651dd3e/hgu133plus2hsentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgcdf)
-Reloading installed hgu133plus2hsentrezgcdf
-
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgprobe_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab1496ee04/hgu133plus2hsentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezg.db_19.0.0.tar.gz
-Installing hgu133plus2hsentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab137580f/hgu133plus2hsentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezg.db)
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE27569 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE27nnn/GSE27569/matrix/
-Found 1 file(s)
-GSE27569_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE27569_series_matrix.txt.gz
-Using locally cached version of GPL1319 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL1319.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE27nnn/GSE27569/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 19 30.7M   19 6144k    0     0   9.9M      0  0:00:03 --:--:--  0:00:03  9.9M100 30.7M  100 30.7M    0     0  21.2M      0  0:00:01  0:00:01 --:--:-- 21.2M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   902  100   902    0     0   1252      0 --:--:-- --:--:-- --:--:--  1251
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683599.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683600.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683601.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683602.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683603.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683604.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683605.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683606.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683607.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683608.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683609.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683610.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683611.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683612.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE27569-GPL1319/GSE27569/GSM683613.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/zebrafishdrentrezgcdf_19.0.0.tar.gz
-Installing zebrafishdrentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab15af9b20/zebrafishdrentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘zebrafishdrentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (zebrafishdrentrezgcdf)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/zebrafishdrentrezgprobe_19.0.0.tar.gz
-Installing zebrafishdrentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab70de350d/zebrafishdrentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘zebrafishdrentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (zebrafishdrentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/zebrafishdrentrezg.db_19.0.0.tar.gz
-Installing zebrafishdrentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab4c00b7e9/zebrafishdrentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘zebrafishdrentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (zebrafishdrentrezg.db)
-
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE54741 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE54nnn/GSE54741/matrix/
-Found 1 file(s)
-GSE54741_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE54741_series_matrix.txt.gz
-Using locally cached version of GPL2529 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL2529.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE54nnn/GSE54741/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 62 26.0M   62 16.1M    0     0  14.6M      0  0:00:01  0:00:01 --:--:-- 14.6M100 26.0M  100 26.0M    0     0  17.1M      0  0:00:01  0:00:01 --:--:-- 17.1M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 69  2091   69  1448    0     0   2821      0 --:--:-- --:--:-- --:--:--  2817100  2091  100  2091    0     0   4046      0 --:--:-- --:--:-- --:--:--  4044
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323015_eco1-W216G_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323016_eco1-W216G_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323017_eco1-W216G_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323018_eco1-W216G_fob1_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323019_eco1-W216G_fob1_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323020_eco1-W216G_fob1_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323021_fob1_1_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323022_fob1_1_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323023_fob1_1_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323024_fob1_2_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323025_fob1_2_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323026_fob1_2_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323027_rad61_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323028_rad61_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323029_rad61_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323030_rad61_eco1-W216G_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323031_rad61_eco1-W216G_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323032_rad61_eco1-W216G_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323033_wt_1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323034_wt_2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323035_wt_3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323036_10_1856-1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323037_11_1856-2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323038_12_1856-3_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323039_13_1857-1_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323040_14_1857-2_Yeast_2.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE54741-GPL2529/GSE54741/GSM1323041_15_1857-3_Yeast_2.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/yeast2scentrezgcdf_19.0.0.tar.gz
-Installing yeast2scentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab3f756701/yeast2scentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘yeast2scentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (yeast2scentrezgcdf)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/yeast2scentrezgprobe_19.0.0.tar.gz
-Installing yeast2scentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab4765f48a/yeast2scentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘yeast2scentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (yeast2scentrezgprobe)
-
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE30920 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE30nnn/GSE30920/matrix/
-Found 1 file(s)
-GSE30920_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE30920_series_matrix.txt.gz
-Using locally cached version of GPL1261 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL1261.soft 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE30nnn/GSE30920/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 43 31.9M   43 14.0M    0     0  18.8M      0  0:00:01 --:--:--  0:00:01 18.8M100 31.9M  100 31.9M    0     0  25.9M      0  0:00:01  0:00:01 --:--:-- 25.9M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1244  100  1244    0     0   2746      0 --:--:-- --:--:-- --:--:--  2746100  1244  100  1244    0     0   2723      0 --:--:-- --:--:-- --:--:--  2722
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766456_JD1_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766457_JD2_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766458_JD3_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766459_JD4_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766460_JD5_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766461_JD6_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766462_JD7_Mouse430_2_.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE30920-GPL1261/GSE30920/GSM766463_JD8_Mouse430_2_.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/mouse4302mmentrezgcdf_19.0.0.tar.gz
-Installing mouse4302mmentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab55fb9ee0/mouse4302mmentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘mouse4302mmentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (mouse4302mmentrezgcdf)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/mouse4302mmentrezgprobe_19.0.0.tar.gz
-Installing mouse4302mmentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab76e88774/mouse4302mmentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘mouse4302mmentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (mouse4302mmentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/mouse4302mmentrezg.db_19.0.0.tar.gz
-Installing mouse4302mmentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab697a8b61/mouse4302mmentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘mouse4302mmentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (mouse4302mmentrezg.db)
-
-Background correcting
-Normalizing
-Calculating Expression
-Parsing GEO series GSE55316 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE55nnn/GSE55316/matrix/
-Found 1 file(s)
-GSE55316_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE55316_series_matrix.txt.gz
-Using locally cached version of GPL18330 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL18330.soft 
-Parsing GEO series GSE46316 
-ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE46nnn/GSE46316/matrix/
-Found 1 file(s)
-GSE46316_series_matrix.txt.gz
-Using locally cached version: /zhangz/rchive/data/gex/public/cdls/src/GSE46316_series_matrix.txt.gz
-Using locally cached version of GPL13112 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GPL13112.soft 
-trying URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE9nnn/GSE9613/matrix//GSE9613-GPL570_series_matrix.txt.gz'
-ftp data connection made, file length 777854 bytes
-opened URL
-==================================================
-downloaded 759 Kb
-
-Read 1 item
-Parsing 6 samples
-Using locally cached version of GSM243270 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243270.soft 
-Using locally cached version of GSM243271 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243271.soft 
-Using locally cached version of GSM243272 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243272.soft 
-Using locally cached version of GSM243273 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243273.soft 
-Using locally cached version of GSM243642 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243642.soft 
-Using locally cached version of GSM243643 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSM243643.soft 
-File stored at: 
-/tmp/RtmpemmHAQ/GPL570.soft
-[1] "/zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613"
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243270/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4863k  100 4863k    0     0  13.3M      0 --:--:-- --:--:-- --:--:-- 13.3M
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243271/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4943k  100 4943k    0     0  6133k      0 --:--:-- --:--:-- --:--:-- 6133k
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243272/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4778k  100 4778k    0     0  14.2M      0 --:--:-- --:--:-- --:--:-- 14.2M
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243273/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 4897k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4897k  100 4897k    0     0  7813k      0 --:--:-- --:--:-- --:--:-- 7810k
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243642/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4807k  100 4807k    0     0  14.2M      0 --:--:-- --:--:-- --:--:-- 14.2M
-ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM243nnn/GSM243643/suppl/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 4952k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 4952k  100 4952k    0     0  11.8M      0 --:--:-- --:--:-- --:--:-- 11.7M
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243270.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243271.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243272.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243273.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243642.CEL.gz
-Reading in : /zhangz/rchive/data/gex/public/cdls/src/GSE9613/GSE9613/GSM243643.CEL.gz
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgcdf_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgcdf
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab4740e53/hgu133plus2hsentrezgcdf'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgcdf’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgcdf)
-Reloading installed hgu133plus2hsentrezgcdf
-
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezgprobe_19.0.0.tar.gz
-Installing hgu133plus2hsentrezgprobe
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab7a9dafb2/hgu133plus2hsentrezgprobe'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezgprobe’ ...
-** R
-** data
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezgprobe)
-Downloading package from url: http://mbni.org/customcdf/19.0.0/entrezg.download/hgu133plus2hsentrezg.db_19.0.0.tar.gz
-Installing hgu133plus2hsentrezg.db
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/RtmpemmHAQ/devtools1bab2cc72a4f/hgu133plus2hsentrezg.db'  \
-  --library='/zhangz/R/library' --install-tests 
-
-* installing *source* package ‘hgu133plus2hsentrezg.db’ ...
-** R
-** inst
-** tests
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded
-* DONE (hgu133plus2hsentrezg.db)
-Background correcting
-Normalizing
-Calculating Expression
-Using locally cached version of GSE59119 found here:
-/zhangz/rchive/data/gex/public/cdls/GSE59119.soft.gz 
-Parsing....
-Found 53 entities...
-GPL11002 (1 of 53 entities)
-GPL13112 (2 of 53 entities)
-GSM1428903 (3 of 53 entities)
-GSM1428904 (4 of 53 entities)
-GSM1428905 (5 of 53 entities)
-GSM1428906 (6 of 53 entities)
-GSM1428907 (7 of 53 entities)
-GSM1428908 (8 of 53 entities)
-GSM1428909 (9 of 53 entities)
-GSM1428910 (10 of 53 entities)
-GSM1838867 (11 of 53 entities)
-GSM1838868 (12 of 53 entities)
-GSM1838869 (13 of 53 entities)
-GSM1838870 (14 of 53 entities)
-GSM1838871 (15 of 53 entities)
-GSM1838872 (16 of 53 entities)
-GSM1838873 (17 of 53 entities)
-GSM1838874 (18 of 53 entities)
-GSM1838875 (19 of 53 entities)
-GSM1838876 (20 of 53 entities)
-GSM1838877 (21 of 53 entities)
-GSM1838878 (22 of 53 entities)
-GSM1838879 (23 of 53 entities)
-GSM1838880 (24 of 53 entities)
-GSM1838881 (25 of 53 entities)
-GSM1838882 (26 of 53 entities)
-GSM1838883 (27 of 53 entities)
-GSM1838884 (28 of 53 entities)
-GSM1838885 (29 of 53 entities)
-GSM1838886 (30 of 53 entities)
-GSM1838887 (31 of 53 entities)
-GSM1841818 (32 of 53 entities)
-GSM1841819 (33 of 53 entities)
-GSM1841820 (34 of 53 entities)
-GSM1841821 (35 of 53 entities)
-GSM1841822 (36 of 53 entities)
-GSM1841823 (37 of 53 entities)
-GSM1841824 (38 of 53 entities)
-GSM1841825 (39 of 53 entities)
-GSM1841826 (40 of 53 entities)
-GSM1841827 (41 of 53 entities)
-GSM1841828 (42 of 53 entities)
-GSM1841829 (43 of 53 entities)
-GSM1841830 (44 of 53 entities)
-GSM1841831 (45 of 53 entities)
-GSM1841832 (46 of 53 entities)
-GSM1841833 (47 of 53 entities)
-GSM1841834 (48 of 53 entities)
-GSM1841835 (49 of 53 entities)
-GSM1841836 (50 of 53 entities)
-GSM1841837 (51 of 53 entities)
-GSM1841838 (52 of 53 entities)
-GSM1841839 (53 of 53 entities)
-There were 50 or more warnings (use warnings() to see the first 50)
-Parsing 8 samples
-Using locally cached version of GSM1428903 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428903.soft 
-Using locally cached version of GSM1428904 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428904.soft 
-Using locally cached version of GSM1428905 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428905.soft 
-Using locally cached version of GSM1428906 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428906.soft 
-Using locally cached version of GSM1428907 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428907.soft 
-Using locally cached version of GSM1428908 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428908.soft 
-Using locally cached version of GSM1428909 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428909.soft 
-Using locally cached version of GSM1428910 found here:
-/zhangz/rchive/data/gex/public/cdls/src/GSE59119/GSM1428910.soft 
-File stored at: 
-/tmp/RtmpemmHAQ/GPL11002.soft
-trying URL 'http://www.dtd.nlm.nih.gov/geo/download/?acc=GSE55316&format=file&file=GSE55316%5Frpkm%2Etxt%2Egz'
-Content type 'application/octet-stream' length 221246 bytes (216 Kb)
-opened URL
-==================================================
-downloaded 216 Kb
-
-Read 7131 items
-Done with 1 vs 2 in iteration 1 
-Done with 1 vs 3 in iteration 1 
-Done with 1 vs 4 in iteration 1 
-Done with 1 vs 5 in iteration 1 
-Done with 1 vs 6 in iteration 1 
-Done with 2 vs 3 in iteration 1 
-Done with 2 vs 4 in iteration 1 
-Done with 2 vs 5 in iteration 1 
-Done with 2 vs 6 in iteration 1 
-Done with 3 vs 4 in iteration 1 
-Done with 3 vs 5 in iteration 1 
-Done with 3 vs 6 in iteration 1 
-Done with 4 vs 5 in iteration 1 
-Done with 4 vs 6 in iteration 1 
-Done with 5 vs 6 in iteration 1 
-1 0.007300934 
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128586&format=file&file=GSM1128586%5FL22%5F1684%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 459809 bytes (449 Kb)
-opened URL
-==================================================
-downloaded 449 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128587&format=file&file=GSM1128587%5FL22%5F1683%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 460658 bytes (449 Kb)
-opened URL
-==================================================
-downloaded 449 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128588&format=file&file=GSM1128588%5FL22%5F1679%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 461175 bytes (450 Kb)
-opened URL
-==================================================
-downloaded 450 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128589&format=file&file=GSM1128589%5FL22%5F1680%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 458760 bytes (448 Kb)
-opened URL
-==================================================
-downloaded 448 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128590&format=file&file=GSM1128590%5FL22%5F1681%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 460309 bytes (449 Kb)
-opened URL
-==================================================
-downloaded 449 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1128591&format=file&file=GSM1128591%5FL22%5F1682%5FmRNAonly%5Fread%5Fcount%2Etxt%2Egz'
-Content type 'application/octet-stream' length 459982 bytes (449 Kb)
-opened URL
-==================================================
-downloaded 449 Kb
-
-Loading required package: DBI
-
-Done with 1 vs 2 in iteration 1 
-Done with 1 vs 3 in iteration 1 
-Done with 1 vs 4 in iteration 1 
-Done with 1 vs 5 in iteration 1 
-Done with 1 vs 6 in iteration 1 
-Done with 2 vs 3 in iteration 1 
-Done with 2 vs 4 in iteration 1 
-Done with 2 vs 5 in iteration 1 
-Done with 2 vs 6 in iteration 1 
-Done with 3 vs 4 in iteration 1 
-Done with 3 vs 5 in iteration 1 
-Done with 3 vs 6 in iteration 1 
-Done with 4 vs 5 in iteration 1 
-Done with 4 vs 6 in iteration 1 
-Done with 5 vs 6 in iteration 1 
-1 0.00312357 
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428903&format=file&file=GSM1428903%5FAbrain%5Fpool1%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1108878 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428904&format=file&file=GSM1428904%5FAbrain%5Fpool2%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1113417 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428905&format=file&file=GSM1428905%5FKO%5FEB%5Fpool5%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1120473 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428906&format=file&file=GSM1428906%5FKO%5FEB%5Fpool6%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1115879 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428907&format=file&file=GSM1428907%5FPancreas%5Fpool1%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1034482 bytes (1010 Kb)
-opened URL
-==================================================
-downloaded 1010 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428908&format=file&file=GSM1428908%5FPancreas%5Fpool2%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1016819 bytes (992 Kb)
-opened URL
-==================================================
-downloaded 992 Kb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428909&format=file&file=GSM1428909%5FWT%5FEB%5Fpool3%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1121787 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-trying URL 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM1428910&format=file&file=GSM1428910%5FWT%5FEB%5Fpool4%2Egenes%2Efpkm%5Ftracking%2Egz'
-Content type 'application/octet-stream' length 1116945 bytes (1.1 Mb)
-opened URL
-==================================================
-downloaded 1.1 Mb
-
-Done with 1 vs 2 in iteration 1 
-Done with 1 vs 3 in iteration 1 
-Done with 1 vs 4 in iteration 1 
-Done with 1 vs 5 in iteration 1 
-Done with 1 vs 6 in iteration 1 
-Done with 1 vs 7 in iteration 1 
-Done with 1 vs 8 in iteration 1 
-Done with 2 vs 3 in iteration 1 
-Done with 2 vs 4 in iteration 1 
-Done with 2 vs 5 in iteration 1 
-Done with 2 vs 6 in iteration 1 
-Done with 2 vs 7 in iteration 1 
-Done with 2 vs 8 in iteration 1 
-Done with 3 vs 4 in iteration 1 
-Done with 3 vs 5 in iteration 1 
-Done with 3 vs 6 in iteration 1 
-Done with 3 vs 7 in iteration 1 
-Done with 3 vs 8 in iteration 1 
-Done with 4 vs 5 in iteration 1 
-Done with 4 vs 6 in iteration 1 
-Done with 4 vs 7 in iteration 1 
-Done with 4 vs 8 in iteration 1 
-Done with 5 vs 6 in iteration 1 
-Done with 5 vs 7 in iteration 1 
-Done with 5 vs 8 in iteration 1 
-Done with 6 vs 7 in iteration 1 
-Done with 6 vs 8 in iteration 1 
-Done with 7 vs 8 in iteration 1 
-1 2.204897 
-Warning message:
-In data.frame(row.names = rownames(ph), stringsAsFactors = FALSE,  :
-  NAs introduced by coercion
-  characteristics_ch1 characteristics_ch1.1 characteristics_ch1.2 
-              "SG156"         "eco1 mutant"                   "1" 
-characteristics_ch1.3           description 
-            "Jun2011"              "eco1.1" 
-             Name  Gene Treatment      Cell
-GSM766456 CapH2_1 CapH2 knockdown V6.5 mESC
-GSM766457 CapH2_2 CapH2 knockdown V6.5 mESC
-GSM766458  SMC2_1  SMC2 knockdown V6.5 mESC
-GSM766459  SMC2_2  SMC2 knockdown V6.5 mESC
-GSM766460  SMC1_1  SMC1 knockdown V6.5 mESC
-GSM766461  SMC1_2  SMC1 knockdown V6.5 mESC
-GSM766462   GFP_1   GFP knockdown V6.5 mESC
-GSM766463   GFP_2   GFP knockdown V6.5 mESC
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563205.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563206.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563207.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563208.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563209.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563210.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563211.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563212.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563213.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563214.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563215.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563216.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563217.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563218.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563219.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563220.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311313.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311314.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311315.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311316.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311317.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311318.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311319.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311320.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311321.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311322.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311323.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311324.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311325.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311326.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311327.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311328.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311329.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311330.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311331.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311332.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311333.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311334.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311335.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311336.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311337.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311338.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311339.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311340.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311341.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311342.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311343.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311344.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311345.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311346.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311347.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311348.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311349.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311350.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM311351.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563125.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563126.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563127.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563128.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563129.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563130.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563131.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563132.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563133.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1563134.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683599.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683600.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683601.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683602.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683603.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683604.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683605.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683606.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683607.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683608.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683609.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683610.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683611.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683612.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM683613.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243270.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243271.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243272.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243273.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243642.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM243643.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323015.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323016.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323017.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323018.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323019.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323020.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323021.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323022.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323023.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323024.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323025.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323026.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323027.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323028.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323029.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323030.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323031.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323032.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323033.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323034.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323035.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323036.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323037.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323038.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323039.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323040.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1323041.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334027.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334029.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334031.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334033.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334034.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1334035.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766456.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766457.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766458.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766459.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766460.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766461.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766462.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM766463.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128586.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128587.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128588.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128589.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128590.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1128591.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428903.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428904.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428905.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428906.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428907.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428908.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428909.soft
-File stored at: 
-/tmp/RtmpemmHAQ/GSM1428910.soft
-Warning messages:
-1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
-2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-[1] TRUE
-Downloading github repo zhezhangsh/rchive@master
-Installing rchive
-'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-  '/tmp/Rtmpntmz0E/devtools23f573bf864c/zhezhangsh-rchive-fc002b5'  \
+  '/tmp/Rtmp6eWpyB/devtools256f2c55fead/zhezhangsh-rchive-88fc116'  \
   --library='/zhangz/R/library' --install-tests 
 
 * installing *source* package ‘rchive’ ...
@@ -1242,10 +19,69 @@ Processing dataset: D0003
 Processing dataset: D0004 
 Processing dataset: D0005 
 Processing dataset: D0006 
-Error in MapHomologene(homologene, rownames(gex), taxid, tid) : 
-  Unknown species 559292
-Calls: lapply ... ProcessGexDataset -> lapply -> FUN -> MapHomologene
-In addition: Warning messages:
+Processing dataset: D0007 
+Processing dataset: D0008 
+Processing dataset: D0009 
+Processing dataset: D0010 
+Warning messages:
 1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
 2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
-Execution halted
+[1] TRUE
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpNFFm7J/devtools2a8844161f89/zhezhangsh-rchive-88fc116'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Processing dataset: D0001 
+Processing dataset: D0002 
+Processing dataset: D0003 
+Processing dataset: D0004 
+Processing dataset: D0005 
+Processing dataset: D0006 
+Processing dataset: D0007 
+Processing dataset: D0008 
+Processing dataset: D0009 
+Processing dataset: D0010 
+Warning messages:
+1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
+2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
+[1] FALSE
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpzD6L0i/devtools2bf540523883/zhezhangsh-rchive-88fc116'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+Processing dataset: D0001 
+Processing dataset: D0002 
+Processing dataset: D0003 
+Processing dataset: D0004 
+Processing dataset: D0005 
+Processing dataset: D0006 
+Processing dataset: D0007 
+Processing dataset: D0008 
+Processing dataset: D0009 
+Processing dataset: D0010 
+Warning messages:
+1: replacing previous import by ‘htmlwidgets::JS’ when loading ‘awsomics’ 
+2: replacing previous import by ‘htmlwidgets::saveWidget’ when loading ‘awsomics’ 
+[1] FALSE
