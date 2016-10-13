@@ -4,7 +4,8 @@ path.out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene.set/r', sep='/');
 if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
 ##############################################################################################################
-# MSigDB
+##############################################################################################################
+{ # MSigDB
 path1<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/msigdb/r', sep='/');
 f1<-dir(path1);
 f1<-f1[grep('entrez', f1)];
@@ -39,10 +40,11 @@ meta1<-do.call('rbind', lapply(names(set1), function(nm) {
 list1<-do.call('c', lapply(set1, function(s) s$gene.sets));
 if (length(list1) != nrow(meta1)) stop("Error: MSigDB, un-matched length of gene lists and metadata table")
 names(list1)<-rownames(meta1);
-
+}; 
 
 ##############################################################################################################
-# KEGG
+##############################################################################################################
+{ # KEGG
 path2<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/r', sep='/');
 f2<-dir(path2);
 f2<-f2[grep('2gene.rds$', f2)];
@@ -60,9 +62,11 @@ if (length(list2) != length(id)) stop("Error: KEGG, un-matched length of gene li
 n<-sapply(list2, length);
 meta2<-data.frame(row.names=paste(sp, id, sep=':'), Collection=tp, Name=nm, Species=sp, Size=n, URL=url, stringsAsFactors=FALSE);
 names(list2)<-rownames(meta2);
+}
 
 ##############################################################################################################
-# BioSystems
+##############################################################################################################
+{ # BioSystems, species specific
 path3<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/biosystems/r', sep='/');
 
 src<-c('KEGG', 'BIOCYC', 'REACTOME', 'WikiPathways', 'Pathway-Interaction-Database');
@@ -87,9 +91,10 @@ meta3$Size<-sapply(full.list[rownames(meta3)], length);
 meta3$URL<-paste("http://www.ncbi.nlm.nih.gov/biosystems", rownames(meta3), sep='/');
 meta3<-meta3[meta3$Size>0, , drop=FALSE];
 list3<-full.list[rownames(meta3)];
+}
 
-################################################
-# GO lists, without species-specific Biosystem IDs
+###########################################
+{# GO lists, without species-specific Biosystem IDs
 f3<-dir(path3);
 f3<-f3[grep('_GO.rds$', f3)];
 f3.mp<-f3[grep('biosystem2gene_', f3)];
@@ -99,13 +104,15 @@ f3<-f3[flg];
 f3.mp<-f3.mp[flg];
 sp<-sub('_GO.rds', '', sub('biosystem_', '', f3));
 
+go.root<-c('functional_set'='MF', 'pathway'='BP', 'structural_complex'='CC');
+
 go<-lapply(1:length(sp), function(i) {
   anno<-readRDS(paste(path3, f3[i], sep='/'));
   lst<-readRDS(paste(path3, f3.mp[i], sep='/'));
   anno<-anno[rownames(anno) %in% names(lst), , drop=FALSE];
   lst<-lst[rownames(anno)];
   id<-paste(anno$Accession, sp[i], sep='_');
-  tbl<-data.frame(row.names=id, stringsAsFactors=FALSE, Collection='GO', Name=anno$Name, Species=sp[i], Size=sapply(lst, length), 
+  tbl<-data.frame(row.names=id, stringsAsFactors=FALSE, Collection=paste('GO', go.root[anno$Type], sep='_'), Name=anno$Name, Species=sp[i], Size=sapply(lst, length), 
                   URL=paste("http://www.ebi.ac.uk/QuickGO/GTerm?id=", anno$Accession, sep=''));
   names(lst)<-id;
   list(tbl, lst);
@@ -115,6 +122,9 @@ go.lst<-do.call('c', lapply(go, function(go) go[[2]]));
 
 meta3<-rbind(meta3, go.tbl);
 list3<-c(list3, go.lst);
+}
+
+
 
 ##############################################################################################################
 meta<-list(BioSystems=meta3, KEGG=meta2, MSigDB=meta1);

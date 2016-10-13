@@ -1,12 +1,12 @@
-# Summarize all gene sets
+# Summarize all worm gene sets
 path.out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene.set/r', sep='/');
 
 if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
-species<-'human';
+species<-'mouse';
+sp.mp<-readRDS(paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r/mapped_human2mouse.rds', sep='/'));
 
 meta<-readRDS(file=paste(path.out, 'metadata.rds', sep='/'));
-
 
 ##############################################################################################################
 # MSigDB
@@ -34,12 +34,19 @@ names(set1)<-names(tp)<-collections[names(f1)];
 meta1<-do.call('rbind', lapply(names(set1), function(nm) {
   m<-set1[[nm]]$meta;
   id<-paste(tp[nm], 1:nrow(m), sep='_');
-  data.frame(row.names=id, Collection=rep(nm, nrow(m)), Name=rownames(m), Species='human', Size=m$N, URL=m$URL, stringsAsFactors=FALSE);
+  data.frame(row.names=id, Collection=rep(nm, nrow(m)), Name=rownames(m), Species=species, Size=m$N, URL=m$URL, stringsAsFactors=FALSE);
 }));
 lst1<-do.call('c', lapply(set1, function(s) s$gene.sets));
 if (length(lst1) != nrow(meta1)) stop("Error: MSigDB, un-matched length of gene lists and metadata table")
 names(lst1)<-rownames(meta1);
 meta1<-meta1[, c('Collection', 'Name', 'URL')];
+
+if (species!='human' & exists('sp.mp')) {
+  lst1<-lapply(lst1, function(l) unique(unlist(sp.mp[l], use.names=FALSE)));
+  n<-sapply(lst1, length);
+  lst1<-lst1[n>0]; 
+  meta1<-meta1[n>0, , drop=FALSE]; 
+}
 
 ##############################################################################################################
 # KEGG
@@ -112,15 +119,22 @@ meta.omim<-data.frame(row.names=rownames(meta.omim), stringsAsFactors = FALSE, C
 lst.omim<-lst.omim[rownames(meta.omim)];
 names(lst.omim)<-rownames(meta.omim)<-paste('OMIM', rownames(meta.omim), sep='');
 
+if (species!='human' & exists('sp.mp')) {
+  lst.omim<-lapply(lst.omim, function(l) unique(unlist(sp.mp[l], use.names=FALSE)));
+  n<-sapply(lst.omim, length);
+  lst.omim<-lst.omim[n>0]; 
+  meta.omim<-meta.omim[n>0, , drop=FALSE]; 
+}
+
 ##############################################################################################################
 # PubTator pubmed
 path.pm<-paste(Sys.getenv("RCHIVE_HOME"), 'data/literature/public/pubtator/r/gene2pubmed.rds', sep='/');
 lst.pm<-readRDS(path.pm);
-hu.gn<-readRDS(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_full.rds', sep='/'));
+sp.gn<-readRDS(paste(Sys.getenv("RCHIVE_HOME"), '/data/gene/public/entrez/r/', species, '_genes_full.rds', sep=''));
 id<-rep(names(lst.pm), sapply(lst.pm, length));
 gn<-unlist(lst.pm, use.names=FALSE);
-id<-id[gn %in% rownames(hu.gn)];
-gn<-gn[gn %in% rownames(hu.gn)];
+id<-id[gn %in% rownames(sp.gn)];
+gn<-gn[gn %in% rownames(sp.gn)];
 lst.pm<-split(gn, id);
 lst.pm<-lapply(lst.pm, unique);
 meta.pm<-data.frame(row.names=names(lst.pm), stringsAsFactors = FALSE, Collection='PubMed', 
@@ -139,8 +153,8 @@ meta<-do.call('rbind', meta);
 meta<-data.frame(row.names=names(list), stringsAsFactors = FALSE, Source=src, Collection=meta$Collection, 
                  Name=meta$Name, Size=n, URL=meta$URL);
 
-saveRDS(list(meta=meta, list=list), file=paste(path.out, 'default_set_human_full.rds', sep='/'));
-saveRDS(list(meta=meta[n>=5&n<=1000, ], list=list[n>=5&n<=1000]), file=paste(path.out, 'default_set_human_5-1000.rds', sep='/'));
+saveRDS(list(meta=meta, list=list), file=paste(path.out, '/default_set_', species, '_full.rds', sep=''));
+saveRDS(list(meta=meta[n>=5&n<=1000, ], list=list[n>=5&n<=1000]), file=paste(path.out, '/default_set_', species, '_5-1000.rds', sep=''));
 
 ##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];

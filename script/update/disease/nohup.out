@@ -1,0 +1,122 @@
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmpamu5zl/devtoolse3a43a15d9d/zhezhangsh-rchive-67bc5dd'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+mv: cannot move ‘/zhangz/R/library/rchive’ to ‘/zhangz/R/library/00LOCK-zhezhangsh-rchive-67bc5dd/rchive’: Permission denied
+Warning in file.copy(f, instdir, TRUE) :
+  problem copying ./NAMESPACE to /zhangz/R/library/rchive/NAMESPACE: Permission denied
+Warning in file(file, ifelse(append, "a", "w")) :
+  cannot open file '/zhangz/R/library/rchive/DESCRIPTION': Permission denied
+Error in file(file, ifelse(append, "a", "w")) : 
+  cannot open the connection
+ERROR: installing package DESCRIPTION failed for package ‘rchive’
+* removing ‘/zhangz/R/library/rchive’
+Error: Command failed (1)
+Execution halted
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/Rtmpdca60q/devtoolse6a6acfe104/zhezhangsh-rchive-67bc5dd'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/curated_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 700860 bytes (684 Kb)
+opened URL
+==================================================
+downloaded 684 Kb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/literature_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9245202 bytes (8.8 Mb)
+opened URL
+==================================================
+downloaded 8.8 Mb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/befree_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9452066 bytes (9.0 Mb)
+opened URL
+==================================================
+downloaded 9.0 Mb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/all_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9773339 bytes (9.3 Mb)
+opened URL
+==================================================
+downloaded 9.3 Mb
+
+curated 
+Read 26523 items
+Loading in 26522 lines
+literature 
+Read 408176 items
+Loading in 408175 lines
+befree 
+Read 801545 items
+Loading in 801544 lines
+all 
+Read 429112 items
+Loading in 429111 lines
+[1] FALSE
+Downloading github repo zhezhangsh/rchive@master
+Installing rchive
+'/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
+  '/tmp/RtmpBKGLk1/devtoolse9c6f0e1d96/zhezhangsh-rchive-67bc5dd'  \
+  --library='/zhangz/R/library' --install-tests 
+
+* installing *source* package ‘rchive’ ...
+** R
+** preparing package for lazy loading
+** help
+No man pages found in package  ‘rchive’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (rchive)
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/curated_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 700860 bytes (684 Kb)
+opened URL
+==================================================
+downloaded 684 Kb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/literature_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9245202 bytes (8.8 Mb)
+opened URL
+==================================================
+downloaded 8.8 Mb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/befree_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9452066 bytes (9.0 Mb)
+opened URL
+==================================================
+downloaded 9.0 Mb
+
+trying URL 'http://www.disgenet.org/ds/DisGeNET/results/all_gene_disease_associations.txt.gz'
+Content type 'application/gzip' length 9773339 bytes (9.3 Mb)
+opened URL
+==================================================
+downloaded 9.3 Mb
+
+curated 
+Read 26523 items
+Loading in 26522 lines
+literature 
+Read 408176 items
+Loading in 408175 lines
+befree 
+Read 801545 items
+Loading in 801544 lines
+all 
+Read 429112 items
+Loading in 429111 lines
+[1] FALSE
