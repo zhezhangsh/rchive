@@ -9,9 +9,7 @@ path.coll<-c(
 #   'Demo'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/demo/r', sep='/'),
 #   'ToMD'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/tomd/r', sep='/')
 #   'GTEx'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/gtex/r', sep='/')
-#   'CdLS'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/cdls/r', sep='/')
-  'NCI60'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/nci60/r', sep='/')
-  
+  'CdLS'=paste(Sys.getenv('RCHIVE_HOME'), 'data/gex/public/cdls/r', sep='/')
 );
 
 mapping<-lapply(path.coll, PrepareGeexCollection);

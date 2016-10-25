@@ -151,6 +151,7 @@ names(phen)<-names(paths);
 
 fn.expr<-paste(path, '/src/expr_', names(paths), '.rds', sep='');
 expr<-lapply(fn.expr, readRDS);
+expr<-lapply(expr, function(g) g[!is.na(as.numeric(rownames(g))), , drop=FALSE]);
 
 smp<-list();
 smp[[1]]<-data.frame(row.names=rownames(phen[[1]]), Name=phen[[1]]$description);
@@ -280,6 +281,7 @@ ds<-data.frame(row.names=sub('^1', 'D', 10000+1:length(smp)), stringsAsFactors=F
                 Num_Gene=sapply(expr, nrow), Num_Group=sapply(grp.all, length), Num_Sample=sapply(smp, nrow), Species=smp.all[sapply(grp.all, function(x) rownames(x[[1]])[1]), 'Species'],
                 Type=sapply(strsplit(gse.tbl$type, ';'), function(x) x[1]), Original_Title=gse.tbl$title);
 ds$PubMed[is.na(ds$PubMed)]<-'';
+ds[c('D0001', 'D0003'), 'PubMed']<-'25730767'
 ds.by.id<-apply(gse.tbl, 1, as.list);
 names(ds.by.id)<-rownames(ds);
 
@@ -313,8 +315,10 @@ for (i in 1:length(expr)) colnames(expr[[i]])<-as.vector(sid[colnames(expr[[i]])
 
 gex<-expr;
 names(gex)<-rownames(ds);
+
 meta<-list(Dataset=ds, Group=grp, Sample=sm);
 meta.by.id<-list(Dataset=ds.by.id, Group=grp.by.id, Sample=sm.by.id);
+
 brow<-meta;
 brow[[1]][, 'GEO']<-awsomics::AddHref(ds[, 'GEO'], 
                                       paste("http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=", ds[, 'GEO'], sep=''));
@@ -324,7 +328,7 @@ brow[[2]][, 'Dataset']<-awsomics::AddHref(grp[, 'Dataset'],
                                           paste("http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=", ds[grp$Dataset, 'GEO'], sep=''));
 brow[[3]][, 'GEO']<-awsomics::AddHref(sm[, 'GEO'], 
                                       paste("http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=", sm[, 'GEO'], sep=''));
-
+brow<-lapply(brow, function(t) data.frame(ID=rownames(t), t, stringsAsFactors = FALSE));
 
 saveRDS(gex, file=paste(path, 'r', 'gex.rds', sep='/'));
 saveRDS(meta, file=paste(path, 'r', 'metadata.rds', sep='/'));

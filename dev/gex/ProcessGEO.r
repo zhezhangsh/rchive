@@ -16,7 +16,8 @@ ProcessGEO<-function(gse.id, path.out, affy.supp=TRUE, gsm.ids=c()) {
     fn.cel<-paste(path.smp, fn.cel[grep('.CEL.gz$', fn.cel, ignore.case=TRUE)], sep='/');
     
     raw<-LoadAffyCel(fn.cel);
-    raw@cdfName<-InstallBrainarray(raw@cdfName);
+    if (raw@cdfName=="Zebrafish") version<-'18.0.0' else version<-'19.0.0';
+    raw@cdfName<-InstallBrainarray(raw@cdfName, version=version);
     if (!identical(NA, raw@cdfName)) {
       expr<-exprs(rma(raw));
       expr<-expr[grep('_at$', rownames(expr)), , drop=FALSE];
@@ -50,7 +51,7 @@ LoadAffyCel<-function(fn) {
       exprs<-affyio::read_abatch(fn, FALSE, FALSE, FALSE, cdfname, dim.int[c(1, 2)], TRUE);
       raw<-new("AffyBatch", exprs = exprs, cdfName = cdfname, nrow = dim.int[2], ncol = dim.int[1],
                annotation = cleancdfname(cdfname, addcdf = FALSE));
-
+      raw;
     }
   }
 }
@@ -63,14 +64,20 @@ InstallBrainarray<-function(affy.name, type='entrezg', version='19.0.0') {
     tbls<-XML::readHTMLTable(u);
     tbl<-tbls[[length(tbls)]];
     
-    all<-tolower(tbl[, 3]);
+    if (version=='19.0.0') tbl<-tbl[, -1, drop=FALSE];
+    all<-tolower(tbl[,2]);
     nm.old<-cleancdfname(affy.name, addcdf = FALSE)
     ind<-which(all == nm.old);
     if (length(ind) == 0) NA else {
-      nm.new<-tbl[ind, 5];
+      nm.new<-tbl[ind, 4];
       nm.new<-tolower(gsub('[-_]', '', nm.new));
-      urls<-paste("http://mbni.org/customcdf/", version, '/', type, '.download/', nm.new, 
-                  c('cdf', 'probe', '.db'), '_', version, '.tar.gz', sep='');
+      if (version=='19.0.0') {
+        urls<-paste("http://mbni.org/customcdf/", version, '/', type, '.download/', nm.new, 
+                  c('cdf', 'probe', '.db'), '_', version, '.tar.gz', sep='') 
+      } else {
+        urls<-paste("http://brainarray.mbni.med.umich.edu/Brainarray/Database/CustomCDF/", version, '/', 
+                    type, '.download/', nm.new, c('cdf', 'probe', '.db'), '_', version, '.tar.gz', sep='') 
+      } 
       urls<-urls[sapply(urls, RCurl::url.exists)];
       if (length(urls) == 0) NA else {
         fn<-sapply(urls, install_url);

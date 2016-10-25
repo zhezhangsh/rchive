@@ -27,6 +27,7 @@ export("LoadColumn");
 export("Map2Biosystems");
 export("MapChromosome");
 export("MapHomologene");
+export("MapHomologeneMatrix");
 export("MapKegg2Gene");
 export("MapKeggOne2All");
 export("MapKeggOne2One");
