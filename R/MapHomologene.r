@@ -39,7 +39,7 @@ MapHomologeneMatrix<-function(mtrx, ids=rownames(mtrx), homolo, from, to, id.typ
 }
 
 # mapping a giving set of gene IDs to IDs of a different species based on NCBI homologene database
-MapHomologene<-function(homolo, ids, from, to, id.type=1:4) {
+MapHomologene<-function(homolo, ids=c(), from, to, id.type=1:4) {
   # homolo        Data frame downloaded from NCBI homologene database with 6 columns in the order of: gene cluster ID, Taxonomy ID, NCBI gene ID, Official gene symbol, GenBank ID, and RefSeq ID
   # ids           Input IDs to be mapped
   # from          Taxonomy ID of the species the input IDs belong to
@@ -57,7 +57,7 @@ MapHomologene<-function(homolo, ids, from, to, id.type=1:4) {
   if (!(from %in% sp)) stop('Unknown species ', from);
   if (!(to %in% sp)) stop('Unknown species ', to);
   
-  x<-split(cl[id %in% ids], id[id %in% ids]);
+  if (length(ids) > 0) x<-split(cl[id %in% ids], id[id %in% ids]) else x<-split(cl, id);
   y<-split(id[sp %in% to], cl[sp %in% to]);
   z<-unlist(x, use.names=FALSE);
   names(z)<-rep(names(x), sapply(x, length));

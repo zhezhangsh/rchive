@@ -1,0 +1,285 @@
+---
+title: "Map WORMBASE IDs to human Entrez genes"
+author: "Jim Zhang"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_caption: yes
+---
+
+We use this procedure to map worm genes to human homologs. The same procedure can be used to map worm genes to genes of other species. The key mapping information is the best match of worm-human protein sequences based on [Blastp](http://blast.ncbi.nlm.nih.gov/Blast.cgi?CLIENT=web&DATABASE=nr&NCBI_GI=on&PAGE=Proteins&PROGRAM=blastp&QUERY=IDQILETNRIACRFNHSNQKYAFSITFQEECAHVTLVVYGRNLHKHFFYWKLHKQLIDLIANPNDMFFF&END_OF_HTTPGET=Y) hits. To prepare for the mapping, several annotation files of genome WScel235 were downloaded from the [ftp site](ftp.wormbase.org) of http://www.wormbase.org:
+  
+- **c_elegans.WS235.gene_ids.txt**: all wormbase gene IDs in the WScel235 genome
+- **c_elegans.WS235.xrefs.txt**: cross reference of different types of wormbase IDs, including gene-protein ID mapping
+- **c_elegans.WS235.best_blastp_hits.txt**: best Blastp hits between worm and other species, including human
+
+```{r global_setup, include=FALSE}
+knitr::opts_chunk$set(dpi=300, fig.pos="H", fig.width=8, fig.height=6, echo=FALSE, warning=FALSE, message=FALSE);
+```
+
+### Map wormbase gene IDs to human Ensembl protein IDs
+
+```{r parse_files, include=FALSE}
+file_home<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/wormbase/src', sep='/');
+file_out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/wormbase/r', sep='/');
+
+if (!file.exists(file_out)) dir.create(file_out, recursive = TRUE); 
+
+# all WORMBASE gene IDs
+fn<-paste(file_home, 'c_elegans.WS235.gene_ids.txt', sep='/');
+all.ids<-read.table(fn, sep='\t', stringsAsFactors = FALSE)[, 2];
+
+# mapping between differnt types of worm IDs
+fn<-paste(file_home, 'c_elegans.WS235.xrefs.txt', sep='/');
+xref<-read.table(fn, sep='\t', stringsAsFactors = FALSE);
+xref<-xref[xref[, 5]!='.', ];
+xref<-split(xref[, 5], xref[, 2]);
+
+fn<-paste(file_home, 'c_elegans.WS235.best_blastp_hits.txt', sep='/');
+ln<-scan(fn, what='', sep='\n', flush=TRUE); 
+ln<-ln[grep('ENSEMBL', ln)]; # has human homolog
+ce<-sapply(strsplit(ln, ','), function(x) x[1]);
+ln<-strsplit(ln, '[,:]');
+en<-sapply(ln, function(ln) {ind<-which(ln=='ENSEMBL'); ln[(ind+1):(ind+2)]});
+en<-t(en);
+p<-as.numeric(en[,2]);
+names(p)<-en[, 1]; 
+ce2ensp<-split(p, ce);
+ce2ensp<-lapply(ce2ensp, sort);
+ce2ensp<-lapply(ce2ensp, names);
+saveRDS(list(all_worm_ids=all.ids, xref=xref, worm2human=ce2ensp), file=paste(file_out, 'worm2human_parsed.rds', sep='/'));
+```
+
+Prepare a list of 3 elements from files downloaded from wormbase FTP site: 1. all wormbase gene IDs; 2. mapping of wormbase gene IDs to protein IDs; and 3. mapping of wormbase protein IDs to human Emsembl protein IDs (sorted by Blastp p value, minimum first). 
+
+
+```{r wormbase_to_protein, include=FALSE}
+ce2hs<-readRDS(paste(file_home, 'worm2human_parsed.rds', sep='/'));
+pr<-unlist(ce2hs[[2]], use.names=FALSE); 
+pr2pr<-ce2hs[[3]][pr];
+gn<-rep(names(ce2hs[[2]]), sapply(ce2hs[[2]], length));
+gn2pr<-split(unlist(pr2pr, use.names=FALSE), rep(gn, sapply(pr2pr, length))); 
+gn2pr<-lapply(gn2pr, unique);
+  
+mp<-as.list(rep('', length(ce2hs[[1]])));
+names(mp)<-ce2hs[[1]];
+mp[names(gn2pr)]<-gn2pr; 
+
+n<-sapply(mp, function(x) length(x[x!=''])); 
+```
+Then, perform one to many mapping, from worm gene IDs to worm protein IDs to human protein IDs. `r length(n[n>0])` worm genes were mapped to at least one human protein, among which `r length(n[n>1])` genes were mapped to more than one human proteins. 
+
+```{r wormbase_to_entrez, include=FALSE}
+versions<-c(
+  "http://bioconductor.org/packages/2.14/data/annotation/src/contrib/org.Ce.eg.db_2.14.0.tar.gz",
+  "http://bioconductor.org/packages/3.0/data/annotation/src/contrib/org.Ce.eg.db_3.0.0.tar.gz",
+  "http://bioconductor.org/packages/3.1/data/annotation/src/contrib/org.Ce.eg.db_3.1.2.tar.gz",
+  "http://bioconductor.org/packages/3.2/data/annotation/src/contrib/org.Ce.eg.db_3.2.3.tar.gz",
+  "http://bioconductor.org/packages/3.3/data/annotation/src/contrib/org.Ce.eg.db_3.2.3.tar.gz"
+)
+
+fn<-sapply(strsplit(versions, '/'), function(x) x[length(x)]);
+fn<-paste(file_home, fn, sep='/');
+apply(cbind(versions, fn), 1, function(v) if (!file.exists(v[2])) download.file(v[1], v[2]))->x;
+
+library(dplyr);
+
+all.versions<-lapply(fn, function(f) {
+  print(f);
+  untar(f, exdir=file_home);
+  db<-src_sqlite(paste(file_home, 'org.Ce.eg.db/inst/extdata/org.Ce.eg.sqlite', sep='/')); 
+  tbls<-src_tbls(db);
+  if ('wormbase' %in% tbls) {
+    gn<-as.data.frame(collect(tbl(db, 'genes'))); 
+    t<-as.data.frame(collect(tbl(db, 'wormbase')));
+    t[,1]<-gn[, 2][t[, 1]]; 
+    t; 
+  } else NA
+});
+all.versions<-all.versions[!is.na(all.versions)];
+
+if (length(all.versions)==0) stop("No Wormbase to Entrez gene mapped");
+
+wb2eg<-split(as.character(as.vector(all.versions[[length(all.versions)]][, 1])), as.vector(all.versions[[length(all.versions)]][, 2])); 
+if (length(all.versions)>1) {
+  for (i in (length(all.versions)-1):1) {
+    v<-all.versions[[i]];
+    v<-v[!(as.vector(v[,2]) %in% names(wb2eg)), ];
+    wb2eg<-c(wb2eg, split(as.vector(v[, 1]), as.vector(v[, 2])));
+    print(length(wb2eg)); 
+  }
+}
+n<-sapply(wb2eg, length); 
+saveRDS(wb2eg, file=paste(file_out, 'wormbase2entrez.rds', sep='/'));
+```
+
+```{r protein_to_gene, include=FALSE}
+versions<-c(
+  "http://bioconductor.org/packages/2.1/data/annotation/src/contrib/org.Hs.eg.db_2.0.2.tar.gz",
+  "http://bioconductor.org/packages/2.2/data/annotation/src/contrib/org.Hs.eg.db_2.2.0.tar.gz",
+  "http://bioconductor.org/packages/2.3/data/annotation/src/contrib/org.Hs.eg.db_2.2.6.tar.gz",
+  "http://bioconductor.org/packages/2.4/data/annotation/src/contrib/org.Hs.eg.db_2.2.11.tar.gz",
+  "http://bioconductor.org/packages/2.5/data/annotation/src/contrib/org.Hs.eg.db_2.3.6.tar.gz",
+  "http://bioconductor.org/packages/2.6/data/annotation/src/contrib/org.Hs.eg.db_2.4.1.tar.gz",
+  "http://bioconductor.org/packages/2.7/data/annotation/src/contrib/org.Hs.eg.db_2.4.6.tar.gz", 
+  "http://bioconductor.org/packages/2.8/data/annotation/src/contrib/org.Hs.eg.db_2.5.0.tar.gz",
+  "http://bioconductor.org/packages/2.9/data/annotation/src/contrib/org.Hs.eg.db_2.6.4.tar.gz",
+  "http://bioconductor.org/packages/2.10/data/annotation/src/contrib/org.Hs.eg.db_2.7.1.tar.gz",
+  "http://bioconductor.org/packages/2.11/data/annotation/src/contrib/org.Hs.eg.db_2.8.0.tar.gz",
+  "http://bioconductor.org/packages/2.12/data/annotation/src/contrib/org.Hs.eg.db_2.9.0.tar.gz",
+  "http://bioconductor.org/packages/2.13/data/annotation/src/contrib/org.Hs.eg.db_2.10.1.tar.gz",
+  "http://bioconductor.org/packages/2.14/data/annotation/src/contrib/org.Hs.eg.db_2.14.0.tar.gz",
+  "http://bioconductor.org/packages/3.0/data/annotation/src/contrib/org.Hs.eg.db_3.0.0.tar.gz",
+  "http://bioconductor.org/packages/3.1/data/annotation/src/contrib/org.Hs.eg.db_3.1.2.tar.gz",
+  "http://bioconductor.org/packages/3.2/data/annotation/src/contrib/org.Hs.eg.db_3.2.3.tar.gz",
+  "http://bioconductor.org/packages/3.3/data/annotation/src/contrib/org.Hs.eg.db_3.2.3.tar.gz"
+)
+
+fn<-sapply(strsplit(versions, '/'), function(x) x[length(x)]);
+fn<-paste(file_home, fn, sep='/');
+apply(cbind(versions, fn), 1, function(v) if (!file.exists(v[2])) download.file(v[1], v[2]));
+
+library(dplyr);
+
+all.versions<-lapply(fn, function(f) {
+  print(f);
+  untar(f, exdir=file_home);
+  db<-src_sqlite(paste(file_home, 'org.Hs.eg.db/inst/extdata/org.Hs.eg.sqlite', sep='/')); 
+  tbls<-src_tbls(db);
+  if ('ensembl_prot' %in% tbls) {
+    gn<-as.data.frame(collect(tbl(db, 'genes'))); 
+    t<-as.data.frame(collect(tbl(db, 'ensembl_prot')));
+    t[,1]<-gn[, 2][t[, 1]]; 
+    t; 
+  } else NA
+});
+all.versions<-all.versions[!is.na(all.versions)];
+
+if (length(all.versions)==0) stop("No Ensembl protein to Entrez gene mapped");
+
+en2eg<-split(as.character(as.vector(all.versions[[length(all.versions)]][, 1])), as.vector(all.versions[[length(all.versions)]][, 2])); 
+if (length(all.versions)>1) {
+  for (i in (length(all.versions)-1):1) {
+    v<-all.versions[[i]];
+    v<-v[!(as.vector(v[,2]) %in% names(en2eg)), ];
+    en2eg<-c(en2eg, split(as.vector(v[, 1]), as.vector(v[, 2])));
+    print(length(en2eg)); 
+  }
+}
+n<-sapply(en2eg, length); 
+saveRDS(en2eg, file=paste(file_out, 'human_ensp2entrez.rds', sep='/'));
+```
+
+### Map human Ensembl protein IDs to Entrez gene IDs
+
+We used the R [org.Hs.eg.db](http://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html) package to map human Ensemble protein IDs to human Entrez gene IDs. This package has multiple versions. Some protein IDs in the older verions were removed from the newer ones. To be comprehensive, we combined `r length(all.versions)` versions of the _org.Hs.eg.db_ package, while using IDs in the newer version when they were available. 
+A total of `r length(en2eg)` protein IDs were mapped to `r length(unique(unlist(en2eg, use.names=FALSE)))` unique Entrez gene IDs while `r length(n[n>1])` protein IDs were mapped to more than one gene ID. 
+
+### Map WORMBASE gene IDs to human Entrez gene IDs
+
+```{r mapping, include=FALSE}
+en<-unlist(mp[n>0], use.names=FALSE);
+wb<-rep(names(mp[n>0]), sapply(mp[n>0], length));
+en2eg<-en2eg[en];
+wb<-rep(wb, sapply(en2eg, length));
+eg<-unlist(en2eg, use.names=FALSE);
+wb2eg<-split(eg[!is.na(eg)], wb[!is.na(eg)]);
+
+mapped<-as.list(rep('', length(mp)));
+names(mapped)<-names(mp);
+mapped[names(wb2eg)]<-wb2eg;
+mapped<-lapply(mapped, unique);
+n<-sapply(mapped, function(x) length(x[x!='']));
+saveRDS(mapped, paste(file_out, 'wormbase2human_entrez.rds', sep='/'));
+
+# Entrez to Entrez mapping between worm and human
+mp1<-rep(names(mapped), sapply(mapped, length)); 
+mp2<-unlist(mapped, use.names=FALSE); 
+mp3<-readRDS(paste(file_out, 'wormbase2entrez.rds', sep='/'))[mp1]; 
+mp4<-rep(mp2, sapply(mp3, length)); 
+mp5<-unlist(mp3, use.names=FALSE); 
+flg<-mp4=='' | mp5=='' | is.na(mp4) | is.na(mp5); 
+wm2hs<-split(mp4[!flg], mp5[!flg]); 
+hs2wm<-split(mp5[!flg], mp4[!flg]);
+wm2hs<-lapply(wm2hs, unique); 
+hs2wm<-lapply(hs2wm, unique); 
+wm2hs<-wm2hs[order(as.numeric(names(wm2hs)))]; 
+hs2wm<-hs2wm[order(as.numeric(names(hs2wm)))]; 
+saveRDS(wm2hs, file=paste(file_out, 'worm2human_entrez.rds', sep='/')); 
+saveRDS(hs2wm, file=paste(file_out, 'human2worm_entrez.rds', sep='/')); 
+```
+
+We mapped WORMBASE gene IDs to Entrez gene IDs of human homolog through Ensembl protein IDs. `r length(n[n>0])` WORMBASE IDs were mapped to at least one human gene, and `r length(n[n>1])` of them were mapped to more than one. 
+
+```{r full_mapping, include=FALSE}
+library(rchive); 
+
+fn.wm2hs<-paste(file_out, 'worm2human_entrez.rds', sep='/'); 
+fn.hs2wm<-paste(file_out, 'human2worm_entrez.rds', sep='/'); 
+wb.wm2hs<-readRDS(fn.wm2hs);
+wb.hs2wm<-readRDS(fn.hs2wm);
+
+fn.homo<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r/homologene.rds', sep='/');
+
+fn.uni<-c(
+  hs=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/unigene/r/human_genes.rds', sep='/'),
+  ce=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/unigene/r/worm_genes.rds', sep='/'),
+  hs.homolog=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/unigene/r/human_homolog.rds', sep='/'),
+  ce.homolog=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/unigene/r/worm_homolog.rds', sep='/')
+)
+
+# Homologene mapping
+homolo<-readRDS(fn.homo);
+gn.hs<-unique(homolo[homolo[,2]=='9606', 3]); 
+homolo.hs2ce<-MapHomologene(homolo, gn.hs, from='9606', to='6239'); 
+homolo.hs2ce<-split(as.vector(homolo.hs2ce), names(homolo.hs2ce)); 
+gn.ce<-unique(homolo[homolo[,2]=='6239', 3]); 
+homolo.ce2hs<-MapHomologene(homolo, gn.ce, from='6239', to='9606'); 
+homolo.ce2hs<-split(as.vector(homolo.ce2hs), names(homolo.ce2hs)); 
+
+# Unigene mapping
+uni.hs<-readRDS(fn.uni[1]);
+uni.hs.homolog<-readRDS(fn.uni[3]); 
+uni.hs.homolog[, 1]<-uni.hs[uni.hs.homolog[, 1], 'GENE_ID'];
+uni.hs.mp<-MapUnigeneSpecies(uni.hs.homolog, 'org.Ce.eg.db'); 
+uni.hs.mp<-lapply(uni.hs.mp, names);
+uni.hs.mp<-lapply(uni.hs.mp, function(x) x[x!='']);
+uni.hs.mp<-uni.hs.mp[sapply(uni.hs.mp, length)>0]; 
+
+uni.ce<-readRDS(fn.uni[2]);
+uni.ce.homolog<-readRDS(fn.uni[4]); 
+uni.ce.homolog[, 1]<-uni.ce[uni.ce.homolog[, 1], 'GENE_ID'];
+uni.ce.mp<-MapUnigeneSpecies(uni.ce.homolog, 'org.Hs.eg.db'); 
+uni.ce.mp<-lapply(uni.ce.mp, names);
+uni.ce.mp<-lapply(uni.ce.mp, function(x) x[x!='']);
+uni.ce.mp<-uni.ce.mp[sapply(uni.ce.mp, length)>0]; 
+
+mp<-list(homologene=list(worm2human=homolo.ce2hs, human2worm=homolo.hs2ce),
+         wormbase=list(worm2human=wb.wm2hs, human2worm=wb.hs2wm), 
+         unigene=list(worm2human=uni.ce.mp, human2worm=uni.hs.mp)); 
+worm2human<-CombineHomolog(lapply(mp, function(x) x[[1]])); 
+human2worm<-CombineHomolog(lapply(mp, function(x) x[[2]])); 
+saveRDS(worm2human, file=paste(file_out, 'worm2human_full.rds', sep='/')); 
+saveRDS(human2worm, file=paste(file_out, 'human2worm_full.rds', sep='/')); 
+
+ns<-sapply(mp, function(x) length(x[[1]]));
+nm<-names(mp); 
+ln<-paste(' - **', nm, '**:', ns, ' mapped genes', sep=''); 
+ln<-paste(ln, collapse='\n'); 
+```
+
+Finally, we combined worm-human gene mapping from `r length(mp)` different resource. Totally, `r nrow(worm2human[[1]])` worm genes were mapped to at least 1 human gene. 
+
+`r ln`
+
+
+```{r save_script, include=FALSE}
+##############################################################################################################
+tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene/MapWormbase2Human.Rmd', sep='');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene/log/', tm, '_MapWormbase2Human.Rmd' , sep='');
+file.copy(fn0, fn1)
+
+```
+
+_END OF DOCUMENT_

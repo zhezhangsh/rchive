@@ -1,5 +1,7 @@
 # Parse OMIM database
-ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), download.all=FALSE) {
+ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", 
+                    path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), 
+                    download.all=FALSE) {
 
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);

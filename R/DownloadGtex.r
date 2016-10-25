@@ -1,10 +1,11 @@
 DownloadGtex<-function(path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gex/public/gtex', sep='/'),
-                       url="http://www.gtexportal.org/static/datasets/gtex_analysis_v4",
-                       url.fn=c(fpkm = "rna_seq_data/GTEx_Analysis_V4_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz",
-                                smp.dd = "annotations/GTEx_Data_V4_Annotations_SampleAttributesDD.xlsx",
-                                smp.ds = "annotations/GTEx_Data_V4_Annotations_SampleAttributesDS.txt", 
-                                sub.dd = "annotations/GTEx_Data_V4_Annotations_SubjectPhenotypes_DD.xlsx",
-                                sub.ds = "annotations/GTEx_Data_V4_Annotations_SubjectPhenotypes_DS.txt"),
+                       url="http://www.gtexportal.org/static/datasets/gtex_analysis_v6p",
+                       url.fn=c(fpkm  = "rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz",
+                                count = "rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_reads.gct.gz",
+                                smp.dd = "annotations/GTEx_Data_V6_Annotations_SampleAttributesDD.xlsx",
+                                smp.ds = "annotations/GTEx_Data_V6_Annotations_SampleAttributesDS.txt", 
+                                sub.dd = "annotations/GTEx_Data_V6_Annotations_SubjectPhenotypes_DD.xlsx",
+                                sub.ds = "annotations/GTEx_Data_V6_Annotations_SubjectPhenotypes_DS.txt"),
                        fn.anno=paste(Sys.getenv("RCHIVE_HOME"), "data/gene/public/entrez/r/human_genes_full.rds", sep='/'),
                        download.all = FALSE) {  
 

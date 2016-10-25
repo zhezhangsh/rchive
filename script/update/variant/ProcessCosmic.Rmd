@@ -1,0 +1,69 @@
+---
+title: "Download and process COSMIC files"
+author: "Jim Zhang"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    fig_caption: yes
+---
+
+```{r global_setup, include=FALSE}
+knitr::opts_chunk$set(dpi=300, fig.pos="H", fig.width=8, fig.height=6, echo=FALSE, warning=FALSE, message=FALSE);
+
+rerun.all<-FALSE; 
+
+source_url<-"sftp-cancer.sanger.ac.uk/cosmic/grch38/cosmic/v75";
+file_home<-paste(Sys.getenv('RCHIVE_HOME'), 'data/variant/public/cosmic/src', sep='/');
+file_out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/variant/public/cosmic/r', sep='/');
+genome<-'GRCh38'; 
+
+library(VariantAnnotation); 
+```
+
+# File source and locations
+
+  - All source files were downloaded from: **`r source_url`** through SFTP protocol
+    - Be aware of the [terms and conditions](http://cancer.sanger.ac.uk/cancergenome/assets/COSMIC_academic_license_march2015.pdf) of using these files   
+  - Downloaded files were unziped and saved to: **`r file_home`** for further processing
+  - Processed files were archived to: **`r file_out`**
+
+# Processing of individual files
+
+_!Quoted description was copied from COSMIC_
+
+## CosmicCodingMuts.vcf
+  
+```{r CosmicCodingMuts.vcf, include=TRUE}
+fn<-paste(file_out, 'CosmicCodingMuts', sep='/'); 
+if (rerun.all | !file.exists(paste(fn, '.rds', sep=''))) {
+  GtUtility::loadVcf(paste(file_home, 'CosmicCodingMuts.vcf', sep='/'), fn, genome); 
+  load(paste(fn, '.rdata', sep='')); 
+  gr<-rowData(vcf); 
+  elementMetadata(gr)<-cbind(elementMetadata(gr), info(vcf)); 
+  saveRDS(gr, paste(fn, '.rds', sep='')); 
+  file.remove(paste(fn, '.rdata', sep='')); 
+} else vcf<-readRDS(paste(fn, '.rds', sep='')); 
+
+cat("head(info(vcf))\n"); 
+head(info(vcf)); 
+```
+  - "_VCF file of all coding mutations in cosmic_"
+  - Make sure unzip the downloaded **.gz** file first
+
+## cancer_gene_census.csv
+```{r cancer_gene_census.csv, include=TRUE}
+fn<-paste(file_out, 'cancer_gene_census.rds', sep='/'); 
+tbl<-read.csv(paste(file_home, 'cancer_gene_census.csv', sep='/')); 
+saveRDS(tbl, fn); 
+```
+
+```{r save_script, include=FALSE}
+##############################################################################################################
+tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/variant/ProcessCosmic.Rmd', sep='');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/variant/log/', tm, '_ProcessCosmic.Rmd' , sep='');
+file.copy(fn0, fn1)
+
+```
+ _END OF DOCUMENT_
