@@ -1,9 +1,6 @@
 # Parse OMIM database
 ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", 
-<<<<<<< HEAD
-                    path.gene=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_synonyms2id.rds', sep='/')
-=======
->>>>>>> a5dad38ff21ef31c982bc11befcd5e4692563caf
+                    path.gene=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_synonyms2id.rds', sep='/'),
                     path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), 
                     download.all=FALSE) {
 
