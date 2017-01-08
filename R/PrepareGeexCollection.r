@@ -177,7 +177,7 @@ PrepareGeexCollection<-function(path.coll,
   gex.comb<-lapply(gex.comb, function(g) as.matrix(round(g, 2)));
   
   fns <- paste(path.coll, '/gex_ff', 1:length(gex.comb), sep=''); 
-  for (i in 1:length(fns)) gex.comb[[i]] <- as.ff(gex.comb[[i]], fns[i]);
+  for (i in 1:length(fns)) gex.comb[[i]] <- as.ff(gex.comb[[i]], fns[i], overwrite = TRUE);
   
   saveRDS(gex.comb, file=paste(path.coll, 'gex_combined.rds', sep='/'));
   saveRDS(anno, file=paste(path.coll, 'gene.rds', sep='/'));
