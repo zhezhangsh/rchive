@@ -174,7 +174,7 @@ PrepareGeexCollection<-function(path.coll,
   browse.tbl$Gene<-data.frame(gn.url, anno[, c('Species', 'Symbol', 'Num_Dataset', 'Num_Sample', 'type_of_gene', 'description')], stringsAsFactors=FALSE);
   colnames(browse.tbl$Gene)<-c('ID', 'Species', 'Name', 'Num_Dataset', 'Num_Sample', 'Type', 'Title');
   
-  gex.comb<-lapply(gex.comb, function(g) round(g, 2));
+  gex.comb<-lapply(gex.comb, function(g) as.matrix(round(g, 2)));
   
   saveRDS(gex.comb, file=paste(path.coll, 'gex_combined.rds', sep='/'));
   saveRDS(anno, file=paste(path.coll, 'gene.rds', sep='/'));
