@@ -6,6 +6,7 @@ PrepareGeexCollection<-function(path.coll,
   
   library(rchive);
   library(awsomics);
+  library(ff); 
   
   ############## Required files
   fn.meta<-paste(path.coll, 'metadata.rds', sep='/'); 
@@ -87,12 +88,25 @@ PrepareGeexCollection<-function(path.coll,
   });
   
   # Combine data sets into one matrix, using human gene ID
-  cnm<-unique(sort(unique(unlist(lapply(data, function(d) colnames(d[[1]]))))));
-  rnm<-unique(sort(as.numeric(unlist(lapply(data, function(d) rownames(d[[1]]))))));
-  logged<-pct<-matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm));
+  cnm <- unique(sort(unique(unlist(lapply(data, function(d) colnames(d[[1]]))))));
+  rnm <- unique(sort(as.numeric(unlist(lapply(data, function(d) rownames(d[[1]]))))));
+  fns <- paste(path.coll, '/gex_', names(gex), '.rds', sep='')
+  logged<-pct<-as.data.frame(matrix(NA, nr=length(rnm), nc=length(cnm), dimnames=list(rnm, cnm)));
+  
+  # rm(gex); 
+  # rm(data); 
+  # gc(); 
+  # 
+  # for (i in 1:length(fns)) { print(i); 
+  #   dd <- readRDS(fns[i]); 
+  #   for (j in 1:length(dd)) {
+  #     logged[rownames(dd[[j]][[1]]), colnames(dd[[j]][[1]])]<-dd[[j]][[1]];
+  #     pct[rownames(dd[[j]][[2]]), colnames(dd[[j]][[2]])]<-dd[[j]][[2]];
+  #   } 
+  # }
   for (i in 1:length(data)) {
-    logged[rownames(data[[i]][[1]]), colnames(data[[i]][[1]])]<-data[[i]][[1]];
-    pct[rownames(data[[i]][[2]]), colnames(data[[i]][[2]])]<-data[[i]][[2]];    
+    logged[rownames(data[[i]][[1]]), colnames(data[[i]][[1]])] <- data[[i]][[1]]
+    pct[rownames(data[[i]][[2]]), colnames(data[[i]][[2]])] <- data[[i]][[2]]
   }
   gex.comb<-list(logged=logged, percentile=pct);
   

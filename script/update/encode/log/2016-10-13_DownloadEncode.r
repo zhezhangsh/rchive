@@ -49,16 +49,6 @@ for (i in 1:length(url)) {
 cnt <- MergeEncodeReadCount(fns); 
 ##################################
 
-num <- cnt$number;
-len <- cnt$length;
-cnt <- cnt$count;
-if (min(num) != max(num)) cnt <- cnt[, num>min(num)]; 
-sub <- sub[colnames(cnt), ];
-
-saveRDS(len, paste(o, 'length.rds', sep='/')); 
-saveRDS(cnt, paste(o, 'count.rds', sep='/')); 
-saveRDS(sub, paste(o, 'metadata.rds', sep='/')); 
-
 ##############################################################################################################
 UpdateLog(sub, paste(Sys.getenv("RCHIVE_HOME"), 'data/encode/public/', sep='/'), just.new=FALSE);
 
