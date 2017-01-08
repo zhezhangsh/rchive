@@ -136,7 +136,7 @@ ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE) {
   cat('Parsing GEO series', id, '\n');
   
   if (!file.exists(destdir)) dir.create(destdir);
-  gse<-getGEO(id[1], destdir=destdir, AnnotGPL=FALSE)[[1]];
+  gse<-getGEO(id[1], destdir=destdir, AnnotGPL=FALSE, getGPL = FALSE)[[1]];
   
   gpl<-gse@annotation; 
   f<-paste(destdir, '/', id, '-', gpl, sep='');
