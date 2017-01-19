@@ -126,7 +126,7 @@ ParseGSM<-function(ids, destdir=getwd(), getSupp=TRUE) {
   destdir;
 }
 
-ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE) { 
+ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE, getGPL=TRUE) { 
   # id        GEO data series ID
   # dir       Location where a subdirectory will be created to store the data
   # getSupp  Download supplemental files if TRUE
@@ -143,20 +143,35 @@ ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE) {
   if(!file.exists(f)) dir.create(f);
   
   expr<-exprs(gse);
-  anno<-featureData(gse)@data;
+#   anno<-featureData(gse)@data;
   phen<-phenoData(gse)@data
   
   save(expr, file=paste(f, '/expr.rdata', sep=''));
-  save(anno, file=paste(f, '/anno.rdata', sep=''));
+  # save(anno, file=paste(f, '/anno.rdata', sep=''));
   save(phen, file=paste(f, '/phen.rdata', sep=''));
   
   write.table(cbind(ID=rownames(expr), expr), file=paste(f, '/expr.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
-  write.table(anno, file=paste(f, '/anno.txt', sep=''), sep='\t', qu=FALSE, row=FALSE);
+  # write.table(anno, file=paste(f, '/anno.txt', sep=''), sep='\t', qu=FALSE, row=FALSE);
   write.table(phen, file=paste(f, '/phen.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
+  
+  if (getGPL) {
+    parseGPL(gpl, f);
+  }
   
   if (getSupp) {
     getGEOSuppFiles(id, TRUE, f);
   }
   
   f;
+}
+
+parseGPL <- function(gpl, f) {
+  url <- 'ftp://ftp.ncbi.nlm.nih.gov/geo/platforms';
+  sub <- gsub('[0-9]{3}$', 'nnn', gpl);
+  fnm <- paste(gpl, '.annot.gz', sep=''); 
+  url <- paste(url, sub, gpl, 'annot', fnm, sep='/'); 
+  download.file(url, paste(f, fnm, sep='/'));
+  
+  anno <- getGEO(filename=paste(f, fnm, sep='/')); 
+  save(anno, file=paste(f, 'anno.rdata', sep='/')); 
 }
