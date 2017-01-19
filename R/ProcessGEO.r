@@ -165,7 +165,7 @@ ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE, getGPL=TRUE) {
   f;
 }
 
-parseGPL <- function(gpl, f) {
+ParseGPL <- function(gpl, f) {
   url <- 'ftp://ftp.ncbi.nlm.nih.gov/geo/platforms';
   sub <- gsub('[0-9]{3}$', 'nnn', gpl);
   fnm <- paste(gpl, '.annot.gz', sep=''); 
