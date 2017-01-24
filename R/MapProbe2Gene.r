@@ -16,10 +16,11 @@ MapProbe2Gene <- function(seq, bsgenome, txdb) {
   
   tx <- extractTranscriptSeqs(bsgenome, txdb);
   
-  mp <- lapply(tx, function(tx) {
+  mp <- lapply(tx, function(tx) { 
     m <- matchPDict(pd, tx); 
     names(m)[elementLengths(m)>0]; 
   }); 
+  names(mp) <- names(tx); 
   mp <- mp[elementLengths(mp)>0]; 
   
   txs <- transcripts(txdb, columns=c('tx_name', 'gene_id')); 
