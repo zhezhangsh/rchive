@@ -2,38 +2,45 @@
 
 ProcessGEO<-function(gse.id, path.out, affy.supp=TRUE, gsm.ids=c()) {  
   # gsm.ids     A subset samples of the same GSE, must from the same platform
-  library(affy);
+  require(affy);
+  require(devtools);
   
   # download GEO data sets
   if (length(gsm.ids)>0) path<-ParseGSM(gsm.ids, paste(path.out, gse.id, sep='/'), affy.supp) else 
-    path<-ParseGSE(gse.id, path.out, affy.supp);
+    path<-ParseGSE(gse.id, path.out);
   
   if (affy.supp) {
-    path.smp<-paste(path, gse.id, sep='/');
+    path.smp<-paste(path.out, gse.id, sep='/');
     if (length(gsm.ids) == 0) untar(paste(path.smp, '/', gse.id, '_RAW.tar', sep=''), exdir=path.smp);
-
+    
     fn.cel<-dir(path.smp);
     fn.cel<-paste(path.smp, fn.cel[grep('.CEL.gz$', fn.cel, ignore.case=TRUE)], sep='/');
     
-    raw<-LoadAffyCel(fn.cel);
-    if (raw@cdfName=="Zebrafish") version<-'18.0.0' else version<-'19.0.0';
-    raw@cdfName<-InstallBrainarray(raw@cdfName, version=version);
-    if (!identical(NA, raw@cdfName)) {
-      expr<-exprs(rma(raw));
-      expr<-expr[grep('_at$', rownames(expr)), , drop=FALSE];
-      rownames(expr)<-sub('_at$', '', rownames(expr));
-      cnm<-sub('.CEL.gz$', '', sampleNames(raw));
-      cnm<-sapply(strsplit(cnm, '/'), function(x) x[length(x)]);
-      colnames(expr)<-cnm;
-      saveRDS(expr, file=paste(path.out, '/expr_', gse.id, '.rds', sep=''));      
-     }
+    raw <- LoadAffyCel(fn.cel);
+    
+    lapply(names(raw), function(nm) {
+      raw <- raw[[nm]]; 
+      if (raw@cdfName=="Zebrafish") version<-'18.0.0' else version<-'19.0.0';
+      raw@cdfName<-InstallBrainarray(raw@cdfName, version=version);
+      if (!identical(NA, raw@cdfName)) {
+        expr<-exprs(rma(raw));
+        expr<-expr[grep('_at$', rownames(expr)), , drop=FALSE];
+        rownames(expr)<-sub('_at$', '', rownames(expr));
+        cnm<-sub('.CEL.gz$', '', sampleNames(raw));
+        cnm<-sapply(strsplit(cnm, '/'), function(x) x[length(x)]);
+        colnames(expr)<-cnm;
+        saveRDS(expr, file=paste(path.out, '/expr_', gse.id, '_', nm, '.rds', sep=''));      
+      }
+    });
   }
   
-  smp<-eval(parse(text=load(paste(path, 'phen.rdata', sep='/'))));
-  #smp<-smp[colnames(expr), , drop=FALSE];
-  smp<-cbind(smp[, c('title', 'taxid_ch1')], 
-             smp[, c(grep('characteristics_ch1', colnames(smp)), grep('^description', colnames(smp)))]);
-  saveRDS(smp, file=paste(path.out, '/sample_', gse.id, '.rds', sep=''));      
+  sapply(path, function(path) {
+    smp<-eval(parse(text=load(paste(path, 'phen.rdata', sep='/'))));
+    #smp<-smp[colnames(expr), , drop=FALSE];
+    smp<-cbind(smp[, c('title', 'taxid_ch1')], 
+               smp[, c(grep('characteristics_ch1', colnames(smp)), grep('^description', colnames(smp)))]);
+    saveRDS(smp, file=paste(path, '/sample_', gse.id, '.rds', sep=''));      
+  });
   
   path;
 }
@@ -44,7 +51,8 @@ LoadAffyCel<-function(fn) {
   fn<-fn[file.exists(fn)];
   if (length(fn) == 0) NA else {
     heads<-sapply(fn, function(f) affyio::read.celfile.header(f)[[1]]);
-    if (length(unique(heads)) > 1) NA else {
+    fns <- split(fn, heads);
+    raw <- lapply(fns, function(fn) {
       hd<-affyio::read.celfile.header(fn[1]);
       cdfname<-hd[[1]];
       dim.int<-hd[[2]];
@@ -52,7 +60,11 @@ LoadAffyCel<-function(fn) {
       raw<-new("AffyBatch", exprs = exprs, cdfName = cdfname, nrow = dim.int[2], ncol = dim.int[1],
                annotation = cleancdfname(cdfname, addcdf = FALSE));
       raw;
-    }
+    });
+    
+    names(raw) <- names(fns);
+    
+    raw;
   }
 }
 
@@ -136,42 +148,41 @@ ParseGSE<-function(id, destdir=getwd(), getSupp=TRUE, getGPL=TRUE) {
   cat('Parsing GEO series', id, '\n');
   
   if (!file.exists(destdir)) dir.create(destdir);
-  gse<-getGEO(id[1], destdir=destdir, AnnotGPL=FALSE, getGPL = FALSE)[[1]];
+  gse<-getGEO(id[1], destdir=destdir, AnnotGPL=FALSE, getGPL = FALSE);
+
+  f <- sapply(gse, function(gse) {
+    gpl<-gse@annotation; 
+    f <- paste(destdir, '/', id, '-', gpl, sep='');
+    if(!file.exists(f)) dir.create(f);
+    expr<-exprs(gse);
+    phen<-phenoData(gse)@data
+    save(expr, file=paste(f, '/expr.rdata', sep=''));
+    save(phen, file=paste(f, '/phen.rdata', sep=''));
+    write.table(cbind(ID=rownames(expr), expr), file=paste(f, '/expr.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
+    write.table(phen, file=paste(f, '/phen.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
+    if (getGPL) ParseGPL(gpl, f);
+    f;
+  });
   
-  gpl<-gse@annotation; 
-  f<-paste(destdir, '/', id, '-', gpl, sep='');
-  if(!file.exists(f)) dir.create(f);
-  
-  expr<-exprs(gse);
-#   anno<-featureData(gse)@data;
-  phen<-phenoData(gse)@data
-  
-  save(expr, file=paste(f, '/expr.rdata', sep=''));
-  # save(anno, file=paste(f, '/anno.rdata', sep=''));
-  save(phen, file=paste(f, '/phen.rdata', sep=''));
-  
-  write.table(cbind(ID=rownames(expr), expr), file=paste(f, '/expr.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
-  # write.table(anno, file=paste(f, '/anno.txt', sep=''), sep='\t', qu=FALSE, row=FALSE);
-  write.table(phen, file=paste(f, '/phen.txt', sep=''), sep='\t', qu=FALSE, row=FALSE); 
-  
-  if (getGPL) {
-    parseGPL(gpl, f);
-  }
-  
-  if (getSupp) {
-    getGEOSuppFiles(id, TRUE, f);
-  }
+  if (getSupp) getGEOSuppFiles(id, TRUE, destdir);
   
   f;
 }
 
 ParseGPL <- function(gpl, f) {
+  require(RCurl);
+  
   url <- 'ftp://ftp.ncbi.nlm.nih.gov/geo/platforms';
-  sub <- gsub('[0-9]{3}$', 'nnn', gpl);
+  num <- as.numeric(sub('GPL', '', gpl));
+  if (num<1000) sub <- 'GPLnnn' else sub <- paste('GPL', floor(num/1000), 'nnn', sep=''); 
   fnm <- paste(gpl, '.annot.gz', sep=''); 
   url <- paste(url, sub, gpl, 'annot', fnm, sep='/'); 
-  download.file(url, paste(f, fnm, sep='/'));
   
-  anno <- getGEO(filename=paste(f, fnm, sep='/')); 
-  save(anno, file=paste(f, 'anno.rdata', sep='/')); 
+  if (url.exists(url)) {
+    download.file(url, paste(f, fnm, sep='/'));
+    
+    anno <- getGEO(filename=paste(f, fnm, sep='/')); 
+    anno <- GEOquery::Table(anno);
+    save(anno, file=paste(f, 'anno.rdata', sep='/')); 
+  }
 }
