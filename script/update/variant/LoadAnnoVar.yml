@@ -1,0 +1,19 @@
+rerun: no
+file:
+  hg38_AFR.sites.2014_10: /nas/is1/annovar/humandb/hg38_AFR.sites.2014_10.txt
+  hg38_ALL.sites.2014_10: /nas/is1/annovar/humandb/hg38_ALL.sites.2014_10.txt
+  hg38_AMR.sites.2014_10: /nas/is1/annovar/humandb/hg38_AMR.sites.2014_10.txt
+  hg38_cytoBand: /nas/is1/annovar/humandb/hg38_cytoBand.txt
+  hg38_dbnsfp30a: /nas/is1/annovar/humandb/hg38_dbnsfp30a.txt
+  hg38_EAS.sites.2014_10: /nas/is1/annovar/humandb/hg38_EAS.sites.2014_10.txt
+  hg38_esp6500siv2_aa: /nas/is1/annovar/humandb/hg38_esp6500siv2_aa.txt
+  hg38_esp6500siv2_all: /nas/is1/annovar/humandb/hg38_esp6500siv2_all.txt
+  hg38_esp6500siv2_ea: /nas/is1/annovar/humandb/hg38_esp6500siv2_ea.txt
+  hg38_EUR.sites.2014_10: /nas/is1/annovar/humandb/hg38_EUR.sites.2014_10.txt
+  hg38_exac03: /nas/is1/annovar/humandb/hg38_exac03.txt
+  hg38_exac03nonpsych: /nas/is1/annovar/humandb/hg38_exac03nonpsych.txt
+  hg38_exac03nontcga: /nas/is1/annovar/humandb/hg38_exac03nontcga.txt
+  hg38_hrcr1: /nas/is1/annovar/humandb/hg38_hrcr1.txt
+  hg38_kaviar_20150923: /nas/is1/annovar/humandb/hg38_kaviar_20150923.txt
+  hg38_SAS.sites.2014_10: /nas/is1/annovar/humandb/hg38_SAS.sites.2014_10.txt
+
