@@ -8,7 +8,7 @@ GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
-    
+  
   ########################################################################################################################
   ########################################################################################################################
   ## Parse a set of NCBI Entrez genes
@@ -85,7 +85,7 @@ GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=
     
     library(RCurl)
     
-    url<-paste("http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&rettype=xml&id=", paste(id, collapse=','), sep='');
+    url<-paste("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&rettype=xml&id=", paste(id, collapse=','), sep='');
     xmls<-getURL(url); # downlaod data from NCBI
     xmls<-strsplit(xmls, '\n')[[1]]; # break lines
     
@@ -109,7 +109,12 @@ GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=
   if (!file.exists(fn.anno)) stop("Error: annotation file for specie", species, "not exists.\n");
   anno<-readRDS(fn.anno);
   all.ids<-rownames(anno); # Entrez gene ID
-  ids<-split(all.ids, rep(1:ceiling(length(all.ids)/block.size), each=block.size)[1:length(all.ids)]); # split into smaller blocks
+  
+  fn.old <- paste(path, '/r/', species, '_by_id.rds', sep='');
+  if (file.exists(fn.old)) gn.old <- readRDS(fn.old) else gn.old <- c();
+  id.new <- rownames(anno)[!(rownames(anno) %in% names(gn.old))];
+  
+  ids <- split(id.new, rep(1:ceiling(length(id.new)/block.size), each=block.size)[1:length(id.new)]); # split into smaller blocks
   
   # fetch and parse gene info in batch
   if (num.clusters > 1) { # using parallel processing
@@ -128,13 +133,15 @@ GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=
   # merge of 
   gn.all<-do.call('c', gn);
   names(gn.all)<-sapply(gn.all, function(g) g$ID);
-  gn.all<-gn.all[all.ids];
   
   # insert URL
   gn.all<-lapply(gn.all, function(gn) {
     id<-gn[[1]];
     url<-c('URL'=paste('http://www.ncbi.nlm.nih.gov/gene/?term=', id, sep=''));
     append(gn, url, after=4);
-  })
+  });
+  gn.all <- c(gn.old, gn.all); 
+  gn.all<-gn.all[all.ids];
+  
   saveRDS(gn.all, file=paste(path, '/r/', species, '_by_id.rds', sep=''));
 }
