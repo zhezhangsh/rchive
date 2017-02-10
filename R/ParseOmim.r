@@ -1,187 +1,148 @@
 # Parse OMIM database
-ParseOmim<-function(url="ftp://ftp.omim.org/OMIM", 
-                    path.gene=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_synonyms2id.rds', sep='/'),
-                    path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), 
-                    download.all=FALSE) {
+ParseOmim<-function(
+  url=c(
+    'mimTitles' = 'https://data.omim.org/downloads/2XUnXL5aSL6omABJrtJVtg/mimTitles.txt',
+    'mim2gene' = 'https://omim.org/static/omim/data/mim2gene.txt',
+    'morbidmap' = 'https://data.omim.org/downloads/2XUnXL5aSL6omABJrtJVtg/morbidmap.txt',
+    'genemap' = 'https://data.omim.org/downloads/2XUnXL5aSL6omABJrtJVtg/genemap.txt',
+    'genemap2' = 'https://data.omim.org/downloads/2XUnXL5aSL6omABJrtJVtg/genemap2.txt',
+    'phenotypeseries.html' = 'https://www.omim.org/phenotypicSeriesTitle/all'
+  ), 
+  path.gene=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez/r/human_genes_synonyms2id.rds', sep='/'),
+  path=paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim', sep='/'), 
+  download.all=FALSE) {
 
+  require(RoCA); 
+  
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
   if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
   if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
  
   # Download from OMIM ftp site
-  fn.src<-c("genemap", "genemap.key", "genemap2.txt", "mim2gene.txt", "morbidmap", "omim.txt.Z");
-  fn.ftp<-paste(url, fn.src, sep='/');
-  fn.loc<-paste(path, 'src', fn.src, sep='/');
-  names(fn.loc)<-fn.src;
-  for (i in 1:length(fn.ftp)) if (download.all | !file.exists(fn.loc[i])) download.file(fn.ftp[i], fn.loc[i]);
+  fn.loc <- names(url);
+  fn.loc <- paste(path, 'src', fn.loc, sep='/');
+  for (i in 1:length(url)) if (download.all | !file.exists(fn.loc[i])) download.file(url[i], fn.loc[i]);
   
   #######################################################################################
-  mp<-strsplit(scan(fn.loc[1], sep='\n', flush=TRUE, what=''), '\\|');
-  mp.gn<-strsplit(sapply(mp, function(mp) mp[6]), ', ');
-  mp.id<-sapply(mp, function(mp) mp[10]);
+  # mimTitles
+  mt <- scan(fn.loc[1], sep='\n', flush=TRUE, what='');
+  mt <- mt[substr(mt, 1, 1)!='#'];
+  mt <- t(sapply(strsplit(mt, '\t'), function(x) x[1:6]));
+  rownames(mt) <- mt[, 2];
+  colnames(mt) <- c('Prefix', 'Mim Number', 'Preferred_Title', 'Alternative_Title', 'Symbol_Title', 'Symbol');
+  mt <- data.frame(mt[, -2], stringsAsFactors = FALSE); 
+
+  #######################################################################################
+  # mim2gene
+  mm <- scan(fn.loc[2], sep='\n', flush=TRUE, what='');
+  hd <- mm[grep('^#', mm)];
+  hd <- hd[length(hd)];
+  hd <- strsplit(sub('^# ', '', hd), '\t')[[1]];
+  hd <- sapply(strsplit(hd, '\\('), function(x) x[1]);
+  mm <- mm[substr(mm, 1, 1)!='#'];
+  mm <- t(sapply(strsplit(mm, '\t'), function(x) x[1:5]));
+  colnames(mm) <- hd; 
+  rownames(mm) <- mm[, 1];
+  mm <- data.frame(mm[, -1], stringsAsFactors = FALSE); 
+  an <- cbind(mm, mt); 
+  an$URL <- paste('https://www.omim.org/entry', rownames(an), sep='/');
+  colnames(an) <- gsub('\\.', '_', colnames(an));
+  colnames(an) <- sub('_$', '', colnames(an));
+  saveRDS(an, file=paste(path, 'r/omim_anno.rds', sep='/'));
+  
+  #######################################################################################
+  # morbidmap
+  mb <- scan(fn.loc[3], sep='\n', flush=TRUE, what='');
+  hd <- mb[grep('^#', mb)];
+  hd <- hd[4];
+  hd <- strsplit(sub('^# ', '', hd), '\t')[[1]];
+  mb <- mb[substr(mb, 1, 1)!='#'];
+  mb <- t(sapply(strsplit(mb, '\t'), function(x) x[1:length(hd)]));
+  colnames(mb) <- hd; 
+  mb <- data.frame(mb, stringsAsFactors = FALSE); 
+  gn <- readRDS(path.gene);
+  mp.id <- mb[, 3];
+  mp.gn <- lapply(strsplit(mb[, 2], ', '), function(x) as.vector(gn[x[[1]]]));
+  id2gn <- lapply(split(mp.gn, mp.id), function(x) unique(unlist(x))); 
+  id2gn <- lapply(id2gn, function(x) x[x!='']);
+  id2gn0 <- id2gn[sapply(id2gn, length)>0]; 
+  gn2id <- split(rep(names(id2gn), sapply(id2gn, length)), unlist(id2gn));
+  gn2id0 <- lapply(gn2id, unique); 
+  saveRDS(mb, file=paste(path, 'r/morbid_anno.rds', sep='/'));
+  saveRDS(id2gn0, file=paste(path, 'r/morbid_omim2gene.rds', sep='/'));
+  saveRDS(gn2id0, file=paste(path, 'r/morbid_gene2omim.rds', sep='/'));
+  
+  #######################################################################################
+  # genemap
+  mp <- scan(fn.loc[4], sep='\n', flush=TRUE, what='');
+  hd <- strsplit(sub('^#', '', mp[4]), '\t')[[1]]; 
+  mp <- mp[substr(mp, 1, 1)!='#'];
+  mp <- strsplit(mp, '\t');
+  mp <- sapply(mp, function(x) x[1:length(hd)]); 
+  mp <- t(mp); 
+  colnames(mp) <- hd; 
+  mp.gn<-strsplit(mp[, 'Gene Symbols'], ', ');
+  mp.id<-mp[, 'MIM Number'];
   mp.id<-rep(mp.id, sapply(mp.gn, length));
   mp.gn<-unlist(mp.gn, use.names=FALSE);
   hu.gn<-readRDS(path.gene);
   gn<-hu.gn[mp.gn];
   mp.id<-rep(mp.id, sapply(gn, length));
-  gn<-unlist(gn, use.names=FALSE);
-  id2gn<-lapply(split(gn, mp.id), unique);
-  gn2id<-lapply(split(mp.id, gnf), unique);
-  saveRDS(id2gn, file=paste(path, 'r/map_omim2gene.rds', sep='/'));
-  saveRDS(gn2id, file=paste(path, 'r/map_gene2omim.rds', sep='/'));
-  
-  ############################################################################
-  ## Process full record of OMIM entries
-  # Load file
-  fn.omim<-fn.loc['omim.txt.Z'];
-  cd<-system(paste('uncompress -kf', fn.omim));
-  lns<-scan(sub('.Z$', '', fn.omim), what='', flush=TRUE, sep='\n');
-  
-  # assign entry ID to lines
-  ind1<-grep('^\\*RECORD\\*', lns); # every new OMIM entry
-  lns[ind1]<-'';
-  ent<-rep(1:length(ind1), c(ind1[-1]-ind1[-length(ind1)], length(lns)-ind1[length(ind1)]+1)); 
-  ent[ind1]<-'';
-  ent.id<-as.character(1:length(ind1));
-  
-  # split into individual fields
-  ind2<-grep('^\\*FIELD\\*', lns); # every fields
-  typ<-sub('^\\*FIELD\\* ', '', lns[ind2]); # field type
-  fld<-c('', rep(1:length(ind2), c(ind2[-1]-ind2[-length(ind2)], length(lns)-ind2[length(ind2)]+1))); 
-  fld[c(ind1, ind2)]<-''; # exclude separator lines
-  grp<-split(lns, fld)[-1][as.character(1:length(typ))]; # group lines into individual fields
-  names(grp)<-ent[ind2];
-  grp<-split(grp, typ); # group by field type
-  
-  ##########################################################################
-  ## Retrieve individual fields
-  # Unique OMIM ID
-  id<-sapply(grp[['NO']], function(x) x[[1]][1]);
-  n<-sapply(grp[['NO']], length);
-  if (max(n) > 1) warning("Some entries have more than one OMIM ID\n");
-  if (length(id) != length(ind1)) warning("Not all entry have OMIM ID\n");
-  id<-id[ent.id];
-  id[is.na(id)]<-'';
-  names(id)<-ent.id
-  for (i in 1:length(grp)) names(grp[[i]])<-id[names(grp[[i]])];
-  
-  # OMIM title
-  title<-sapply(grp[['TI']], function(x) paste(x, collapse=' ')); 
-  title<-sapply(split(as.vector(title), names(title)), function(x) paste(x, collapse='; '));
-  title<-title[id];
-  names(title)<-id;
-  title[is.na(title)]<-'';
-  title<-gsub(' ;;', ';;', gsub(';; ', ';;', title));
-  title<-strsplit(title, ';;');
-  title.alt<-lapply(title, function(x) x[-1]);
-  title<-sapply(title, function(x) x[1]);
-  title.id<-sapply(strsplit(title, ' '), function(x) x[1]);
-  title<-sapply(title, function(x) substr(x, gregexpr(' ', x)[[1]][1]+1, nchar(x)));
-  
-  # Get entry status by first character
-  code<-c(
-    "Other, mainly phenotypes with suspected mendelian basis",
-    '%' = "Phenotype description or locus, molecular basis unknown", 
-    '#' = "Phenotype description, molecular basis known",
-    '^' = "Record moved",
-    '*' = "Gene description",
-    '+' = "Gene and phenotype, combined"
-  );
-  status<-code[substr(title.id, 1, 1)];
-  status[is.na(status)]<-code[1];
-  names(status)<-names(title);
+  mp.gn<-unlist(gn, use.names=FALSE);
+  id2gn <- lapply(split(mp.gn[mp.gn!=''&mp.id!=''], mp.id[mp.gn!=''&mp.id!='']), unique);
+  gn2id <- lapply(split(mp.id[mp.gn!=''&mp.id!=''], mp.gn[mp.gn!=''&mp.id!='']), unique);
+  id2gn <- lapply(id2gn, function(x) x[x!='']);
+  gn2id <- lapply(gn2id, function(x) x[x!='']);
+  id2gn1 <- id2gn[sapply(id2gn, length)>0]; 
+  gn2id1 <- gn2id[sapply(gn2id, length)>0]; 
+  saveRDS(mp, file=paste(path, 'r/genemap.rds', sep='/'));
+  saveRDS(id2gn1, file=paste(path, 'r/genemap_omim2gene.rds', sep='/'));
+  saveRDS(gn2id1, file=paste(path, 'r/genemap_gene2omim.rds', sep='/'));
 
-  # text
-  tx<-sapply(grp[['TX']], function(x) paste(x, collapse=' '));
-  tx<-split(tx, names(tx));
+  #######################################################################################
+  # genemap2
+  mp <- scan(fn.loc[5], sep='\n', flush=TRUE, what='');
+  hd <- strsplit(sub('^#', '', mp[4]), '\t')[[1]]; 
+  hd <- sub('^ ', '', hd); 
+  hd <- sub(' $', '', hd); 
+  mp <- mp[substr(mp, 1, 1)!='#'];
+  mp <- strsplit(mp, '\t');
+  mp <- sapply(mp, function(x) x[1:length(hd)]); 
+  mp <- t(mp); 
+  colnames(mp) <- hd; 
+  mp.gn<-mp[, 'Entrez Gene ID'];
+  mp.id<-mp[, 'Mim Number'];
+  id2gn <- lapply(split(mp.gn[mp.gn!=''&mp.id!=''], mp.id[mp.gn!=''&mp.id!='']), unique);
+  gn2id <- lapply(split(mp.id[mp.gn!=''&mp.id!=''], mp.gn[mp.gn!=''&mp.id!='']), unique);
+  id2gn <- lapply(id2gn, function(x) x[x!='']);
+  gn2id <- lapply(gn2id, function(x) x[x!='']);
+  id2gn2 <- id2gn[sapply(id2gn, length)>0]; 
+  gn2id2 <- gn2id[sapply(gn2id, length)>0]; 
+  saveRDS(mp, file=paste(path, 'r/genemap2.rds', sep='/'));
+  saveRDS(id2gn2, file=paste(path, 'r/genemap2_omim2gene.rds', sep='/'));
+  saveRDS(gn2id2, file=paste(path, 'r/genemap2_gene2omim.rds', sep='/'));
   
-  # clinical synopsis
-  cs<-lapply(names(grp[['CS']]), function(nm) { 
-    #x<-unlist(strsplit(grp[['CS']][[nm]], ':'), use.names=FALSE);
-    x<-sub(' $', '', sub('^ ', '', gsub('[ ]+', ' ', gsub(';$', '', grp[['CS']][[nm]]))));
-    x[grep(':', x)]<-paste('\n', x[grep(':', x)], sep='');
-    x<-sub('[:;.]$', '', x);
-    x<-sub(': ', '; ', x);
-    x<-paste(x, collapse=';');
-    x<-gsub('; ', ';', x);
-    x<-gsub(';;', ';', x);
-    x<-sub('^\n', '', x);
-    x<-strsplit(x, '\n')[[1]];
-    x<-strsplit(x, ';');
-    feature<-lapply(x, function(x) x[-1]);
-    names(feature)<-sapply(x, function(x) x[1]);
-    feature;
+  #######################################################################################
+  # Phenotype series
+  tbl <- ImportTable(fn.loc[6]);
+  srs <- rownames(tbl);
+  names(srs) <- as.vector(tbl[[1]]);
+  mps <- lapply(names(srs), function(id) {
+    fn <- paste(path, 'src', paste(id, '.html', sep=''), sep='/');
+    lk <- paste('https://www.omim.org/phenotypicSeries', id, sep='/');
+    download.file(lk, fn);
+    tb <- ImportTable(fn, rownames = FALSE, colnames = TRUE);
+    colnames(tb) <- tb[1, ]; 
+    tb[tb[, 5] %in% rownames(an), , drop=FALSE];
   });
-  names(cs)<-names(grp[['CS']]);
+  names(mps) <- names(srs);
+  ss2gn <- lapply(mps, function(x) unique(unlist(hu.gn[x[[6]]])));
+  ss <- data.frame(Name=srs, Num_Phenotype=sapply(mps, nrow),
+                   URL=paste('https://www.omim.org/phenotypicSeries', names(srs), sep='/'));
+  rownames(ss) <- names(srs);
+  saveRDS(ss, file=paste(path, 'r/phenotype_series.rds', sep='/'));
+  saveRDS(mps, file=paste(path, 'r/phenotype_series_full.rds', sep='/'));
+  saveRDS(ss2gn, file=paste(path, 'r/phenotype_series2gene.rds', sep='/'));
   
-  # contributor
-  cn<-lapply(grp[['CN']], as.vector);
-  
-  # created date
-  cd<-lapply(split(grp[['CD']], names(grp[['CD']])), function(x) as.vector(unlist(x, use.names=FALSE))); 
-            
-  # edit history
-  ed<-lapply(split(grp[['ED']], names(grp[['ED']])), function(x) as.vector(unlist(x, use.names=FALSE))); 
-  
-  #ALLELIC VARIANTS 
-  av<-sapply(grp[['AV']], function(x) paste(x, collapse=' '));
-  
-  # reference
-  rf<-lapply(grp[['RF']], function(x) {
-    x[grep('^[0-9]+. ', x)]<-paste('\n', x[grep('^[0-9]+. ', x)], sep='');
-    x<-paste(x, collapse=' ');
-    x<-sub('^\n', '', x);
-    strsplit(x, '\n');
-  });
-  
-  # see also
-  sa<-lapply(grp[['SA']], function(x) {
-    x<-paste(x, collapse=' ');
-    strsplit(x, '; ')[[1]];
-  });
-  
-  ################################################################################################
-  # Load OMIM to gene mapping
-  omim2gene<-read.table(paste(path, 'src', 'mim2gene.txt', sep='/'), sep='\t', comment.char='', row.names=1, header=TRUE, stringsAsFactors=FALSE);
-  if (!setequal(rownames(omim2gene), id)) warnings("Unmatched OMIM IDs: OMIM2gene table vs. Full OMIM records\n");
-  omim2gene[omim2gene=='-']<-'';
-  saveRDS(omim2gene, file=paste(path, 'r', 'omim2gene.rds', sep='/'));
-    
-  ################################################################################################
-  # prepare OMIM full annotation table
-  omim<-data.frame(Title=title[rownames(omim2gene)], row.names=rownames(omim2gene), stringsAsFactors=FALSE);
-  omim$Type<-omim2gene[, 'Type']
-  omim$Gene_ID<-omim2gene[, "Entrez.Gene.ID"];
-  omim$Gene_Symbol<-omim2gene[, "Approved.Gene.Symbol"];
-  omim$Status<-status[rownames(omim)];
-  omim[is.na(omim)]<-""; 
-  saveRDS(omim, file=paste(path, 'r/omim.rds', sep='/'));
-  
-  ################################################################################################
-  # Prepare a full information list by OMIM IDs
-  cat('Structure entries by ID');
-  by.id<-lapply(rownames(omim), function(id) {
-    lst<-list(
-      ID = id,
-      Title = title[id],
-      Alternative_Title = title.alt[[id]],
-      Type = omim[id, 'Type'],
-      Status = omim[id, 'Status'],
-      Gene_ID =  omim[id, 'Gene_ID'],
-      Gene_Symbol = omim[id, 'Gene_Symbol'],
-      Gene_Ensembl = omim2gene[id, 'Ensembl.Gene.ID'],
-      Text = if (id %in% names(tx)) tx[id][[1]] else c(),
-      Clinical_Synopsis = if (id %in% names(cs)) cs[[id]] else c(),
-      Allelic_Variants = if (id %in% names(av)) av[[id]] else c(),
-      References = if (id %in% names(rf)) rf[[id]] else c(),
-      See_Also = if (id %in% names(sa)) sa[[id]] else c(),
-      Contributors = if (id %in% names(cn)) cn[[id]] else c(),
-      Created_Date = if (id %in% names(cd)) cd[[id]] else c(),
-      Edit_History = if (id %in% names(ed)) ed[[id]] else c()
-    );
-    lst[sapply(lst, length)>0];
-  }); 
-  saveRDS(by.id, file=paste(path, 'r/omim_by_id.rds', sep='/'));
-  
-  omim;
+  list(omim=an, series=ss);
 }

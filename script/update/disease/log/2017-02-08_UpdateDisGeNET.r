@@ -2,8 +2,14 @@ library(devtools);
 install_github("zhezhangsh/rchive");
 library(rchive);
 
+lnk <- c(
+  curated = 'http://www.disgenet.org/ds/DisGeNET/results/curated_gene_disease_associations.tsv.gz',
+  literature = "http://www.disgenet.org/ds/DisGeNET/results/literature_gene_disease_associations.tsv.gz", 
+  befree = "http://www.disgenet.org/ds/DisGeNET/results/befree_gene_disease_associations.tsv.gz",
+  all = "http://www.disgenet.org/ds/DisGeNET/results/all_gene_disease_associations.tsv.gz"
+); 
 
-dis<-ParseDisGeNET();
+dis<-ParseDisGeNET(url = lnk);
 
 ##############################################################################################################
 UpdateLog(dis, paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/disgenet', sep='/'), just.new=FALSE);

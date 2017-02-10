@@ -11,8 +11,8 @@ GetPubMedAbstract<-function(pmid, set.size=200) {
   getSet<-function(pmid) {
     cat('Retrieve', length(pmid), 'PubMed articles\n');
     # build URL
-    url<-"http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&rettype=abstract&id=";
-    url<-paste(url, paste(pmid, collapse=','));
+    url<-"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&rettype=abstract&id=";
+    url<-paste(url, paste(pmid, collapse=','), sep='');
     
     # retrieve xml document
     xml.doc<-xmlTreeParse(url, useInternalNodes=TRUE);

@@ -1,0 +1,1 @@
+nohup Rscript /zhangz/rchive/source/script/update/disease/UpdateOmim.r &

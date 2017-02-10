@@ -1,8 +1,7 @@
 Loading ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gztrying URL 'ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//chemical2pubtator.gz'
-ftp data connection made, file length 393824108 bytes
-opened URL
+ftp data connection made, file length 333249882 bytes
 ==================================================
-downloaded 375.6 Mb
+downloaded 317.8 MB
 
 chemical 
-Read 37160207 items
+Read 34150872 items

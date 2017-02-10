@@ -7,7 +7,7 @@ options(stringsAsFactors=FALSE);
 
 #url<-"https://www.ebi.ac.uk/gwas/api/search/downloads/full";
 
-updates<-ParseGwasCatalog(update.all.pubmed=FALSE);
+updates<-ParseGwasCatalog();
 
 ##############################################################################################################
 UpdateLog(updates, paste(Sys.getenv("RCHIVE_HOME"), 'data/gwas/public/gwascatalog', sep='/'), just.new=FALSE);
