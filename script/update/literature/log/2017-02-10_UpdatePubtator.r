@@ -18,23 +18,6 @@ for (i in 1:length(ftp.files)) {
   ParsePubtator(ftp.files[i]);
 }
 
-fn  <- paste(path, '/r/original_pubmed2gene.rds', sep='')
-p2g <- readRDS(fn);
-pid <- p2g[,1];
-gid <- p2g[,2];
-gid0<- strsplit(gid, ',');
-n   <-sapply(gid0, length);
-pid <- rep(pid, n);
-gid <- unlist(gid0, use.names=FALSE);
-mp1 <- split(gid, pid);
-mp2 <- split(pid, gid); 
-mp1 <- lapply(mp1, unique);
-mp2 <- lapply(mp2, unique);
-
-path = paste(Sys.getenv("RCHIVE_HOME"), "data/literature/public/pubtator/r", sep = "/")
-saveRDS(mp1, paste(path, 'map_pubmed2gene.rds', sep='/'));
-saveRDS(mp2, paste(path, 'map_gene2pubmed.rds', sep='/'));
-
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/script/update/literature/UpdatePubtator.r', sep='/');
 fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/literature/log/', tm, '_UpdatePubtator.r' , sep='');

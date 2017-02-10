@@ -25,7 +25,7 @@ species<-c(
 path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/');
 ids<-ParseEntrez(ftp.file, species, download.new=FALSE, path);
 
-GetEntrezDetail(num.clusters=1, block.size = 2000); # threading not working yet
+# GetEntrezDetail(num.clusters=1); # threading not working yet
 
 ##############################################################################################################
 UpdateLog(ids, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/'), just.new=FALSE);

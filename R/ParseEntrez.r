@@ -2,8 +2,8 @@
 ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE, 
                       path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene/public/entrez', sep='/')) {
   if (!file.exists(path)) dir.create(path, recursive=TRUE);
-  if(!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
-  if(!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
+  if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'), recursive=TRUE);
+  if (!file.exists(paste(path, 'src', sep='/'))) dir.create(paste(path, 'src', sep='/'), recursive=TRUE);
  
   fn<-paste(path, 'r', 'all_genes.rds', sep='/');
   
@@ -17,7 +17,7 @@ ParseEntrez<-function(ftp.file, species=c('human'='9606'), download.new=TRUE,
     download.file(ftp.file, gz);
     
     hd<-scan(gz, nline=1, what='', sep='\n', flush=TRUE);
-    hd<-strsplit(hd, ' ')[[1]][2:16];
+    hd<-strsplit(sub('^#', '', hd), '\t')[[1]];
     
     ### Give error: could not allocate memory (2048 Mb) in C function 'R_AllocStringBuffer'
     #all<-read.table(fn, sep='\t', head=FALSE, quote='\"', comment='', skip=1, stringsAsFactors=FALSE);

@@ -27,7 +27,7 @@ species<-c(
 out<-paste(RCHIVE_HOME, 'data/gene.set/public/biosystems', sep='/'); 
 
 # Download data and save results
-ids<-ParseBiosystemsGeneral(species, download.new=FALSE); 
+ids<-ParseBiosystemsGeneral(species, download.new=TRUE); 
 
 # Mapping BSID to gene, protein, etc.
 cat("Mapping BSID to gene, etc.\n");
