@@ -14,7 +14,7 @@ ftp.files<-c(
   mutation="ftp://ftp.ncbi.nlm.nih.gov/pub/lu/PubTator//mutation2pubtator.gz"
 )
 for (i in 1:length(ftp.files)) {
-  cat('Loading', ftp.files[i]); 
+  cat('Loading', ftp.files[i]);
   ParsePubtator(ftp.files[i]);
 }
 

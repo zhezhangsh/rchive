@@ -1,5 +1,32 @@
 ########## Functions retrieving data from PubMed ########## 
 
+MapPMID2Title <- function(pmid, set.size=200) {
+  getSet <- function(pmid) {
+    url <- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=json&rettype=title&id=";
+    url <- paste(url, paste(pmid, collapse=','), sep='');
+    lns <- readLines(url);
+    lns <- paste(lns, collapse='\n'); 
+    lns <- strsplit(lns, '\n\n')[[1]];
+    ttl <- lns[seq(2, length(lns), 4)]; 
+    pid <- lns[seq(4, length(lns), 4)];
+    pid <- sapply(strsplit(pid, ' '), function(x) x[2]); 
+    names(ttl) <- pid;
+    ttl;
+  }
+
+  pmid<-pmid[!is.na(pmid) & pmid!=''];
+  pmid<-sort(unique(pmid));
+  if (length(pmid) > 0) {
+    n<-length(pmid);
+    n.set<-ceiling(n/set.size);
+    sets<-lapply(1:n.set, function(i) getSet(pmid[(i*set.size-set.size+1):min(i*set.size, length(pmid))]));
+    do.call('c', sets); # return list
+  } else {
+    cat("No valid PMID provided\n");
+    list();
+  }
+}
+
 # Retrieve PubMed abstract and other information using the efetch util of NCBI and parse the XML document into a list
 GetPubMedAbstract<-function(pmid, set.size=200) {
   # pmid      One or a set of PMID ids

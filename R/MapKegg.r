@@ -2,6 +2,101 @@
 # Mapping between KEGG databases and entries #
 ##############################################
 
+MapKegg2Gene.2 <- function(types=c(), species=c('human'='hsa'), 
+                           path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
+  require(RCurl); 
+  
+  if (!file.exists(path)) dir.create(path, recursive=TRUE);
+  if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
+  
+  nm<-names(species);
+  if (is.null(nm)) names(species)<-species else names(species)[is.na(names(species))]<-species[is.na(names(species))];
+  
+  # ID types
+  types<-tolower(types);
+
+  grp <- c('compound'="cpd", 'dgroup'="dg", 'drug'="dr", 'disease'="ds", 'enzyme'="ec",
+           'module'="md", 'omim'="omim", 'pathway'="path", 'pfam'="pf", 'reaction'="rn"); 
+  
+  ################################################################
+  # annotation
+  url <- paste('http://rest.kegg.jp/list', names(grp), sep='/');
+  names(url) <- names(grp);
+  lapply(names(url), function(nm) {
+    if (url.exists(url[nm])) {
+      l <- readLines(url[nm]); 
+      l <- strsplit(l, '\t');
+      x <- sapply(l, function(x) x[1]);
+      y <- sapply(l, function(x) x[2]);
+      x <- sapply(strsplit(x, ':'), function(x) x[2]); 
+      names(y) <- x;
+      df <- data.frame(Name=y, URL=paste('http://www.kegg.jp/dbget-bin/www_bget?', x, sep=''), stringsAsFactors = FALSE);
+      rownames(df) <- x;
+      fnm <- paste(path, '/r/anno_', nm, '.rds', sep='');
+      saveRDS(df, fnm); 
+      fnm;
+    } else '';
+  }) -> x;
+  ################################################################
+  ################################################################
+  # Genes
+  url <- paste('http://rest.kegg.jp/list', species, sep='/');
+  ################################################################
+  
+  if (length(types)>0) grp <- grp[names(grp) %in% types];
+  
+  ids <- lapply(names(species), function(nm) {
+    cat(nm, '\n'); 
+    spe <- species[nm]; 
+    gns <- names(ConvertGene2EntrezKeggApi(spe));
+    gns <- split(gns, rep(1:ceiling(length(gns)/100), each=100)[1:length(gns)]);
+    
+    mps <- lapply(gns, function(g) {
+      l <- readLines(paste('http://rest.genome.jp/link', paste(g, collapse='+'), sep='/')); 
+      l <- strsplit(l, '\t'); 
+      x <- sapply(l, function(x) x[2]);
+      x <- strsplit(x, ':'); 
+      y <- sapply(x, function(x) x[2]); 
+      z <- sapply(x, function(x) x[1]); 
+      names(y) <- sub(paste(spe, ':', sep=''), '', sapply(l, function(l) l[1]));
+      map <- split(y, z); 
+      map <- map[names(map) %in% grp];
+      names(map) <- sapply(names(map), function(x) names(grp)[grp==x]);
+      map; 
+    }); 
+    
+    cll <- lapply(mps, names);
+    cll <- sort(unique(unlist(cll)));
+    ids <- lapply(cll, function(c) {
+      cat(c, '\n'); 
+      ttl <- lapply(mps, function(m) if (c %in% names(m)) m[[c]] else NULL);
+      gns <- unlist(lapply(ttl, names), use.names=FALSE);
+      ids <- unlist(lapply(ttl, as.vector), use.names=FALSE);
+      map <- split(gns, ids);
+      map <- lapply(map, unique);
+      fnm <- paste(path, '/r/', nm, '_', c, '2gene.rds', sep='');
+      saveRDS(map, fnm); 
+      cat(fnm, '\n'); 
+      names(map); 
+    }); 
+    
+    names(ids) <- cll;
+    ids;
+  });
+  
+  names(ids) <- names(species);
+  
+  lapply(names(ids), function(spe) {
+    id <- ids[[spe]]; 
+    nm <- lapply(names(id), function(typ) {
+      i <- id[[typ]]; 
+      u <- paste()
+    }); 
+  });
+  
+  ids;
+}
+
 ######################################################################################################
 ######################################################################################################
 # Map types of KEGG IDs to Entrez genes of one or more species
