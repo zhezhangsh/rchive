@@ -5,7 +5,7 @@ if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
 ##############################################################################################################
 ##############################################################################################################
-{ # MSigDB
+# MSigDB
 path1<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/msigdb/r', sep='/');
 f1<-dir(path1);
 f1<-f1[grep('entrez', f1)];
@@ -40,11 +40,11 @@ meta1<-do.call('rbind', lapply(names(set1), function(nm) {
 list1<-do.call('c', lapply(set1, function(s) s$gene.sets));
 if (length(list1) != nrow(meta1)) stop("Error: MSigDB, un-matched length of gene lists and metadata table")
 names(list1)<-rownames(meta1);
-}; 
+
 
 ##############################################################################################################
 ##############################################################################################################
-{ # KEGG
+# KEGG
 path2<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg/r', sep='/');
 f2 <- dir(path2);
 f2 <- f2[grep('2gene.rds$', f2)];
@@ -69,11 +69,10 @@ meta2 <- lapply(all2, function(x) x[[1]]);
 list2 <- lapply(all2, function(x) x[[2]]);
 meta2 <- do.call('rbind', meta2); 
 list2 <- do.call('c', list2); 
-}
 
 ##############################################################################################################
 ##############################################################################################################
-{ # BioSystems, species specific
+# BioSystems, species specific
 path3<-paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/biosystems/r', sep='/');
 
 src<-c('KEGG', 'BIOCYC', 'REACTOME', 'WikiPathways', 'Pathway-Interaction-Database');
@@ -104,10 +103,9 @@ id <- sapply(x, function(x) x[1]);
 nm <- sapply(x, function(x) x[2]); 
 rownames(meta3) <- names(list3) <- paste(meta3[, 1], id, sep=':');
 meta3[, 2] <- nm; 
-}
 
 ###########################################
-{# GO lists, without species-specific Biosystem IDs
+# GO lists, without species-specific Biosystem IDs
 f3 <- dir(path3);
 f3 <- f3[grep('_GO.rds$', f3)];
 f3.mp <- f3[grep('biosystem2gene_', f3)];
@@ -137,7 +135,6 @@ go.lst <- go.lst[rownames(go.tbl)];
   
 meta3<-rbind(meta3, go.tbl);
 list3<-c(list3, go.lst);
-}
 
 ##############################################################################################################
 ##############################################################################################################
@@ -163,28 +160,69 @@ rownames(meta4) <- names(list4) <- id;
 
 ##############################################################################################################
 ##############################################################################################################
+# iProClass
+path5 <- paste(Sys.getenv("RCHIVE_HOME"), 'data/protein/public/iproclass/r', sep='/');
+fn1 <- dir(path5);
+fn2 <- fn1[grep('2gene.rds', fn1)];
+fn3 <- fn1[grep('^anno', fn1)];
+names(fn3) <- sub('.rds', '', sapply(strsplit(fn3, '_'), function(x) x[2]));
+fn3[1:length(fn3)] <- paste(path5, fn3, sep='/'); 
+all <- lapply(names(fn3), function(nm1) { print(nm1); 
+  ann <- readRDS(fn3[nm1]);
+  fns <- fn2[grep(paste(nm1, '2gene.rds', sep=''), fn2)];
+  spe <- sapply(strsplit(fns, '_'), function(x) x[1]); 
+  rownames(ann) <- sub('^PIRSF', 'SF', rownames(ann)); 
+  names(fns) <- spe;
+  all <- lapply(spe, function(nm2) {
+    f <- paste(path5, fns[nm2], sep='/'); print(nm2); 
+    m <- readRDS(f);
+    a <- ann[rownames(ann) %in% names(m), , drop=FALSE];
+    m <- m[rownames(a)]; 
+    list(a, m); 
+  }); 
+  l <- do.call('c', lapply(all, function(x) x[[2]])); 
+  m <- lapply(all, function(x) x[[1]]);
+  i <- unlist(lapply(m, rownames), use.names=FALSE);
+  a <- unlist(lapply(m, function(x) x$Name), use.names=FALSE);
+  u <- unlist(lapply(m, function(x) x$URL), use.names=FALSE);
+  s <- rep(spe, sapply(m, nrow)); 
+  n <- sapply(l, length);
+  t <- data.frame(Collection=nm1, Name=a, Species=s, Size=n, URL=u, stringsAsFactors = FALSE);
+  if (nm1 != 'omim') i <- paste(i, s, sep='_') else i <- paste('OMIM', i, sep=':'); 
+  if (nm1 == 'pubmed') i <- paste('pmid', i, sep=''); 
+  rownames(t) <- names(l) <- i;
+  list(t, l)
+});
+meta5 <- lapply(all, function(x) x[[1]]);
+list5 <- lapply(all, function(x) x[[2]]);
+meta5 <- do.call('rbind', meta5);
+list5 <- do.call('c', list5);
+##############################################################################################################
+
+##############################################################################################################
+##############################################################################################################
 # Misc.
 ## OMIM
-path5.1 <- paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim/r', sep='/');
-meta5.1 <- readRDS(paste(path5.1, 'phenotype_series.rds', sep='/'));
-list5.1 <- readRDS(paste(path5.1, 'phenotype_series2gene.rds', sep='/'));
-meta5.1 <- meta5.1[rownames(meta5.1) %in% names(list5.1), , drop=FALSE];
-list5.1 <- list5.1[rownames(meta5.1)]; 
-meta5.1 <- data.frame(Collection='OMIM_PS', Name=meta5.1$Name, Species='human', Size=sapply(list5.1, length), 
-                      URL=meta5.1$URL, stringsAsFactors = FALSE);
-rownames(meta5.1) <- names(list5.1) <- paste('OMIM', rownames(meta5.1), sep=':'); 
+path6.1 <- paste(Sys.getenv("RCHIVE_HOME"), 'data/disease/public/omim/r', sep='/');
+meta6.1 <- readRDS(paste(path6.1, 'phenotype_series.rds', sep='/'));
+list6.1 <- readRDS(paste(path6.1, 'phenotype_series2gene.rds', sep='/'));q
+meta6.1 <- meta6.1[rownames(meta6.1) %in% names(list6.1), , drop=FALSE];
+list6.1 <- list6.1[rownames(meta6.1)]; 
+meta6.1 <- data.frame(Collection='OMIM_PS', Name=meta6.1$Name, Species='human', Size=sapply(list6.1, length), 
+                      URL=meta6.1$URL, stringsAsFactors = FALSE);
+rownames(meta6.1) <- names(list6.1) <- paste('OMIM', rownames(meta6.1), sep=':'); 
 
 ## 
-path5.2 <- paste(Sys.getenv("RCHIVE_HOME"), 'data/literature/public/pubtator/r', sep='/');
-list5.2 <- readRDS(paste(path5.2, 'pubmed2gene.rds', sep='/'));
-# system.time(ttl <- MapPMID2Title(names(list5.2)));
+path6.2 <- paste(Sys.getenv("RCHIVE_HOME"), 'data/literature/public/pubtator/r', sep='/');
+list6.2 <- readRDS(paste(path6.2, 'pubmed2gene.rds', sep='/'));
+# system.time(ttl <- MapPMID2Title(names(list6.2)));
 
 ##############################################################################################################
 
 
 ##############################################################################################################
-meta<-list(BioSystems=meta3, KEGG=meta2, MSigDB=meta1, DisGeNET=meta4);
-list<-list(BioSystems=list3, KEGG=list2, MSigDB=list1, DisGeNET=list4);
+meta<-list(BioSystems=meta3, KEGG=meta2, MSigDB=meta1, DisGeNET=meta4, iProClass=meta5);
+list<-list(BioSystems=list3, KEGG=list2, MSigDB=list1, DisGeNET=list4, iProClass=list5);
 saveRDS(meta, file=paste(path.out, 'metadata.rds', sep='/'));
 saveRDS(list, file=paste(path.out, 'all_list.rds', sep='/'));
 
