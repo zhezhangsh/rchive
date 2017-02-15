@@ -84,7 +84,6 @@ GetEntrezDetail<-function(species='human', num.clusters=1, block.size=500, path=
     ########################################################################################################################
     
     library(RCurl)
-    
     url<-paste("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&rettype=xml&id=", paste(id, collapse=','), sep='');
     xmls<-getURL(url); # downlaod data from NCBI
     xmls<-strsplit(xmls, '\n')[[1]]; # break lines
