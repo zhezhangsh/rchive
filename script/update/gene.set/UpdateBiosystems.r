@@ -45,9 +45,10 @@ f<-sapply(names(go2gn.by.species), function(nm)
 f<-sapply(names(go2gn.by.species), function(nm) 
   saveRDS(go.anno[names(go2gn.by.species[[nm]]), , drop=FALSE], file=paste(fn.prefix, 'biosystem_', nm, '_GO.rds', sep='')));
 
+########################################################################################################
 # Save run
 tm<-as.character(Sys.Date());
 fn0<-paste(RCHIVE_HOME, 'source/update/gene.set/UpdateBiosystems.r', sep='/');
 fn1<-paste(RCHIVE_HOME, '/source/update/gene.set/log/', tm, '_UpdateBiosystems.r' , sep='');
-file.copy(fn0, fn1)
+file.copy(fn0, fn1, overwrite = TRUE)
 

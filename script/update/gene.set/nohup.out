@@ -1,10 +1,20 @@
-$BioSystems
-NULL
+Downloading GitHub repo zhezhangsh/rchive@master
+from URL https://api.github.com/repos/zhezhangsh/rchive/zipball/master
+Installing rchive
+'/usr/lib64/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+  --quiet CMD INSTALL  \
+  '/tmp/RtmpoIqjaQ/devtoolse81c540af811/zhezhangsh-rchive-33cb4f2'  \
+  --library='/nas/is1/zhangz/R/R-3.2.2/library' --install-tests 
 
-$KEGG
-NULL
-
-$MSigDB
-NULL
-
-[1] TRUE
+* installing *source* package ‘rchive’ ...
+** R
+Error in parse(outFile) : 
+  /tmp/RtmpoIqjaQ/devtoolse81c540af811/zhezhangsh-rchive-33cb4f2/R/MapKegg.r:5:34: unexpected ','
+4: 
+5: MapKegg2Gene.2 <- function(types=,
+                                    ^
+ERROR: unable to collate and parse R files for package ‘rchive’
+* removing ‘/nas/is1/zhangz/R/R-3.2.2/library/rchive’
+* restoring previous ‘/nas/is1/zhangz/R/R-3.2.2/library/rchive’
+Error: Command failed (1)
+Execution halted

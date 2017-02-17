@@ -49,7 +49,6 @@ export("ParseDbSNP");
 export("ParseDisGeNET");
 export("ParseEntrez");
 export("ParseG1kVcf");
-export("ParseGPL");
 export("ParseGSE");
 export("ParseGSM");
 export("ParseGtf");
