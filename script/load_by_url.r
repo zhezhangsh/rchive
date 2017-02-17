@@ -10,6 +10,7 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/Downloa
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadGtex.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadMouseAtlas.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/FormatGenesetCollection.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/GetEntrezDetail.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/GetPubMed.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/HtmlUtilities.r");

@@ -2,7 +2,7 @@
 # Mapping between KEGG databases and entries #
 ##############################################
 
-MapKegg2Gene.2 <- function(types=c(), species=c('human'='hsa'), 
+MapKegg2Gene.2 <- function(types=, species=c('human'='hsa'), 
                            path=paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/kegg', sep='/')) {
   require(RCurl); 
   
