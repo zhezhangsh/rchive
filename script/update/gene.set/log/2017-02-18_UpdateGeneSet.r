@@ -2,7 +2,7 @@
 path.out<-paste(Sys.getenv('RCHIVE_HOME'), 'data/gene.set/collection', sep='/');
 if (!file.exists(path.out)) dir.create(path.out, recursive=TRUE);
 
-species <- c("human", "mouse", "rat", "chimp", "pig", "dog", "cow", "chicken", "zebrafish", "fly", "worm", "yeast", "ecoli"); 
+species <- c("human", "mouse", "rat", "chimp", "pig", "chicken", "dog", "cow", "worm", "fly", "zebrafish", "yeast", "ecoli"); 
 
 ##############################################################################################################
 ##############################################################################################################
@@ -51,9 +51,9 @@ ids <- unlist(lapply(all, function(a) names(a[[2]])), use.names=FALSE);
 meta <- do.call('rbind', lapply(all, function(a) a[[1]])); 
 list <- do.call('c', lapply(all, function(a) a[[2]])); 
 names(list) <- rownames(meta) <- ids; 
-# smm <- FormatGenesetCollection('PubTator', path.out, meta, list, species);
+smm <- FormatGenesetCollection('PubTator', path.out, meta, list, species);
 n <- meta$Size;
-smm <- FormatGenesetCollection('PubTator_5Plus', path.out, meta[n>=5, ], list[n>=5], species);
+smm <- FormatGenesetCollection('PubTator_5-500', path.out, meta[n>=5, ], list[n>=5], species);
 
 ##############################################################################################################
 ##############################################################################################################
@@ -266,7 +266,7 @@ mm1 <- readRDS(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/regulatory
 mm2 <- readRDS(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/regulatorynetworks/r/mapping_mouse.rds', sep='/'));
 meta7 <- rbind(hs1, mm1);
 list7 <- c(hs2, mm2); 
-meta7 <- data.frame(Collection=paste(meta7$Cell, 'cell', sep='_'), Name=sub('targets', 'binding targets', meta7$Name), 
+meta7 <- data.frame(Collection=paste(meta7$Cell, 'cell'), Name=sub('targets', 'binding targets', meta7$Name), 
                     Species=rep(c('human', 'mouse'), c(nrow(hs1), nrow(mm1))), Size=sapply(list7, length), 
                     URL=meta7$URL, stringsAsFactors = FALSE);
 smm7 <- FormatGenesetCollection('RegulatoryNetworks', path.out, meta7, list7, species);
@@ -334,7 +334,6 @@ meta0 <- data.frame(Collection=ann$Collection, Name=ann$Name, Species=spe, Size=
                     stringsAsFactors = FALSE);
 list0 <- do.call('c', lst); 
 names(list0) <- rownames(meta0) <- ids;
-meta0$Size <- sapply(list0, length); 
 smm0 <- FormatGenesetCollection('EnrichmentMap', path.out, meta0, list0, species);
 ##############################################################################################################
 
@@ -401,11 +400,11 @@ list6.6 <- readRDS(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/genesi
 meta6.6 <- readRDS(paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/genesigdb/r/anno.rds', sep='/'));
 nm <- meta6.6[, 1];
 nm <- gsub(' ', '_', nm); 
-# sp <- tolower(sapply(strsplit(nm, '_'), function(x) x[1]));
+sp <- tolower(sapply(strsplit(nm, '_'), function(x) x[1]));
 nm <- sub('^Human_', '', nm); 
 nm <- sub('^Mouse_', '', nm); 
 nm <- sub('^Rat_', '', nm); 
-meta6.6 <- data.frame(Collection='GeneSigDB', Name=nm, Species='human', Size=sapply(list6.6, length),
+meta6.6 <- data.frame(Collection='GeneSigDB', Name=nm, Species=sp, Size=sapply(list6.6, length),
                       URL=meta6.6$URL, stringsAsFactors = FALSE);
 rownames(meta6.6) <- names(list6.6);
 
@@ -414,6 +413,22 @@ list6 <- c(list6.1, list6.2, list6.3, list6.4, list6.5, list6.6);
 smm6 <- FormatGenesetCollection('Miscellaneous', path.out, meta6, list6, species);
 
 ##############################################################################################################
+
+##############################################################################################################
+sss <- c('BioSystems', 'KEGG', 'MSigDB', 'EnrichmentMap', 'GeneSetDB',  
+         'iProClass', 'RegulatoryNetworks', 'DisGeNet', 'CCSBInteractome')
+
+meta<-list(BioSystems=meta3, KEGG=meta2, MSigDB=meta1, DisGeNET=meta4, iProClass=meta5);
+list<-list(BioSystems=list3, KEGG=list2, MSigDB=list1, DisGeNET=list4, iProClass=list5);
+saveRDS(meta, file=paste(path.out, 'metadata.rds', sep='/'));
+saveRDS(list, file=paste(path.out, 'all_list.rds', sep='/'));
+
+meta.tree<-lapply(meta, function(m) lapply(split(m, m$Collection), function(x) split(x, x$Species)))
+meta.tree<-lapply(meta.tree, function(m) lapply(m, function(m) lapply(m, function(m) m[, c('Name', 'Size', 'URL')])));
+saveRDS(meta.tree, file=paste(path.out, 'metadata_as_tree.rds', sep='/'));
+
+sapply(names(list), function(nm) saveRDS(list[[nm]], file=paste(path.out, '/', tolower(nm), '_list.rds', sep='')));
+
 ##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene.set/UpdateGeneSet.r', sep='');

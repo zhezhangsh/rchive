@@ -16,7 +16,7 @@ Map2Biosystems<-function(bsid, species=c('human'='9606'), to=c('gene', 'protein'
   if (!file.exists(paste(path, 'r', sep='/'))) dir.create(paste(path, 'r', sep='/'));
   
   # all possible input sources
-  r<-paste(path, '/r/biosystem2', to, '_fulltable.rds', sep='');
+  r<-paste(path, '/r/biosystem2', c('gene', 'protein', 'compound', 'substance', 'pubmed'), '_fulltable.rds', sep='');
   fnm<-c("biosystems_gene_all.gz", "biosystems_protein.gz", "biosystems_pccompound.gz", "biosystems_pcsubstance.gz", "biosystems_pubmed.gz")
   gz<-paste(path, '/src/', fnm, sep='');
   url<-paste("ftp://ftp.ncbi.nih.gov/pub/biosystems/CURRENT", fnm, sep='/');
@@ -117,7 +117,7 @@ ParseBiosystemsGeneral<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.
   
   # biosystems by source
   cls<-split(bsid[, -1], bsid[, 1]);
-  sapply(names(cls), function(nm) saveRDS(cls[[nm]], file=paste(path, '/r/biosystem_', gsub(' ', '-', nm), '.rds', sep='')));
+  sapply(names(cls), function(nm) saveRDS(cls[[nm]], file=paste(path, '/r/biosystem_', gsub(' ', '-', nm), '.rds', sep=''))) -> x;
   saveRDS(cls, file=paste(path, 'r', 'biosystem_by_source.rds', sep='/')); 
   
   # Save subset of source-species of selected species (human, mouse, rat, ...)
@@ -150,48 +150,56 @@ ParseBiosystemsGeneral<-function(species=c('human'='9606'), ver="ftp://ftp.ncbi.
   saveRDS(spec, file=paste(path, 'r', 'biosystem_organism_specific.rds', sep='/'));
   
   tp<-c('gene_all', 'protein', 'pubmed', 'pccompound', 'pcsubstance');
-  mp.fn<-sapply(tp, function(tp) fn1[grep(tp, fn1)][1]);
-  bs2oth<-lapply(mp.fn, function(fn) read.table(fn, sep='\t', stringsAsFactors=FALSE));
   cnm<-c('Gene', 'Protein', 'PubMed', 'Compound', 'Substance');
-  for (i in 1:length(bs2oth)) {
-    colnames(bs2oth[[i]])<-c('BioSystem_ID', paste(cnm[i], 'ID', sep='_'), 'Score');
-    bs2oth[[i]][[1]]<-as.character(bs2oth[[i]][[1]]);
-    bs2oth[[i]][[2]]<-as.character(bs2oth[[i]][[2]]);
-    mp<-split(bs2oth[[i]][[2]], bs2oth[[i]][[1]])
-    saveRDS(bs2oth[[i]], file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_fulltable.rds', sep=''));
+  names(cnm)<-tp;
+  mp.fn<-sapply(tp, function(tp) fn1[grep(tp, fn1)][1]);
+  mp.fn<- mp.fn[order(file.size(mp.fn))]; 
+  cnm <- cnm[names(mp.fn)]; 
+  # bs2oth<-lapply(mp.fn, function(fn) read.table(fn, sep='\t', stringsAsFactors=FALSE));
+  for (i in 1:length(mp.fn)) {
+    cat(names(mp.fn)[i], '\n'); 
+    bs2oth <- read.table(mp.fn[i], sep='\t', stringsAsFactors=FALSE); 
+    colnames(bs2oth)<-c('BioSystem_ID', paste(cnm[i], 'ID', sep='_'), 'Score');
+    bs2oth[[1]]<-as.character(bs2oth[[1]]);
+    bs2oth[[2]]<-as.character(bs2oth[[2]]);
+    mp<-split(bs2oth[[2]], bs2oth[[1]]); 
+    mp <- lapply(mp, unique);
+    mp <- mp[sapply(mp, length)>0];
+    mp <- mp[order(as.numeric(names(mp)))]; 
+    saveRDS(bs2oth, file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_fulltable.rds', sep=''));
     saveRDS(mp, file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_list.rds', sep=''));
     
     sapply(names(cons.id), function(sc) {
       mp<-mp[names(mp) %in% cons.id[[sc]]];
       saveRDS(mp, file=paste(path, '/r/', 'biosystem2', tolower(cnm)[i], '_conserved_', sc, '.rds', sep=''))
-    })
+    }) -> x; 
   }
   
   ###########################################################################################
   # Save Log
   # existing full taxonomy table 
-  if (download.new) {
-    if (file.exists(paste(path, 'r', 'biosystem_all.rds', sep='/'))) {
-      bsid0<-readRDS(paste(path, 'r', 'biosystem_all.rds', sep='/'));
-      log.old<-list(id=rownames(bsid0), acc=unique(bsid0$Accession), type=unique(bsid0$Type), src=unique(bsid0$Source), taxonomy.old=unique(bsid0$Taxonomy));        
-    } else {
-      log.old<-list(id=c(), acc=c(), type=c(), src=c(), taxonomy=c())
-    }
-    log.new<-list(id=rownames(bsid), acc=unique(bsid$Accession), type=unique(bsid$Type), src=unique(bsid$Source), taxonomy.old=unique(bsid$Taxonomy));
-    names(log.old)<-names(log.new)<-c('ID', 'Accession', 'Type', 'Source', 'Taxonomy');
-    
-    # updates
-    up<-list(
-      N = sapply(log.new, length),
-      Added = lapply(1:5, function(i) setdiff(log.new[[i]], log.old[[i]])),
-      Removed = lapply(1:5, function(i) setdiff(log.old[[i]], log.new[[i]]))
-    )
-    
-    # update logs
-    log<-readRDS(paste(path, 'log.rds', sep='/'));
-    log<-c(log, list(up));
-    names(log)[length(log)]<-as.character(Sys.Date());
-    saveRDS(log, file=paste(path, 'log.rds', sep='/'));
-  }
+  # if (download.new) {
+  #   if (file.exists(paste(path, 'r', 'biosystem_all.rds', sep='/'))) {
+  #     bsid0<-readRDS(paste(path, 'r', 'biosystem_all.rds', sep='/'));
+  #     log.old<-list(id=rownames(bsid0), acc=unique(bsid0$Accession), type=unique(bsid0$Type), src=unique(bsid0$Source), taxonomy.old=unique(bsid0$Taxonomy));        
+  #   } else {
+  #     log.old<-list(id=c(), acc=c(), type=c(), src=c(), taxonomy=c())
+  #   }
+  #   log.new<-list(id=rownames(bsid), acc=unique(bsid$Accession), type=unique(bsid$Type), src=unique(bsid$Source), taxonomy.old=unique(bsid$Taxonomy));
+  #   names(log.old)<-names(log.new)<-c('ID', 'Accession', 'Type', 'Source', 'Taxonomy');
+  #   
+  #   # updates
+  #   up<-list(
+  #     N = sapply(log.new, length),
+  #     Added = lapply(1:5, function(i) setdiff(log.new[[i]], log.old[[i]])),
+  #     Removed = lapply(1:5, function(i) setdiff(log.old[[i]], log.new[[i]]))
+  #   )
+  #   
+  #   # update logs
+  #   log<-readRDS(paste(path, 'log.rds', sep='/'));
+  #   log<-c(log, list(up));
+  #   names(log)[length(log)]<-as.character(Sys.Date());
+  #   saveRDS(log, file=paste(path, 'log.rds', sep='/'));
+  # }
 }
 

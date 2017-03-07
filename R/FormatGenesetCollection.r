@@ -48,8 +48,10 @@ FormatGenesetCollection <- function(name, path, meta, mapp, species,
       m <- lapply(m, unique); 
       m <- lapply(m, function(m) m[order(as.numeric(m))]); 
       m <- m[d];
+      s <- 
       names(m) <- d; 
       saveRDS(m, paste(p, 'entrez.rds', sep='/')); 
+      saveRDS(meta[meta$Species==nm2&meta$Collection==nm1, , drop=FALSE], paste(p, 'metadata.rds', sep='/')); 
       
       n1 <- sapply(m, length);
       n2 <- rep(0, length(n1));

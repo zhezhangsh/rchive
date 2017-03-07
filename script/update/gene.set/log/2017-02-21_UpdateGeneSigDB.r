@@ -26,7 +26,7 @@ saveRDS(lst, paste(path, 'r', 'mapping.rds', sep='/'));
 saveRDS(ann, paste(path, 'r', 'anno.rds', sep='/')); 
 
 ##############################################################################################################
-UpdateLog(ann, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/genesigdb', sep='/'), just.new=FALSE);
+UpdateLog(out, paste(Sys.getenv("RCHIVE_HOME"), 'data/gene.set/public/genesigdb', sep='/'), just.new=FALSE);
 
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
 fn0<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene.set/UpdateGeneSigDB.r', sep='');

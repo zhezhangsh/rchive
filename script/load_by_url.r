@@ -6,8 +6,8 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/Combine
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineHomolog.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/CombineIntron.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadBrainSpan.r");
-source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap2.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadGtex.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/DownloadMouseAtlas.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/FormatGenesetCollection.r");
