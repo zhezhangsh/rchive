@@ -47,5 +47,6 @@ source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/QueryDb
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/RetrieveDbGapStat.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/SummarizeDbGap.r");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/TableUtilities.r");
+source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/TrackActivity.R");
 source_url("https://raw.githubusercontent.com/zhezhangsh/rchive/master/R/UpdateLog.r");
 

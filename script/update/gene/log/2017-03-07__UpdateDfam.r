@@ -70,7 +70,7 @@ fn <- sapply(names(species), function(nm) {
 
 ##############################################################################################################
 tm<-strsplit(as.character(Sys.time()), ' ')[[1]][1];
-fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/script/update/gene/UpdateDfam.r', sep='/');
-fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/script/update/gene/log/', tm, '_', '_UpdateDfam.r' , sep='');
+fn0<-paste(Sys.getenv("RCHIVE_HOME"), 'source/update/gene/UpdateDfam.r', sep='/');
+fn1<-paste(Sys.getenv("RCHIVE_HOME"), '/source/update/gene/log/', tm, '_', '_UpdateDfam.r' , sep='');
 file.copy(fn0, fn1, overwrite = TRUE)
 

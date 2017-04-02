@@ -71,5 +71,6 @@ export("RetrieveDbGapStat");
 export("RetrieveDbGapStat");
 export("SummarizeDbGap");
 export("SummarizeDbGap");
+export("TrackActivity");
 export("UpdateLog");
 
