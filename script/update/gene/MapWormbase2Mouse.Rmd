@@ -54,7 +54,7 @@ Prepare a list of 3 elements from files downloaded from wormbase FTP site: 1. al
 
 
 ```{r wormbase_to_protein, include=FALSE}
-ce2mm<-readRDS(paste(file_home, 'worm2mouse_parsed.rds', sep='/'));
+ce2mm<-readRDS(paste(file_out, 'worm2mouse_parsed.rds', sep='/'));
 pr<-unlist(ce2mm[[2]], use.names=FALSE); 
 pr2pr<-ce2mm[[3]][pr];
 gn<-rep(names(ce2mm[[2]]), sapply(ce2mm[[2]], length));
@@ -115,24 +115,23 @@ saveRDS(wb2eg, file=paste(file_out, 'wormbase2entrez.rds', sep='/'));
 
 ```{r protein_to_gene, include=FALSE}
 versions<-c(
-  "http://bioconductor.org/packages/2.1/data/annotation/src/contrib/org.Hs.eg.db_2.0.2.tar.gz",
-  "http://bioconductor.org/packages/2.2/data/annotation/src/contrib/org.Hs.eg.db_2.2.0.tar.gz",
-  "http://bioconductor.org/packages/2.3/data/annotation/src/contrib/org.Hs.eg.db_2.2.6.tar.gz",
-  "http://bioconductor.org/packages/2.4/data/annotation/src/contrib/org.Hs.eg.db_2.2.11.tar.gz",
-  "http://bioconductor.org/packages/2.5/data/annotation/src/contrib/org.Hs.eg.db_2.3.6.tar.gz",
-  "http://bioconductor.org/packages/2.6/data/annotation/src/contrib/org.Hs.eg.db_2.4.1.tar.gz",
-  "http://bioconductor.org/packages/2.7/data/annotation/src/contrib/org.Hs.eg.db_2.4.6.tar.gz", 
-  "http://bioconductor.org/packages/2.8/data/annotation/src/contrib/org.Hs.eg.db_2.5.0.tar.gz",
-  "http://bioconductor.org/packages/2.9/data/annotation/src/contrib/org.Hs.eg.db_2.6.4.tar.gz",
-  "http://bioconductor.org/packages/2.10/data/annotation/src/contrib/org.Hs.eg.db_2.7.1.tar.gz",
-  "http://bioconductor.org/packages/2.11/data/annotation/src/contrib/org.Hs.eg.db_2.8.0.tar.gz",
-  "http://bioconductor.org/packages/2.12/data/annotation/src/contrib/org.Hs.eg.db_2.9.0.tar.gz",
-  "http://bioconductor.org/packages/2.13/data/annotation/src/contrib/org.Hs.eg.db_2.10.1.tar.gz",
-  "http://bioconductor.org/packages/2.14/data/annotation/src/contrib/org.Hs.eg.db_2.14.0.tar.gz",
-  "http://bioconductor.org/packages/3.0/data/annotation/src/contrib/org.Hs.eg.db_3.0.0.tar.gz",
-  "http://bioconductor.org/packages/3.1/data/annotation/src/contrib/org.Hs.eg.db_3.1.2.tar.gz",
-  "http://bioconductor.org/packages/3.2/data/annotation/src/contrib/org.Hs.eg.db_3.2.3.tar.gz",
-  "http://bioconductor.org/packages/3.3/data/annotation/src/contrib/org.Hs.eg.db_3.2.3.tar.gz"
+  "http://bioconductor.org/packages/2.1/data/annotation/src/contrib/org.Mm.eg.db_2.0.2.tar.gz",
+  "http://bioconductor.org/packages/2.2/data/annotation/src/contrib/org.Mm.eg.db_2.2.0.tar.gz",
+  "http://bioconductor.org/packages/2.3/data/annotation/src/contrib/org.Mm.eg.db_2.2.6.tar.gz",
+  "http://bioconductor.org/packages/2.4/data/annotation/src/contrib/org.Mm.eg.db_2.2.11.tar.gz",
+  "http://bioconductor.org/packages/2.5/data/annotation/src/contrib/org.Mm.eg.db_2.3.6.tar.gz",
+  "http://bioconductor.org/packages/2.6/data/annotation/src/contrib/org.Mm.eg.db_2.4.1.tar.gz",
+  "http://bioconductor.org/packages/2.7/data/annotation/src/contrib/org.Mm.eg.db_2.4.6.tar.gz", 
+  "http://bioconductor.org/packages/2.8/data/annotation/src/contrib/org.Mm.eg.db_2.5.0.tar.gz",
+  "http://bioconductor.org/packages/2.9/data/annotation/src/contrib/org.Mm.eg.db_2.6.4.tar.gz",
+  "http://bioconductor.org/packages/2.10/data/annotation/src/contrib/org.Mm.eg.db_2.7.1.tar.gz",
+  "http://bioconductor.org/packages/2.11/data/annotation/src/contrib/org.Mm.eg.db_2.8.0.tar.gz",
+  "http://bioconductor.org/packages/2.12/data/annotation/src/contrib/org.Mm.eg.db_2.9.0.tar.gz",
+  "http://bioconductor.org/packages/2.13/data/annotation/src/contrib/org.Mm.eg.db_2.10.1.tar.gz",
+  "http://bioconductor.org/packages/2.14/data/annotation/src/contrib/org.Mm.eg.db_2.14.0.tar.gz",
+  "http://bioconductor.org/packages/3.0/data/annotation/src/contrib/org.Mm.eg.db_3.0.0.tar.gz",
+  "http://bioconductor.org/packages/3.1/data/annotation/src/contrib/org.Mm.eg.db_3.1.2.tar.gz",
+  "http://bioconductor.org/packages/3.2/data/annotation/src/contrib/org.Mm.eg.db_3.2.3.tar.gz"
 )
 
 fn<-sapply(strsplit(versions, '/'), function(x) x[length(x)]);
@@ -144,7 +143,7 @@ library(dplyr);
 all.versions<-lapply(fn, function(f) {
   print(f);
   untar(f, exdir=file_home);
-  db<-src_sqlite(paste(file_home, 'org.Hs.eg.db/inst/extdata/org.Hs.eg.sqlite', sep='/')); 
+  db<-src_sqlite(paste(file_home, 'org.Mm.eg.db/inst/extdata/org.Mm.eg.sqlite', sep='/')); 
   tbls<-src_tbls(db);
   if ('ensembl_prot' %in% tbls) {
     gn<-as.data.frame(collect(tbl(db, 'genes'))); 
@@ -172,7 +171,7 @@ saveRDS(en2eg, file=paste(file_out, 'mouse_ensp2entrez.rds', sep='/'));
 
 ### Map mouse Ensembl protein IDs to Entrez gene IDs
 
-We used the R [org.Hs.eg.db](http://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html) package to map mouse Ensemble protein IDs to mouse Entrez gene IDs. This package has multiple versions. Some protein IDs in the older verions were removed from the newer ones. To be comprehensive, we combined `r length(all.versions)` versions of the _org.Hs.eg.db_ package, while using IDs in the newer version when they were available. 
+We used the R [org.Mm.eg.db](http://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html) package to map mouse Ensemble protein IDs to mouse Entrez gene IDs. This package has multiple versions. Some protein IDs in the older verions were removed from the newer ones. To be comprehensive, we combined `r length(all.versions)` versions of the _org.Mm.eg.db_ package, while using IDs in the newer version when they were available. 
 A total of `r length(en2eg)` protein IDs were mapped to `r length(unique(unlist(en2eg, use.names=FALSE)))` unique Entrez gene IDs while `r length(n[n>1])` protein IDs were mapped to more than one gene ID. 
 
 ### Map WORMBASE gene IDs to mouse Entrez gene IDs
@@ -238,18 +237,18 @@ homolo.ce2mm<-MapHomologene(homolo, gn.ce, from='6239', to='9606');
 homolo.ce2mm<-split(as.vector(homolo.ce2mm), names(homolo.ce2mm)); 
 
 # Unigene mapping
-uni.hs<-readRDS(fn.uni[1]);
-uni.hs.homolog<-readRDS(fn.uni[3]); 
-uni.hs.homolog[, 1]<-uni.hs[uni.hs.homolog[, 1], 'GENE_ID'];
-uni.hs.mp<-MapUnigeneSpecies(uni.hs.homolog, 'org.Ce.eg.db'); 
-uni.hs.mp<-lapply(uni.hs.mp, names);
-uni.hs.mp<-lapply(uni.hs.mp, function(x) x[x!='']);
-uni.hs.mp<-uni.hs.mp[sapply(uni.hs.mp, length)>0]; 
+uni.mm<-readRDS(fn.uni[1]);
+uni.mm.homolog<-readRDS(fn.uni[3]); 
+uni.mm.homolog[, 1]<-uni.mm[uni.mm.homolog[, 1], 'GENE_ID'];
+uni.mm.mp<-MapUnigeneSpecies(uni.mm.homolog, 'org.Ce.eg.db'); 
+uni.mm.mp<-lapply(uni.mm.mp, names);
+uni.mm.mp<-lapply(uni.mm.mp, function(x) x[x!='']);
+uni.mm.mp<-uni.mm.mp[sapply(uni.mm.mp, length)>0]; 
 
 uni.ce<-readRDS(fn.uni[2]);
 uni.ce.homolog<-readRDS(fn.uni[4]); 
 uni.ce.homolog[, 1]<-uni.ce[uni.ce.homolog[, 1], 'GENE_ID'];
-uni.ce.mp<-MapUnigeneSpecies(uni.ce.homolog, 'org.Hs.eg.db'); 
+uni.ce.mp<-MapUnigeneSpecies(uni.ce.homolog, 'org.Mm.eg.db'); 
 uni.ce.mp<-lapply(uni.ce.mp, names);
 uni.ce.mp<-lapply(uni.ce.mp, function(x) x[x!='']);
 uni.ce.mp<-uni.ce.mp[sapply(uni.ce.mp, length)>0]; 
