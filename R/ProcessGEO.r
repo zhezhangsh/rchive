@@ -57,21 +57,21 @@ LoadAffyCel<-function(fn) {
 }
 
 # Install a BrainArray package;
-InstallBrainarray<-function(affy.name, type='entrezg', version='19.0.0') {
+InstallBrainarray<-function(affy.name, type='entrezg', version='24.0.0') {
   url="http://brainarray.mbni.med.umich.edu/Brainarray/Database/CustomCDF"
   u<-paste(url, '/', version, '/', type, '.asp', sep='');
   if(!RCurl::url.exists(u)) NA else {
     tbls<-XML::readHTMLTable(u);
     tbl<-tbls[[length(tbls)]];
     
-    if (version=='19.0.0') tbl<-tbl[, -1, drop=FALSE];
+    if (version=='24.0.0') tbl<-tbl[, -1, drop=FALSE];
     all<-tolower(tbl[,2]);
     nm.old<-cleancdfname(affy.name, addcdf = FALSE)
     ind<-which(all == nm.old);
     if (length(ind) == 0) NA else {
       nm.new<-tbl[ind, 4];
       nm.new<-tolower(gsub('[-_]', '', nm.new));
-      if (version=='19.0.0') {
+      if (version=='24.0.0') {
         urls<-paste("http://mbni.org/customcdf/", version, '/', type, '.download/', nm.new, 
                   c('cdf', 'probe', '.db'), '_', version, '.tar.gz', sep='') 
       } else {
