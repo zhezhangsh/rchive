@@ -1,7 +1,8 @@
 # Wrap up a gene expression collection for the GeEx APP 
 PrepareGeexCollection<-function(path.coll, 
                                 path.gene=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/entrez/r', sep='/'), 
-                                path.homo=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r', sep='/')) {
+                                path.homo=paste(Sys.getenv('RCHIVE_HOME'), 'data/gene/public/homologene/r', sep='/'),
+                                default.species=c('human' = '9606')) {
   # path.coll   Path to the folder of the existing data collection
   
   library(rchive);
@@ -17,7 +18,7 @@ PrepareGeexCollection<-function(path.coll,
   if (!file.exists(fn.gex)) 
     stop("Error: expression data file not exist:", fn.gex, '\n');
   if (!file.exists(fn.browse)) 
-    stop("Error: formatted tables not exist:", fn.gex, '\n');
+    stop("Error: formatted tables not exist:", fn.browse, '\n');
   
   ##############
   
@@ -51,7 +52,7 @@ PrepareGeexCollection<-function(path.coll,
   x<-setdiff(tax.nm, names(tax.id));
   if (length(x) > 0) stop("Error: species not included in gene repository:", paste(x, collapse='; '), '\n');
   taxid<-tax.id[tax.nm];
-  taxid<-c(taxid, 'human'='9606');
+  taxid<-c(taxid, default.species);
   taxid<-taxid[!duplicated(taxid)];
   ##############
   
@@ -80,9 +81,9 @@ PrepareGeexCollection<-function(path.coll,
       stop("Error: samples not matching between expression data and metadata:", paste(snm, collapse='; '), '\n');
     smp<-smp[colnames(g), ];
     grp2smp<-split(rownames(smp), smp$Group);
-    if (tax.nm[nm] == 'human') from<-'9606' else from<-as.vector(taxid[tax.nm[nm]]);
-    d<-ProcessGexDataset(g, grp2smp, nm, from, homo, '9606');
-    names(d)<-sapply(names(d), function(nm) names(taxid)[taxid==nm][1]);
+    if (tax.nm[nm] == names(default.species)) from <- default.species else from <- as.vector(taxid[tax.nm[nm]]);
+    d <- ProcessGexDataset(g, grp2smp, nm, from, homo, default.species);
+    names(d) <- sapply(names(d), function(nm) names(taxid)[taxid==nm][1]);
     saveRDS(d, file=paste(path.coll, '/gex_', nm, '.rds', sep=''));
     lapply(1:2, function(i) do.call('rbind', lapply(d, function(d) d[[i]])));    
   });
@@ -145,7 +146,7 @@ PrepareGeexCollection<-function(path.coll,
       names(id)<-id;
       id;
     } else {
-      MapHomologene(homo, sp2id[[sp]], taxid[sp], '9606');
+      MapHomologene(homo, sp2id[[sp]], taxid[sp], default.species);
     }
   });
   mp2hs<-do.call('c', mp2hs);

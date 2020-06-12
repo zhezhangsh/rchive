@@ -36,7 +36,7 @@ ProcessGexDataset<-function(gex, grp2smp, id, taxid=NA, homologene=NA, map.to='9
       list(logged=g, percentile=p);
     });
     names(homolog)<-map.to;
-    out$'9606'<-homolog[[1]];
+    out[[map.to]]<-homolog[[1]];
   }
   
   out;
